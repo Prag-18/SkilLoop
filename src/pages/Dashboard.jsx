@@ -97,7 +97,7 @@ export const Dashboard = () => {
   const creditBalance = userProfile?.skill_credits ?? user?.skill_credits ?? 100;
 
   return (
-    <div className="flex flex-col md:flex-row min-h-[calc(100vh-4rem)] bg-slate-950">
+    <div className="flex flex-col md:flex-row min-h-[calc(100vh-4rem)] bg-[#faf6ee] text-stone-800">
       {/* Sidebar Navigation */}
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
@@ -121,51 +121,55 @@ export const Dashboard = () => {
               </Button>
             </Header>
 
-            {/* Top Metric Cards */}
+            {/* Top Metric Cards in Scrapbook style */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card padding="md">
+              <div className="polaroid-frame p-4 rounded-2xl relative -rotate-1">
+                <div className="tape-strip tape-strip-yellow -top-2 left-6 -rotate-2" />
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-slate-400 font-medium">Skills I Teach</span>
-                  <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                  <span className="text-xs text-stone-600 font-semibold font-sans">Skills I Teach</span>
+                  <div className="w-8 h-8 rounded-lg bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800">
                     <GraduationCap className="w-4 h-4" />
                   </div>
                 </div>
-                <p className="text-2xl font-bold text-white mt-2 font-heading">{teachingSkills.length}</p>
-                <p className="text-[11px] text-slate-500 mt-1">Verified offerings</p>
-              </Card>
+                <p className="text-3xl font-bold text-stone-900 mt-2 font-heading">{teachingSkills.length}</p>
+                <p className="text-[11px] text-stone-500 mt-1 font-sans">Verified offerings</p>
+              </div>
 
-              <Card padding="md">
+              <div className="polaroid-frame p-4 rounded-2xl relative rotate-1">
+                <div className="tape-strip tape-strip-pink -top-2 right-6 rotate-2" />
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-slate-400 font-medium">Skills I Want</span>
-                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                  <span className="text-xs text-stone-600 font-semibold font-sans">Skills I Want</span>
+                  <div className="w-8 h-8 rounded-lg bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-800">
                     <BookOpen className="w-4 h-4" />
                   </div>
                 </div>
-                <p className="text-2xl font-bold text-white mt-2 font-heading">{learningSkills.length}</p>
-                <p className="text-[11px] text-slate-500 mt-1">Active targets</p>
-              </Card>
+                <p className="text-3xl font-bold text-stone-900 mt-2 font-heading">{learningSkills.length}</p>
+                <p className="text-[11px] text-stone-500 mt-1 font-sans">Active targets</p>
+              </div>
 
-              <Card padding="md">
+              <div className="polaroid-frame p-4 rounded-2xl relative -rotate-1">
+                <div className="tape-strip tape-strip-sky -top-2 left-6 -rotate-1" />
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-slate-400 font-medium">Campus Matches</span>
-                  <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400">
+                  <span className="text-xs text-stone-600 font-semibold font-sans">Campus Matches</span>
+                  <div className="w-8 h-8 rounded-lg bg-sky-100 border border-sky-300 flex items-center justify-center text-sky-800">
                     <Users className="w-4 h-4" />
                   </div>
                 </div>
-                <p className="text-2xl font-bold text-indigo-400 mt-2 font-heading">{recommendations.length}</p>
-                <p className="text-[11px] text-slate-500 mt-1">Complementary peers</p>
-              </Card>
+                <p className="text-3xl font-bold text-sky-900 mt-2 font-heading">{recommendations.length}</p>
+                <p className="text-[11px] text-stone-500 mt-1 font-sans">Complementary peers</p>
+              </div>
 
-              <Card padding="md">
+              <div className="polaroid-frame p-4 rounded-2xl relative rotate-1">
+                <div className="tape-strip tape-strip-sage -top-2 right-6 rotate-3" />
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-slate-400 font-medium">Skill Credits</span>
-                  <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
+                  <span className="text-xs text-stone-600 font-semibold font-sans">Skill Credits</span>
+                  <div className="w-8 h-8 rounded-lg bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800">
                     <Award className="w-4 h-4" />
                   </div>
                 </div>
-                <p className="text-2xl font-bold text-amber-400 mt-2 font-heading">{creditBalance} CR</p>
-                <p className="text-[11px] text-slate-500 mt-1">Available balance</p>
-              </Card>
+                <p className="text-3xl font-bold text-amber-800 mt-2 font-heading">{creditBalance} CR</p>
+                <p className="text-[11px] text-stone-500 mt-1 font-sans">Available balance</p>
+              </div>
             </div>
 
             {/* Two Column Layout for Overview */}
@@ -175,7 +179,7 @@ export const Dashboard = () => {
                 <Card>
                   <div className="flex items-center justify-between mb-4">
                     <CardTitle className="flex items-center gap-2">
-                      <GraduationCap className="w-5 h-5 text-indigo-400" />
+                      <GraduationCap className="w-5 h-5 text-amber-800" />
                       Teaching Skills Portfolio
                     </CardTitle>
                     <Button variant="ghost" size="sm" onClick={() => navigate('/skills/me')}>
@@ -184,7 +188,7 @@ export const Dashboard = () => {
                   </div>
 
                   {teachingSkills.length === 0 ? (
-                    <div className="text-center py-8 rounded-xl border border-dashed border-slate-800 text-slate-500 text-xs space-y-2">
+                    <div className="text-center py-8 rounded-xl border-2 border-dashed border-[#d6c5a5] bg-[#fdfbf7] text-stone-500 text-xs space-y-2">
                       <p>No teaching skills claimed yet.</p>
                       <Button variant="primary" size="sm" onClick={() => navigate('/skills/me')}>
                         + Claim Skills from Taxonomy
@@ -193,15 +197,15 @@ export const Dashboard = () => {
                   ) : (
                     <div className="space-y-3">
                       {teachingSkills.slice(0, 3).map((skill) => (
-                        <div key={skill.id} className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-4">
+                        <div key={skill.id} className="p-3.5 rounded-xl bg-[#fefdf9] border border-[#e5dcc7] shadow-sm flex items-center justify-between gap-4">
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="text-sm font-semibold text-slate-100">{skill.skill?.name}</span>
+                              <span className="text-sm font-bold text-stone-900 font-sans">{skill.skill?.name}</span>
                               <Badge variant="indigo" size="sm">{skill.level}</Badge>
                             </div>
-                            <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-2">
+                            <p className="text-xs text-stone-600 mt-0.5 flex items-center gap-2 font-sans">
                               <span>Confidence:</span>
-                              <span className="text-indigo-400 font-semibold">{skill.confidence_score}%</span>
+                              <span className="text-amber-800 font-bold">{skill.confidence_score}%</span>
                               <span>•</span>
                               <span>{skill.evidence?.length || 0} proofs attached</span>
                             </p>
@@ -224,7 +228,7 @@ export const Dashboard = () => {
                 <Card>
                   <div className="flex items-center justify-between mb-4">
                     <CardTitle className="flex items-center gap-2">
-                      <Zap className="w-5 h-5 text-emerald-400" />
+                      <Zap className="w-5 h-5 text-amber-700" />
                       Top Campus Skill Matches
                     </CardTitle>
                     <Button variant="ghost" size="sm" onClick={() => setActiveTab('matches')}>
@@ -233,26 +237,26 @@ export const Dashboard = () => {
                   </div>
 
                   {recommendations.length === 0 ? (
-                    <div className="text-center py-8 text-slate-500 text-xs">
+                    <div className="text-center py-8 text-stone-500 text-xs bg-[#fdfbf7] rounded-xl border border-dashed border-[#d6c5a5]">
                       No matches found yet. Add more teach/learn skills at /skills/me to generate peer recommendations.
                     </div>
                   ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {recommendations.slice(0, 2).map((match) => (
-                        <div key={match.user_id} className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between space-y-3">
+                        <div key={match.user_id} className="p-4 rounded-xl bg-[#fefdf9] border border-[#e5dcc7] shadow-sm flex flex-col justify-between space-y-3">
                           <div className="flex items-start justify-between">
                             <div>
-                              <h4 className="text-sm font-bold text-white">{match.full_name}</h4>
-                              <p className="text-xs text-slate-400">{match.department} • {match.year_of_study}</p>
+                              <h4 className="text-sm font-bold text-stone-900 font-heading text-base">{match.full_name}</h4>
+                              <p className="text-xs text-stone-500">{match.department} • {match.year_of_study}</p>
                             </div>
                             <Badge variant="emerald" size="sm">{match.compatibility_percent}% Match</Badge>
                           </div>
-                          <div className="text-xs space-y-1 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/60">
-                            <p className="text-slate-300">
-                              <strong className="text-indigo-400">Offers:</strong> {match.teaches?.join(', ')}
+                          <div className="text-xs space-y-1 bg-[#fbf7ed] p-2.5 rounded-lg border border-[#e5dcc7]">
+                            <p className="text-stone-800">
+                              <strong className="text-amber-800">Offers:</strong> {match.teaches?.join(', ')}
                             </p>
-                            <p className="text-slate-300">
-                              <strong className="text-emerald-400">Wants:</strong> {match.wants?.join(', ')}
+                            <p className="text-stone-800">
+                              <strong className="text-emerald-800">Wants:</strong> {match.wants?.join(', ')}
                             </p>
                           </div>
                           <Button
@@ -274,26 +278,26 @@ export const Dashboard = () => {
               {/* Right Column: User Profile Summary */}
               <div className="space-y-6">
                 <Card>
-                  <div className="text-center pb-4 border-b border-slate-800">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 mx-auto flex items-center justify-center text-2xl font-bold text-white shadow-lg mb-3">
+                  <div className="text-center pb-4 border-b border-stone-200">
+                    <div className="w-16 h-16 rounded-full bg-amber-200 border-2 border-amber-400 mx-auto flex items-center justify-center text-2xl font-bold text-stone-900 font-heading shadow-md mb-3">
                       {userProfile?.full_name ? userProfile.full_name.charAt(0).toUpperCase() : 'U'}
                     </div>
-                    <h3 className="text-base font-bold text-white font-heading">{userProfile?.full_name || 'Student User'}</h3>
-                    <p className="text-xs text-indigo-400 mt-0.5">{userProfile?.department || 'Computer Science'}</p>
-                    <p className="text-[11px] text-slate-500">{userProfile?.email || 'student@university.edu'}</p>
+                    <h3 className="text-base font-bold text-stone-900 font-heading">{userProfile?.full_name || 'Student User'}</h3>
+                    <p className="text-xs text-amber-800 font-medium mt-0.5">{userProfile?.department || 'Computer Science'}</p>
+                    <p className="text-[11px] text-stone-500">{userProfile?.email || 'student@university.edu'}</p>
                   </div>
 
-                  <div className="pt-4 space-y-2.5 text-xs text-slate-300">
-                    <div className="flex justify-between py-1 border-b border-slate-800/40">
-                      <span className="text-slate-500">Year of Study</span>
-                      <span className="font-medium text-slate-200">{userProfile?.year_of_study || '3rd Year'}</span>
+                  <div className="pt-4 space-y-2.5 text-xs text-stone-700">
+                    <div className="flex justify-between py-1 border-b border-stone-200">
+                      <span className="text-stone-500">Year of Study</span>
+                      <span className="font-semibold text-stone-800">{userProfile?.year_of_study || '3rd Year'}</span>
                     </div>
-                    <div className="flex justify-between py-1 border-b border-slate-800/40">
-                      <span className="text-slate-500">Credit Balance</span>
-                      <span className="font-bold text-amber-400">{creditBalance} CR</span>
+                    <div className="flex justify-between py-1 border-b border-stone-200">
+                      <span className="text-stone-500">Credit Balance</span>
+                      <span className="font-bold text-emerald-800">{creditBalance} CR</span>
                     </div>
-                    <div className="flex justify-between py-1 border-b border-slate-800/40">
-                      <span className="text-slate-500">Verification Status</span>
+                    <div className="flex justify-between py-1 border-b border-stone-200">
+                      <span className="text-stone-500">Verification Status</span>
                       <Badge variant="emerald" size="sm" icon={ShieldCheck}>Verified</Badge>
                     </div>
                     <div className="pt-2">
@@ -332,9 +336,9 @@ export const Dashboard = () => {
             </div>
 
             {teachingSkills.length === 0 ? (
-              <div className="text-center py-16 rounded-2xl glass-card border border-dashed border-slate-800 text-slate-500 text-xs space-y-3">
-                <GraduationCap className="w-8 h-8 mx-auto text-indigo-400 opacity-60" />
-                <p>You haven't claimed any teaching skills yet.</p>
+              <div className="text-center py-16 rounded-3xl bg-[#fffdfa] border-2 border-dashed border-[#dfd7c5] text-stone-600 text-xs space-y-3">
+                <GraduationCap className="w-8 h-8 mx-auto text-amber-800" />
+                <p className="font-heading text-base font-bold text-stone-800">You haven't claimed any teaching skills yet.</p>
                 <Button variant="primary" size="sm" onClick={() => navigate('/skills/me')}>
                   Explore Taxonomy & Claim Skills
                 </Button>
@@ -373,9 +377,9 @@ export const Dashboard = () => {
             </div>
 
             {learningSkills.length === 0 ? (
-              <div className="text-center py-16 rounded-2xl glass-card border border-dashed border-slate-800 text-slate-500 text-xs space-y-3">
-                <BookOpen className="w-8 h-8 mx-auto text-emerald-400 opacity-60" />
-                <p>No learning targets declared yet.</p>
+              <div className="text-center py-16 rounded-3xl bg-[#fffdfa] border-2 border-dashed border-[#dfd7c5] text-stone-600 text-xs space-y-3">
+                <BookOpen className="w-8 h-8 mx-auto text-emerald-800" />
+                <p className="font-heading text-base font-bold text-stone-800">No learning targets declared yet.</p>
                 <Button variant="emerald" size="sm" onClick={() => navigate('/skills/me')}>
                   Explore Taxonomy & Request Skills
                 </Button>
@@ -404,7 +408,7 @@ export const Dashboard = () => {
             />
 
             {recommendations.length === 0 ? (
-              <div className="text-center py-16 text-slate-500 text-xs">
+              <div className="text-center py-16 text-stone-600 text-xs bg-[#fffdfa] border-2 border-dashed border-[#dfd7c5] rounded-3xl font-medium">
                 No recommendations available yet. Try adding more skills at /skills/me.
               </div>
             ) : (
@@ -435,10 +439,10 @@ export const Dashboard = () => {
               title={activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
               description="Campus skill exchange portal."
             />
-            <Card padding="lg" className="text-center py-12">
-              <ShieldCheck className="w-12 h-12 text-indigo-400 mx-auto mb-3" />
-              <CardTitle className="text-xl">Campus Skill Exchange Active</CardTitle>
-              <CardDescription className="max-w-md mx-auto mt-2">
+            <Card padding="lg" className="text-center py-12 bg-[#fffdfa] border-2 border-[#e5dcc7]">
+              <ShieldCheck className="w-12 h-12 text-amber-800 mx-auto mb-3" />
+              <CardTitle className="text-xl font-heading text-stone-900">Campus Skill Exchange Active</CardTitle>
+              <CardDescription className="max-w-md mx-auto mt-2 text-stone-600 font-medium">
                 Manage your skills, proofs, and peer exchanges seamlessly.
               </CardDescription>
               <div className="mt-4">

@@ -151,33 +151,33 @@ export const Requests = () => {
       {/* Toast notification */}
       {toastMsg && (
         <div
-          className={`p-4 rounded-xl text-sm flex items-center gap-2 shadow-lg transition-all ${
+          className={`p-4 rounded-xl text-sm flex items-center gap-2 shadow-md transition-all border-2 ${
             toastType === 'success'
-              ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-300'
-              : 'bg-rose-500/10 border border-rose-500/30 text-rose-300'
+              ? 'bg-[#ecfdf5] border-emerald-500/40 text-emerald-900'
+              : 'bg-[#fff1f2] border-rose-400/40 text-rose-900'
           }`}
         >
           {toastType === 'success' ? (
-            <CheckCircle2 className="w-5 h-5 shrink-0" />
+            <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600" />
           ) : (
-            <AlertCircle className="w-5 h-5 shrink-0" />
+            <AlertCircle className="w-5 h-5 shrink-0 text-rose-600" />
           )}
-          <span>{toastMsg}</span>
+          <span className="font-medium">{toastMsg}</span>
         </div>
       )}
 
       {/* API error banner */}
       {apiError && (
-        <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center justify-between gap-3">
+        <div className="p-3.5 rounded-xl bg-[#fffbeb] border-2 border-amber-400/50 text-amber-900 text-xs flex items-center justify-between gap-3 shadow-sm">
           <div className="flex items-center gap-2">
-            <WifiOff className="w-4 h-4 shrink-0" />
+            <WifiOff className="w-4 h-4 shrink-0 text-amber-700" />
             <span>
               <strong>Backend unreachable</strong> — showing demo data. Start the API to see live requests.
             </span>
           </div>
           <button
             onClick={() => fetchRequests(activeTab)}
-            className="flex items-center gap-1 px-2.5 py-1 bg-amber-500/20 rounded-lg hover:bg-amber-500/30 transition-colors font-semibold shrink-0"
+            className="flex items-center gap-1 px-3 py-1 bg-amber-200/70 hover:bg-amber-300/80 rounded-lg border border-amber-400 text-amber-950 transition-colors font-semibold shrink-0 shadow-xs"
           >
             <RefreshCw className="w-3 h-3" /> Retry
           </button>
@@ -185,7 +185,7 @@ export const Requests = () => {
       )}
 
       {/* Tabs */}
-      <div className="flex items-center gap-3 border-b border-slate-800 pb-2">
+      <div className="flex items-center gap-2 border-b border-[#dfd7c5] pb-3">
         {[
           { key: 'received', label: 'Received Invitations', icon: Inbox },
           { key: 'sent', label: 'Sent Requests', icon: Send },
@@ -193,16 +193,16 @@ export const Requests = () => {
           <button
             key={key}
             onClick={() => setActiveTab(key)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
               activeTab === key
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/25'
-                : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                ? 'bg-amber-800 text-white shadow-sm'
+                : 'text-stone-600 hover:bg-[#ebdcc2]/60 hover:text-stone-900'
             }`}
           >
             <Icon className="w-4 h-4" />
             {label}
             {usingDemo && (
-              <span className="text-[10px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-md font-mono">
+              <span className="text-[10px] bg-amber-200 text-amber-950 px-1.5 py-0.5 rounded-md font-mono font-bold">
                 DEMO
               </span>
             )}
@@ -213,19 +213,19 @@ export const Requests = () => {
       {/* Content */}
       {loading ? (
         <div className="text-center py-16 space-y-3">
-          <svg className="animate-spin h-7 w-7 mx-auto text-indigo-500" fill="none" viewBox="0 0 24 24">
+          <svg className="animate-spin h-7 w-7 mx-auto text-amber-800" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
           </svg>
-          <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Loading requests…</p>
+          <p className="text-xs text-stone-600 font-semibold uppercase tracking-wider font-heading text-sm">Loading requests…</p>
         </div>
       ) : requests.length === 0 ? (
-        <Card padding="lg" className="text-center py-14 border border-dashed border-slate-700">
-          <Clock className="w-10 h-10 text-slate-500 mx-auto mb-3" />
-          <p className="text-slate-300 font-semibold text-base">
+        <Card padding="lg" className="text-center py-14 border-2 border-dashed border-[#dfd7c5] bg-[#fffdfa]">
+          <Clock className="w-10 h-10 text-stone-400 mx-auto mb-3" />
+          <p className="text-stone-800 font-semibold text-lg font-heading">
             No {activeTab} learning requests yet.
           </p>
-          <p className="text-xs text-slate-500 mt-1 max-w-xs mx-auto">
+          <p className="text-xs text-stone-600 mt-1 max-w-xs mx-auto leading-relaxed">
             {activeTab === 'received'
               ? 'When other students request to learn from you, they will appear here.'
               : 'Browse Campus Discovery to find peers and send your first request.'}
@@ -235,7 +235,7 @@ export const Requests = () => {
               variant="primary"
               size="md"
               icon={Send}
-              className="mt-5"
+              className="mt-5 shadow-md"
               onClick={() => (window.location.href = '/discover')}
             >
               Explore Campus Matches
@@ -248,15 +248,18 @@ export const Requests = () => {
             <Card
               key={req.id}
               padding="md"
-              className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-[#fffdf9] border-2 border-[#e5dcc7] shadow-sm hover:shadow-md transition-shadow relative"
             >
-              <div className="flex items-center gap-3.5">
-                <div className="w-11 h-11 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-indigo-400 font-bold">
+              {/* Subtle top left washi pin */}
+              <div className="absolute -top-2 left-4 w-12 h-4 bg-[#fde047]/70 rotate-2 border border-[#ca8a04]/30 pointer-events-none rounded-[1px]" />
+
+              <div className="flex items-center gap-3.5 pt-1">
+                <div className="w-11 h-11 rounded-2xl bg-[#f4ecd8] border border-[#dfd7c5] flex items-center justify-center text-amber-900 font-bold shadow-inner">
                   <GraduationCap className="w-5 h-5" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h4 className="text-base font-bold text-white font-heading">
+                    <h4 className="text-base font-bold text-stone-900 font-heading">
                       {activeTab === 'received' ? req.sender_name : req.receiver_name}
                     </h4>
                     <Badge
@@ -267,15 +270,16 @@ export const Requests = () => {
                           ? 'rose'
                           : 'amber'
                       }
+                      className="font-semibold"
                     >
                       {req.status.toUpperCase()}
                     </Badge>
                   </div>
-                  <p className="text-xs text-slate-400 mt-1">
+                  <p className="text-xs text-stone-600 mt-1">
                     Requested Skill:{' '}
-                    <strong className="text-slate-200">{req.skill_name}</strong>
+                    <strong className="text-stone-900 font-medium">{req.skill_name}</strong>
                   </p>
-                  <p className="text-[11px] text-slate-600 mt-0.5 font-mono">
+                  <p className="text-[11px] text-stone-500 mt-0.5 font-medium">
                     {new Date(req.created_at).toLocaleDateString('en-IN', {
                       day: 'numeric',
                       month: 'short',
@@ -293,6 +297,7 @@ export const Requests = () => {
                     icon={Check}
                     isLoading={actionLoading === req.id}
                     onClick={() => handleAccept(req.id)}
+                    className="shadow-sm font-semibold"
                   >
                     Accept & Schedule
                   </Button>
@@ -302,12 +307,13 @@ export const Requests = () => {
                     icon={X}
                     isLoading={actionLoading === req.id}
                     onClick={() => handleReject(req.id)}
+                    className="shadow-xs font-semibold"
                   >
                     Decline
                   </Button>
                 </div>
               ) : (
-                <div className="text-xs text-slate-500 italic">
+                <div className="text-xs text-stone-600 italic font-handwriting text-base font-semibold">
                   {req.status === 'accepted'
                     ? 'Exchange scheduled ✓'
                     : req.status === 'rejected'

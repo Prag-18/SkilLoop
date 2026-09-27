@@ -166,71 +166,71 @@ export const EvidenceUploader = ({
     currentScore >= 75 ? 'emerald' : currentScore >= 40 ? 'indigo' : 'slate';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm animate-fade-in">
+      <div className="bg-[#faf6ee] border-2 border-[#dfd7c5] rounded-3xl w-full max-w-2xl shadow-[0_20px_50px_rgba(40,30,20,0.25)] overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
+        <div className="p-5 border-b border-[#dfd7c5] flex items-center justify-between bg-[#f4ecd8]/60">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-              <ShieldCheck className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-xl bg-[#ebdcc2] border border-[#d6c7b2] flex items-center justify-center text-amber-900 shadow-inner">
+              <ShieldCheck className="w-5 h-5 text-amber-800" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white font-heading flex items-center gap-2">
+              <h2 className="text-lg font-bold text-stone-900 font-heading flex items-center gap-2">
                 Evidence & Verification
-                <Badge variant={scoreVariant} size="sm">
+                <Badge variant={scoreVariant === 'emerald' ? 'emerald' : scoreVariant === 'indigo' ? 'amber' : 'slate'} size="sm">
                   {currentScore}% Confidence
                 </Badge>
               </h2>
-              <p className="text-xs text-slate-400">
-                Skill: <span className="text-slate-200 font-semibold">{userSkill.skill?.name}</span> ({userSkill.direction.toUpperCase()})
+              <p className="text-xs text-stone-600 font-medium">
+                Skill: <span className="text-stone-900 font-bold">{userSkill.skill?.name}</span> ({userSkill.direction.toUpperCase()})
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1.5 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-[#ebdcc2] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content Container */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-6">
+        <div className="flex-1 overflow-y-auto p-5 space-y-6 bg-[#fffdfa]">
           {/* Confidence Score Progress Bar Banner */}
-          <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-4 space-y-2">
+          <div className="bg-[#fbf7ee] border-2 border-[#e5dcc7] rounded-2xl p-4 space-y-2 shadow-inner">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-semibold text-slate-300 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+              <span className="font-semibold text-stone-800 flex items-center gap-1.5 font-heading">
+                <Sparkles className="w-3.5 h-3.5 text-amber-800" />
                 Proof Trust & Recommendation Weight
               </span>
-              <span className="font-bold text-indigo-300">{currentScore} / 100</span>
+              <span className="font-bold text-amber-900 font-mono text-sm">{currentScore} / 100</span>
             </div>
-            <div className="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+            <div className="w-full bg-[#ebdcc2] h-3 rounded-full overflow-hidden border border-[#d6c7b2]/70">
               <div
                 className={`h-full transition-all duration-500 rounded-full ${
                   currentScore >= 75
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-400'
+                    ? 'bg-emerald-600'
                     : currentScore >= 40
-                    ? 'bg-gradient-to-r from-indigo-500 to-purple-500'
-                    : 'bg-gradient-to-r from-slate-600 to-indigo-500'
+                    ? 'bg-amber-700'
+                    : 'bg-stone-500'
                 }`}
                 style={{ width: `${Math.min(100, Math.max(5, currentScore))}%` }}
               />
             </div>
-            <p className="text-[11px] text-slate-400 leading-relaxed">
+            <p className="text-[11px] text-stone-600 leading-relaxed font-medium">
               Attaching verified repository links, certificates, or video demos directly boosts your confidence score and match ranking.
             </p>
           </div>
 
           {/* Form to Attach New Evidence */}
-          <form onSubmit={handleAddEvidence} className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-4">
-            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-              <Plus className="w-3.5 h-3.5 text-indigo-400" /> Attach New Evidence Link
+          <form onSubmit={handleAddEvidence} className="bg-[#faf6ee] border-2 border-[#dfd7c5] rounded-2xl p-4 space-y-4 shadow-sm">
+            <h3 className="text-xs font-bold text-stone-800 uppercase tracking-wider flex items-center gap-1.5 font-heading">
+              <Plus className="w-3.5 h-3.5 text-amber-800" /> Attach New Evidence Link
             </h3>
 
             {/* Evidence Type Selection */}
             <div>
-              <label className="text-xs font-medium text-slate-400 block mb-1.5">
+              <label className="text-xs font-semibold text-stone-700 block mb-1.5">
                 Proof Type
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -242,16 +242,16 @@ export const EvidenceUploader = ({
                       key={et.id}
                       type="button"
                       onClick={() => setType(et.id)}
-                      className={`p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition-all ${
+                      className={`p-2.5 rounded-xl border-2 text-left flex items-center gap-2.5 transition-all ${
                         isSelected
-                          ? 'bg-indigo-600/20 border-indigo-500 text-white shadow-sm'
-                          : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                          ? 'bg-[#fef3c7] border-amber-600 text-stone-900 shadow-sm'
+                          : 'bg-[#fffdfa] border-[#dfd7c5] text-stone-600 hover:text-stone-900 hover:border-amber-400'
                       }`}
                     >
-                      <Icon className={`w-4 h-4 shrink-0 ${isSelected ? 'text-indigo-400' : 'text-slate-500'}`} />
+                      <Icon className={`w-4 h-4 shrink-0 ${isSelected ? 'text-amber-800' : 'text-stone-500'}`} />
                       <div className="truncate">
-                        <div className="text-xs font-semibold truncate">{et.label}</div>
-                        <div className="text-[10px] text-indigo-400/80">+{et.baseWeight} pts max</div>
+                        <div className="text-xs font-bold truncate font-heading">{et.label}</div>
+                        <div className="text-[10px] text-amber-900 font-medium">+{et.baseWeight} pts max</div>
                       </div>
                     </button>
                   );
@@ -273,7 +273,7 @@ export const EvidenceUploader = ({
 
             {/* Description Input */}
             <div>
-              <label className="text-xs font-semibold text-slate-300 tracking-wide block mb-1.5">
+              <label className="text-xs font-semibold text-stone-700 tracking-wide block mb-1.5">
                 Description / Context (Optional)
               </label>
               <textarea
@@ -281,19 +281,19 @@ export const EvidenceUploader = ({
                 onChange={(e) => setDescription(e.target.value)}
                 rows={2}
                 placeholder="Explain what this repo/certificate showcases (e.g., implemented transformer pipeline from scratch)..."
-                className="w-full rounded-xl bg-slate-900/90 border border-slate-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 px-3 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none transition-all"
+                className="w-full rounded-xl bg-[#fffdfa] border border-[#dfd7c5] focus:border-amber-700 focus:ring-2 focus:ring-amber-700/15 px-3 py-2 text-xs text-stone-800 placeholder-stone-400 focus:outline-none transition-all shadow-sm"
               />
             </div>
 
             {errorMessage && (
-              <div className="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300 flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0" />
+              <div className="p-2.5 rounded-lg bg-[#fff1f2] border-2 border-rose-300 text-xs text-rose-900 flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
                 <span>{errorMessage}</span>
               </div>
             )}
             {successMessage && (
-              <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-300 flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 shrink-0" />
+              <div className="p-2.5 rounded-lg bg-[#ecfdf5] border-2 border-emerald-300 text-xs text-emerald-900 flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 shrink-0 text-emerald-600" />
                 <span>{successMessage}</span>
               </div>
             )}
@@ -305,6 +305,7 @@ export const EvidenceUploader = ({
                 size="sm"
                 isLoading={submitting}
                 disabled={submitting || !url.trim()}
+                className="shadow-sm font-semibold"
               >
                 Submit Evidence Proof
               </Button>
@@ -313,14 +314,14 @@ export const EvidenceUploader = ({
 
           {/* Existing Evidence List */}
           <div className="space-y-3">
-            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+            <h3 className="text-xs font-bold text-stone-800 uppercase tracking-wider font-heading">
               Attached Proofs ({evidenceList.length})
             </h3>
 
             {loadingEvidence ? (
-              <div className="text-center py-6 text-xs text-slate-500">Loading attached proofs...</div>
+              <div className="text-center py-6 text-xs text-stone-500 font-medium">Loading attached proofs...</div>
             ) : evidenceList.length === 0 ? (
-              <div className="text-center py-8 rounded-xl border border-dashed border-slate-800 text-slate-500 text-xs">
+              <div className="text-center py-8 rounded-2xl border-2 border-dashed border-[#dfd7c5] bg-[#faf6ee] text-stone-600 text-xs">
                 No evidence attached yet. Add a GitHub repository, portfolio, or certificate above to increase your trust score.
               </div>
             ) : (
@@ -334,15 +335,15 @@ export const EvidenceUploader = ({
                   return (
                     <div
                       key={ev.id}
-                      className="bg-slate-950/80 border border-slate-800/90 rounded-xl p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+                      className="bg-[#faf6ee] border-2 border-[#e5dcc7] rounded-2xl p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm"
                     >
                       <div className="flex items-start gap-3 min-w-0 flex-1">
-                        <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-indigo-400 shrink-0 mt-0.5">
+                        <div className="p-2 rounded-lg bg-[#ebdcc2] border border-[#d6c7b2] text-amber-900 shrink-0 mt-0.5 shadow-inner">
                           <Icon className="w-4 h-4" />
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-xs font-semibold text-white capitalize">
+                            <span className="text-xs font-bold text-stone-900 capitalize font-heading">
                               {ev.type}
                             </span>
                             <Badge
@@ -357,13 +358,13 @@ export const EvidenceUploader = ({
                             href={ev.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 mt-1 truncate hover:underline"
+                            className="text-xs text-amber-900 font-medium hover:text-amber-950 flex items-center gap-1 mt-1 truncate underline underline-offset-2"
                           >
                             <span className="truncate">{ev.url}</span>
                             <ExternalLink className="w-3 h-3 shrink-0" />
                           </a>
                           {ev.description && (
-                            <p className="text-[11px] text-slate-400 mt-1 leading-snug">
+                            <p className="text-[11px] text-stone-600 mt-1 leading-snug">
                               {ev.description}
                             </p>
                           )}
@@ -380,7 +381,7 @@ export const EvidenceUploader = ({
                           disabled={verifyingId === ev.id}
                           onClick={() => handleVerifyEvidence(ev.id)}
                           title="Run rule-based verification check"
-                          className="text-xs"
+                          className="text-xs shadow-xs"
                         >
                           Verify Proof
                         </Button>
@@ -394,7 +395,7 @@ export const EvidenceUploader = ({
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-slate-800 bg-slate-900/90 flex justify-end">
+        <div className="p-4 border-t border-[#dfd7c5] bg-[#f4ecd8]/60 flex justify-end">
           <Button variant="ghost" size="sm" onClick={onClose}>
             Close
           </Button>

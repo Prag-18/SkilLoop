@@ -25,10 +25,10 @@ export const Sidebar = ({ activeTab = 'overview', setActiveTab }) => {
   ];
 
   return (
-    <aside className="w-full md:w-64 glass-panel border-r border-slate-800/80 p-4 shrink-0 flex flex-col justify-between">
+    <aside className="w-full md:w-64 bg-[#fcf9f2] border-r border-[#e5dcc7] p-4 shrink-0 flex flex-col justify-between">
       <div className="space-y-6">
         <div className="px-3 py-2">
-          <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider font-heading">
+          <h2 className="text-xs font-bold text-stone-500 uppercase tracking-wider font-sans">
             Student Portal
           </h2>
         </div>
@@ -41,22 +41,22 @@ export const Sidebar = ({ activeTab = 'overview', setActiveTab }) => {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
                   isActive
-                    ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 shadow-md shadow-indigo-600/10'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                    ? 'bg-amber-100 text-amber-900 border border-amber-300 shadow-paper-flat font-bold'
+                    : 'text-stone-600 hover:text-stone-900 hover:bg-[#f3ebd9]/70'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-slate-400'}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-amber-800' : 'text-stone-500'}`} />
                   <span>{item.label}</span>
                 </div>
                 {item.badge && (
                   <span
                     className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
                       isActive
-                        ? 'bg-indigo-500/30 text-indigo-200'
-                        : 'bg-slate-800 text-slate-400'
+                        ? 'bg-amber-200 text-amber-900'
+                        : 'bg-stone-200 text-stone-600'
                     }`}
                   >
                     {item.badge}
@@ -69,13 +69,13 @@ export const Sidebar = ({ activeTab = 'overview', setActiveTab }) => {
       </div>
 
       {/* System Status Footer inside sidebar */}
-      <div className="pt-4 border-t border-slate-800/60 mt-6 px-3">
-        <div className="bg-slate-900/80 rounded-xl p-3 border border-slate-800 text-xs">
-          <div className="flex items-center justify-between text-slate-400 mb-1">
-            <span>Skill Credit Balance</span>
-            <span className="font-bold text-emerald-400">100 CR</span>
+      <div className="pt-4 border-t border-stone-200 mt-6 px-3">
+        <div className="bg-white rounded-xl p-3 border border-[#e5dcc7] shadow-paper-flat text-xs">
+          <div className="flex items-center justify-between text-stone-600 mb-1">
+            <span className="font-medium">Credit Balance</span>
+            <span className="font-bold text-emerald-800">100 CR</span>
           </div>
-          <p className="text-[11px] text-slate-500">Earn more by teaching peers.</p>
+          <p className="text-[11px] text-stone-500">Earn more by teaching peers.</p>
         </div>
       </div>
     </aside>

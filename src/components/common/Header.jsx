@@ -4,10 +4,10 @@ import { Sparkles, Award } from 'lucide-react';
 
 export const Header = ({ title, description, badgeText, children }) => {
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800/80 mb-8">
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-stone-300/80 mb-8">
       <div>
         <div className="flex items-center gap-3 mb-1">
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white font-heading tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-bold text-stone-900 font-heading tracking-tight">
             {title}
           </h1>
           {badgeText && (
@@ -17,7 +17,7 @@ export const Header = ({ title, description, badgeText, children }) => {
           )}
         </div>
         {description && (
-          <p className="text-sm text-slate-400 font-normal">
+          <p className="text-sm text-stone-600 font-normal font-sans">
             {description}
           </p>
         )}

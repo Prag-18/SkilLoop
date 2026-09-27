@@ -150,17 +150,17 @@ export const SkillProfile = () => {
   });
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col">
+    <div className="min-h-screen bg-[#faf6ee] text-stone-800 flex flex-col">
       <Navbar />
 
       {/* Floating Toast Notification */}
       {toast && (
         <div className="fixed top-20 right-6 z-50 animate-bounce-in">
           <div
-            className={`px-4 py-3 rounded-2xl shadow-2xl border text-xs font-semibold flex items-center gap-2 backdrop-blur-xl ${
+            className={`px-4 py-3 rounded-2xl shadow-xl border-2 text-xs font-semibold flex items-center gap-2 ${
               toast.type === 'error'
-                ? 'bg-rose-950/90 border-rose-500/40 text-rose-200'
-                : 'bg-emerald-950/90 border-emerald-500/40 text-emerald-200'
+                ? 'bg-[#fff1f2] border-rose-400 text-rose-900'
+                : 'bg-[#ecfdf5] border-emerald-400 text-emerald-900'
             }`}
           >
             <CheckCircle2 className="w-4 h-4 shrink-0" />
@@ -171,17 +171,20 @@ export const SkillProfile = () => {
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Profile Skill Header Banner */}
-        <div className="relative rounded-3xl overflow-hidden glass-panel border border-slate-800/80 p-6 sm:p-8 bg-gradient-to-r from-indigo-950/40 via-slate-900/60 to-purple-950/40">
+        <div className="relative rounded-3xl overflow-hidden bg-[#f4ecd8] border-2 border-[#dfd7c5] p-6 sm:p-8 shadow-[3px_6px_20px_rgba(40,30,20,0.06)]">
+          {/* Top washi tape decorative accent */}
+          <div className="absolute top-0 right-12 w-28 h-5 bg-[#fde047]/80 -rotate-2 border-b border-[#ca8a04]/40 shadow-xs pointer-events-none" />
+
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold">
-                <ShieldCheck className="w-3.5 h-3.5" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ebdcc2] border border-[#d6c7b2] text-amber-900 text-xs font-semibold font-heading">
+                <ShieldCheck className="w-3.5 h-3.5 text-amber-800" />
                 Verified Campus Skill Profile
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white font-heading tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 font-heading tracking-tight">
                 My Skills, Taxonomy & Evidence
               </h1>
-              <p className="text-sm text-slate-400 max-w-2xl leading-relaxed">
+              <p className="text-sm text-stone-600 max-w-2xl leading-relaxed">
                 Claim what you can teach and what you want to learn. Back your teaching offers with proof links (GitHub, certificates, live demos) to boost your confidence score.
               </p>
             </div>
@@ -193,7 +196,7 @@ export const SkillProfile = () => {
                 size="md"
                 icon={GraduationCap}
                 onClick={() => openClaimModal('teach')}
-                className="shadow-lg shadow-indigo-600/25"
+                className="shadow-md"
               >
                 + Teach a Skill
               </Button>
@@ -202,7 +205,7 @@ export const SkillProfile = () => {
                 size="md"
                 icon={BookOpen}
                 onClick={() => openClaimModal('learn')}
-                className="shadow-lg shadow-emerald-600/25"
+                className="shadow-md"
               >
                 + Learn a Skill
               </Button>
@@ -210,36 +213,36 @@ export const SkillProfile = () => {
           </div>
 
           {/* Stats Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-800/60">
-            <div className="bg-slate-900/80 rounded-2xl p-4 border border-slate-800/80">
-              <span className="text-xs font-medium text-slate-400 block">Teaching (Offers)</span>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-[#dfd7c5]">
+            <div className="bg-[#fffdfa] rounded-2xl p-4 border border-[#dfd7c5] shadow-sm">
+              <span className="text-xs font-semibold text-stone-600 block">Teaching (Offers)</span>
               <div className="flex items-baseline gap-2 mt-1">
-                <span className="text-2xl font-bold text-white">{teachingSkills.length}</span>
-                <span className="text-xs text-indigo-400 font-semibold">Skills</span>
+                <span className="text-2xl font-bold text-stone-900 font-heading">{teachingSkills.length}</span>
+                <span className="text-xs text-amber-800 font-semibold">Skills</span>
               </div>
             </div>
 
-            <div className="bg-slate-900/80 rounded-2xl p-4 border border-slate-800/80">
-              <span className="text-xs font-medium text-slate-400 block">Learning (Wants)</span>
+            <div className="bg-[#fffdfa] rounded-2xl p-4 border border-[#dfd7c5] shadow-sm">
+              <span className="text-xs font-semibold text-stone-600 block">Learning (Wants)</span>
               <div className="flex items-baseline gap-2 mt-1">
-                <span className="text-2xl font-bold text-white">{learningSkills.length}</span>
-                <span className="text-xs text-emerald-400 font-semibold">Skills</span>
+                <span className="text-2xl font-bold text-stone-900 font-heading">{learningSkills.length}</span>
+                <span className="text-xs text-emerald-800 font-semibold">Skills</span>
               </div>
             </div>
 
-            <div className="bg-slate-900/80 rounded-2xl p-4 border border-slate-800/80">
-              <span className="text-xs font-medium text-slate-400 block">Evidence Proofs</span>
+            <div className="bg-[#fffdfa] rounded-2xl p-4 border border-[#dfd7c5] shadow-sm">
+              <span className="text-xs font-semibold text-stone-600 block">Evidence Proofs</span>
               <div className="flex items-baseline gap-2 mt-1">
-                <span className="text-2xl font-bold text-white">{totalProofs}</span>
-                <span className="text-xs text-purple-400 font-semibold">Attached</span>
+                <span className="text-2xl font-bold text-stone-900 font-heading">{totalProofs}</span>
+                <span className="text-xs text-amber-900 font-semibold">Attached</span>
               </div>
             </div>
 
-            <div className="bg-slate-900/80 rounded-2xl p-4 border border-slate-800/80">
-              <span className="text-xs font-medium text-slate-400 block">Avg Confidence</span>
+            <div className="bg-[#fffdfa] rounded-2xl p-4 border border-[#dfd7c5] shadow-sm">
+              <span className="text-xs font-semibold text-stone-600 block">Avg Confidence</span>
               <div className="flex items-baseline gap-2 mt-1">
-                <span className="text-2xl font-bold text-emerald-400">{avgConfidence}%</span>
-                <span className="text-xs text-slate-400">Score</span>
+                <span className="text-2xl font-bold text-emerald-800 font-heading">{avgConfidence}%</span>
+                <span className="text-xs text-stone-500 font-medium">Score</span>
               </div>
             </div>
           </div>
@@ -248,13 +251,13 @@ export const SkillProfile = () => {
         {/* Tab Filter & Search Controls */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
           {/* Tabs */}
-          <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-900 border border-slate-800 overflow-x-auto">
+          <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-[#ebdcc2] border border-[#d6c7b2] overflow-x-auto">
             <button
               onClick={() => setActiveTab('all')}
               className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
                 activeTab === 'all'
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-amber-800 text-white shadow-sm'
+                  : 'text-stone-700 hover:text-stone-950'
               }`}
             >
               All Skills ({userSkills.length})
@@ -263,8 +266,8 @@ export const SkillProfile = () => {
               onClick={() => setActiveTab('teach')}
               className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'teach'
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-amber-800 text-white shadow-sm'
+                  : 'text-stone-700 hover:text-stone-950'
               }`}
             >
               <GraduationCap className="w-3.5 h-3.5" />
@@ -274,8 +277,8 @@ export const SkillProfile = () => {
               onClick={() => setActiveTab('learn')}
               className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'learn'
-                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-emerald-700 text-white shadow-sm'
+                  : 'text-stone-700 hover:text-stone-950'
               }`}
             >
               <BookOpen className="w-3.5 h-3.5" />
@@ -285,8 +288,8 @@ export const SkillProfile = () => {
               onClick={() => setActiveTab('taxonomy')}
               className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'taxonomy'
-                  ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-stone-800 text-white shadow-sm'
+                  : 'text-stone-700 hover:text-stone-950'
               }`}
             >
               <FolderTree className="w-3.5 h-3.5" />
@@ -314,10 +317,10 @@ export const SkillProfile = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-lg font-bold text-white font-heading">
+                <h2 className="text-lg font-bold text-stone-900 font-heading">
                   University Skill Taxonomy Matrix
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-stone-600">
                   Full 5-pillar skill hierarchy with 3-level deep specializations
                 </p>
               </div>
@@ -332,54 +335,54 @@ export const SkillProfile = () => {
             </div>
 
             {loadingTaxonomy ? (
-              <div className="text-center py-16 text-slate-400 text-sm">
+              <div className="text-center py-16 text-stone-500 text-sm">
                 Loading complete taxonomy...
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {taxonomyTree.map((rootCat) => (
-                  <Card key={rootCat.id} className="flex flex-col justify-between">
+                  <Card key={rootCat.id} className="flex flex-col justify-between bg-[#fffdfa] border-2 border-[#e5dcc7] shadow-sm">
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
-                        <div className="p-2.5 rounded-xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-400">
+                        <div className="p-2.5 rounded-xl bg-[#f4ecd8] border border-[#dfd7c5] text-amber-900">
                           <Layers className="w-5 h-5" />
                         </div>
                         <div>
-                          <h3 className="text-base font-bold text-white font-heading">
+                          <h3 className="text-base font-bold text-stone-900 font-heading">
                             {rootCat.name}
                           </h3>
-                          <span className="text-[11px] text-slate-400">
+                          <span className="text-[11px] text-stone-600 font-medium">
                             {rootCat.subcategories?.length || 0} Subcategories
                           </span>
                         </div>
                       </div>
 
                       {rootCat.description && (
-                        <p className="text-xs text-slate-400">{rootCat.description}</p>
+                        <p className="text-xs text-stone-600 leading-relaxed">{rootCat.description}</p>
                       )}
 
                       {/* Subcategories */}
-                      <div className="space-y-3 pt-2 border-t border-slate-800">
+                      <div className="space-y-3 pt-2 border-t border-[#ede5d3]">
                         {rootCat.subcategories?.map((sub) => (
-                          <div key={sub.id} className="bg-slate-900/90 rounded-xl p-3 border border-slate-800 space-y-2">
+                          <div key={sub.id} className="bg-[#fbf7ee] rounded-xl p-3 border border-[#dfd7c5] space-y-2">
                             <div className="flex items-center justify-between">
-                              <h4 className="text-xs font-bold text-indigo-300">
+                              <h4 className="text-xs font-bold text-amber-900 font-heading">
                                 {sub.name}
                               </h4>
-                              <span className="text-[10px] text-slate-500">
+                              <span className="text-[10px] text-stone-500 font-medium">
                                 {sub.skills?.length || 0} skills
                               </span>
                             </div>
 
                             {/* Level 3 subcategories if any */}
                             {sub.subcategories?.map((l3) => (
-                              <div key={l3.id} className="pl-2 border-l-2 border-indigo-500/40 space-y-1">
-                                <span className="text-[11px] font-semibold text-pink-300 block">
+                              <div key={l3.id} className="pl-2 border-l-2 border-amber-700/50 space-y-1">
+                                <span className="text-[11px] font-semibold text-amber-950 block font-heading">
                                   ↳ {l3.name}
                                 </span>
                                 <div className="flex flex-wrap gap-1">
                                   {l3.skills?.map((sk) => (
-                                    <span key={sk.id} className="text-[10px] bg-slate-950 px-2 py-0.5 rounded text-slate-300 border border-slate-800">
+                                    <span key={sk.id} className="text-[10px] bg-[#fffdfa] px-2 py-0.5 rounded text-stone-700 border border-[#dfd7c5]">
                                       {sk.name}
                                     </span>
                                   ))}
@@ -391,7 +394,7 @@ export const SkillProfile = () => {
                             {sub.skills?.length > 0 && (
                               <div className="flex flex-wrap gap-1 pt-1">
                                 {sub.skills.map((sk) => (
-                                  <span key={sk.id} className="text-[10px] bg-slate-950 px-2 py-0.5 rounded text-slate-300 border border-slate-800">
+                                  <span key={sk.id} className="text-[10px] bg-[#fffdfa] px-2 py-0.5 rounded text-stone-700 border border-[#dfd7c5]">
                                     {sk.name}
                                   </span>
                                 ))}
@@ -410,18 +413,18 @@ export const SkillProfile = () => {
           /* User Skills Grid */
           <div>
             {loading ? (
-              <div className="text-center py-20 text-slate-400 text-sm">
+              <div className="text-center py-20 text-stone-500 text-sm">
                 Loading your skill profile...
               </div>
             ) : filteredSkills.length === 0 ? (
-              <div className="text-center py-16 rounded-3xl glass-card border border-dashed border-slate-800 p-8 max-w-md mx-auto space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center mx-auto text-indigo-400">
+              <div className="text-center py-16 rounded-3xl bg-[#fffdfa] border-2 border-dashed border-[#dfd7c5] p-8 max-w-md mx-auto space-y-4 shadow-sm">
+                <div className="w-12 h-12 rounded-2xl bg-[#f4ecd8] border border-[#dfd7c5] flex items-center justify-center mx-auto text-amber-800">
                   <Sparkles className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-bold text-white font-heading">
+                <h3 className="text-xl font-bold text-stone-900 font-heading">
                   {searchQuery.trim() ? 'No Matching Skills' : 'No Skills Claimed Yet'}
                 </h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
+                <p className="text-xs text-stone-600 leading-relaxed">
                   {searchQuery.trim()
                     ? `No claimed skills match "${searchQuery}".`
                     : 'Start building your campus profile by adding skills you can teach to peers or skills you want to learn.'}
