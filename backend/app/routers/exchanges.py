@@ -19,6 +19,35 @@ from app.schemas.exchange import (
 
 router = APIRouter(prefix="/exchanges", tags=["Exchanges"])
 
+CREDIT_TABLE = {
+    "duration_30": 10,
+    "duration_60": 20,
+    "completion_bonus": 5,
+    "verified_mentor": 25,
+}
+
+
+def _build_exchange_response(ex: Exchange, db: Session) -> ExchangeResponse:
+    """Helper to build a consistent ExchangeResponse."""
+    teacher = db.query(User).filter(User.id == ex.teacher_id).first()
+    learner = db.query(User).filter(User.id == ex.learner_id).first()
+    skill = db.query(Skill).filter(Skill.id == ex.skill_id).first() if ex.skill_id else None
+    return ExchangeResponse(
+        id=ex.id,
+        request_id=ex.request_id,
+        teacher_id=ex.teacher_id,
+        learner_id=ex.learner_id,
+        skill_id=ex.skill_id,
+        status=ex.status,
+        duration_minutes=ex.duration_minutes,
+        credits_awarded=ex.credits_awarded,
+        completed_at=ex.completed_at,
+        created_at=ex.created_at,
+        teacher_name=teacher.full_name if teacher else "Teacher",
+        learner_name=learner.full_name if learner else "Learner",
+        skill_name=skill.name if skill else "Peer Mentorship",
+    )
+
 
 @router.get("", response_model=List[ExchangeResponse])
 def get_exchanges(
@@ -46,32 +75,7 @@ def get_exchanges(
             (Exchange.teacher_id == current_user.id) | (Exchange.learner_id == current_user.id)
         )
 
-    exchanges = query.all()
-    results = []
-
-    for ex in exchanges:
-        teacher = db.query(User).filter(User.id == ex.teacher_id).first()
-        learner = db.query(User).filter(User.id == ex.learner_id).first()
-        skill = db.query(Skill).filter(Skill.id == ex.skill_id).first() if ex.skill_id else None
-
-        results.append(
-            ExchangeResponse(
-                id=ex.id,
-                request_id=ex.request_id,
-                teacher_id=ex.teacher_id,
-                learner_id=ex.learner_id,
-                skill_id=ex.skill_id,
-                status=ex.status,
-                duration_minutes=ex.duration_minutes,
-                credits_awarded=ex.credits_awarded,
-                completed_at=ex.completed_at,
-                created_at=ex.created_at,
-                teacher_name=teacher.full_name if teacher else "Teacher",
-                learner_name=learner.full_name if learner else "Learner",
-                skill_name=skill.name if skill else "Peer Mentorship",
-            )
-        )
-    return results
+    return [_build_exchange_response(ex, db) for ex in query.order_by(Exchange.created_at.desc()).all()]
 
 
 @router.post("/{request_id}/complete", response_model=ExchangeResponse)
@@ -84,90 +88,81 @@ def complete_exchange(
     """
     POST /api/v1/exchanges/{request_id}/complete
     Mark exchange complete & award skill credits.
-    Credits breakdown:
-    - 30 min duration = +10 credits
-    - 60 min duration = +20 credits
-    - Completion bonus = +5 credits
-    - Verified mentor bonus = +25 credits
+    
+    Credit table:
+    - 30 min = +10 CR | 60 min = +20 CR
+    - Completion bonus = +5 CR
+    - Verified mentor = +25 CR
+    
+    State guards:
+    - Exchange must be in 'scheduled' state (not already completed)
+    - User must be a participant
+    - Cannot complete twice (double credit prevention)
     """
-    # Find exchange by request_id or exchange id
-    exchange = db.query(Exchange).filter(
-        (Exchange.request_id == request_id) | (Exchange.id == request_id)
-    ).first()
+    # Find exchange by exchange id first, then by request_id
+    exchange = db.query(Exchange).filter(Exchange.id == request_id).first()
+    if not exchange:
+        exchange = db.query(Exchange).filter(Exchange.request_id == request_id).first()
 
     if not exchange:
-        # Create exchange on the fly if completing a learning request directly
-        req = db.query(LearningRequest).filter(LearningRequest.id == request_id).first()
-        if not req:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Exchange or learning request not found.",
-            )
-        exchange = Exchange(
-            request_id=req.id,
-            teacher_id=req.receiver_id,
-            learner_id=req.sender_id,
-            skill_id=req.requested_skill_id,
-            status="scheduled",
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Exchange not found. Ensure the associated learning request was accepted first.",
         )
-        db.add(exchange)
-        db.commit()
-        db.refresh(exchange)
 
+    # Auth guard: only participants can complete
     if current_user.id not in (exchange.teacher_id, exchange.learner_id):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You are not a participant in this exchange.",
         )
 
-    # Calculate credits
-    duration = body.duration_minutes
-    duration_credits = 20 if duration >= 60 else 10
-    completion_bonus = 5
-    mentor_bonus = 25 if body.is_verified_mentor else 0
+    # State-machine guard: only scheduled exchanges can be completed (prevent double-complete)
+    if exchange.status != "scheduled":
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Cannot complete an exchange that is already '{exchange.status}'. Only scheduled exchanges can be completed.",
+        )
 
+    # Validate duration
+    duration = body.duration_minutes
+    if duration <= 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Duration must be a positive number of minutes.",
+        )
+
+    # Calculate credits using credit table
+    duration_credits = CREDIT_TABLE["duration_60"] if duration >= 60 else CREDIT_TABLE["duration_30"]
+    completion_bonus = CREDIT_TABLE["completion_bonus"]
+    mentor_bonus = CREDIT_TABLE["verified_mentor"] if body.is_verified_mentor else 0
     total_credits = duration_credits + completion_bonus + mentor_bonus
 
+    # Update exchange state (atomic — before any credit writes)
     exchange.status = "completed"
     exchange.duration_minutes = duration
     exchange.credits_awarded = total_credits
     exchange.completed_at = datetime.datetime.utcnow()
+    db.add(exchange)
 
-    # Credit award ledger for teacher
+    # Award credits to teacher via ledger
     teacher = db.query(User).filter(User.id == exchange.teacher_id).first()
     if teacher:
-        teacher.skill_credits += total_credits
+        teacher.skill_credits = (teacher.skill_credits or 0) + total_credits
         db.add(teacher)
-
-        credit_entry = SkillCredit(
+        credit_reason = (
+            f"Completed {duration}min exchange"
+            f"{' (verified mentor)' if body.is_verified_mentor else ''}"
+        )
+        db.add(SkillCredit(
             user_id=teacher.id,
             amount=total_credits,
-            reason=f"Completed {duration}min skill exchange (bonus included)",
-        )
-        db.add(credit_entry)
+            reason=credit_reason,
+        ))
 
     db.commit()
     db.refresh(exchange)
-
-    teacher = db.query(User).filter(User.id == exchange.teacher_id).first()
-    learner = db.query(User).filter(User.id == exchange.learner_id).first()
-    skill = db.query(Skill).filter(Skill.id == exchange.skill_id).first() if exchange.skill_id else None
-
-    return ExchangeResponse(
-        id=exchange.id,
-        request_id=exchange.request_id,
-        teacher_id=exchange.teacher_id,
-        learner_id=exchange.learner_id,
-        skill_id=exchange.skill_id,
-        status=exchange.status,
-        duration_minutes=exchange.duration_minutes,
-        credits_awarded=exchange.credits_awarded,
-        completed_at=exchange.completed_at,
-        created_at=exchange.created_at,
-        teacher_name=teacher.full_name if teacher else "Teacher",
-        learner_name=learner.full_name if learner else "Learner",
-        skill_name=skill.name if skill else "Peer Mentorship",
-    )
+    return _build_exchange_response(exchange, db)
 
 
 @router.post("/{id}/feedback", response_model=FeedbackResponse, status_code=status.HTTP_201_CREATED)
@@ -180,6 +175,11 @@ def submit_exchange_feedback(
     """
     POST /api/v1/exchanges/{id}/feedback
     Submit peer feedback for a completed exchange.
+    
+    State guards:
+    - Exchange must be completed (not scheduled)
+    - User must be a participant
+    - Rating must be 1–5
     """
     exchange = db.query(Exchange).filter(Exchange.id == id).first()
     if not exchange:
@@ -188,10 +188,36 @@ def submit_exchange_feedback(
             detail="Exchange record not found.",
         )
 
+    # Auth guard
     if current_user.id not in (exchange.teacher_id, exchange.learner_id):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You can only give feedback for exchanges you participated in.",
+        )
+
+    # State guard: feedback only on completed exchanges
+    if exchange.status != "completed":
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Feedback can only be submitted after an exchange is completed.",
+        )
+
+    # Rating validation
+    if not (1 <= feedback_in.rating <= 5):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Rating must be between 1 and 5.",
+        )
+
+    # Duplicate feedback guard per user
+    existing_feedback = db.query(Feedback).filter(
+        Feedback.exchange_id == exchange.id,
+        Feedback.from_user_id == current_user.id,
+    ).first()
+    if existing_feedback:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="You have already submitted feedback for this exchange.",
         )
 
     feedback = Feedback(

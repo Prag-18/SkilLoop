@@ -3,95 +3,148 @@ from sqlalchemy.orm import Session
 from app.db.models.user import User
 from app.db.models.skill import Skill
 
+# Scoring constants (must match walkthrough doc)
+BASE_SCORE = 65.0
+SCORE_TEACH_ME = 15.0       # Candidate teaches something current user wants
+SCORE_I_CAN_TEACH = 15.0    # Current user teaches something candidate wants
+SCORE_MUTUAL_BONUS = 10.0   # Both directions match (reciprocity)
+SCORE_EVIDENCE_BONUS = 4.0  # Candidate has verified evidence URL
+SCORE_DEPT_BONUS = 5.0      # Same department
+SCORE_MIN = 65.0            # Don't inflate no-skill candidates with artificial floor
+SCORE_MAX = 98.0
+
+
+def _get_gender_neutral_pronoun_phrase(full_name: str, skill_name: str) -> str:
+    """Return gender-neutral reason fragment: '<Name> can teach you <skill>'."""
+    first = full_name.split()[0] if full_name else "Peer"
+    return f"{first} can teach you {skill_name}"
+
 
 class RecommendationService:
     @staticmethod
     def get_candidates(db: Session, user_id: int) -> List[User]:
         """
         Stage 1 (Candidate Generation):
-        Pulls candidate users from DB who offer or want skills overlapping/sharing categories with user.
+        Pull all active users excluding current user as initial candidate pool.
+        Future slot: replace with vector DB ANN query here.
         """
-        user_skills = db.query(Skill).filter(Skill.user_id == user_id).all()
-        user_learn_categories = {s.category.lower() for s in user_skills if s.skill_type == "learn"}
-        user_teach_categories = {s.category.lower() for s in user_skills if s.skill_type == "teach"}
-        
-        # Pull candidate active users (excluding current user)
-        candidates = db.query(User).filter(User.id != user_id, User.is_active == True).all()
-        return candidates
+        return db.query(User).filter(
+            User.id != user_id,
+            User.is_active == True,
+        ).all()
 
     @staticmethod
-    def rank_candidates(db: Session, user_id: int, candidates: List[User], top_n: int = 10) -> List[Dict[str, Any]]:
+    def rank_candidates(
+        db: Session,
+        user_id: int,
+        candidates: List[User],
+        top_n: int = 10,
+    ) -> List[Dict[str, Any]]:
         """
         Stage 2 (Ranking & Reason Generation):
-        Scores candidates by reciprocity, category overlap, and evidence confidence.
+        Scores candidates by reciprocity, category overlap, evidence confidence,
+        and department alignment. Returns top_n with human-readable reason string.
+
+        Scoring breakdown (matching walkthrough doc):
+          Base: 65%
+          Candidate teaches what user wants:   +15%
+          User teaches what candidate wants:   +15%
+          Mutual reciprocity bonus:            +10%
+          Verified evidence URL on skill:      +4%
+          Shared department:                   +5%
+          Max capped at 98%
         """
         user = db.query(User).filter(User.id == user_id).first()
+        if not user:
+            return []
+
         user_skills = db.query(Skill).filter(Skill.user_id == user_id).all()
-        
         user_teach_skills = [s for s in user_skills if s.skill_type == "teach"]
         user_learn_skills = [s for s in user_skills if s.skill_type == "learn"]
 
-        user_teach_names = {s.name.lower(): s for s in user_teach_skills}
-        user_learn_names = {s.name.lower(): s for s in user_learn_skills}
+        user_teach_names = {s.name.lower() for s in user_teach_skills}
+        user_learn_names = {s.name.lower() for s in user_learn_skills}
         user_teach_cats = {s.category.lower() for s in user_teach_skills}
         user_learn_cats = {s.category.lower() for s in user_learn_skills}
 
         ranked_results = []
 
         for candidate in candidates:
+            if not candidate.full_name:
+                continue
+
             cand_skills = db.query(Skill).filter(Skill.user_id == candidate.id).all()
             cand_teach = [s for s in cand_skills if s.skill_type == "teach"]
             cand_learn = [s for s in cand_skills if s.skill_type == "learn"]
 
-            score = 65.0  # Base compatibility baseline
+            score = BASE_SCORE
 
-            # What candidate can teach current user:
-            can_teach_me = []
-            for s in cand_teach:
-                if s.name.lower() in user_learn_names or s.category.lower() in user_learn_cats:
-                    can_teach_me.append(s)
+            # What candidate can teach current user (name or category overlap)
+            can_teach_me = [
+                s for s in cand_teach
+                if s.name.lower() in user_learn_names or s.category.lower() in user_learn_cats
+            ]
 
-            # What current user can teach candidate:
-            i_can_teach = []
-            for s in cand_learn:
-                if s.name.lower() in user_teach_names or s.category.lower() in user_teach_cats:
-                    i_can_teach.append(s)
+            # What current user can teach candidate (name or category overlap)
+            i_can_teach = [
+                s for s in cand_learn
+                if s.name.lower() in user_teach_names or s.category.lower() in user_teach_cats
+            ]
 
-            # Reciprocity scoring
             if can_teach_me:
-                score += 15.0
+                score += SCORE_TEACH_ME
             if i_can_teach:
-                score += 15.0
+                score += SCORE_I_CAN_TEACH
             if can_teach_me and i_can_teach:
-                score += 10.0  # Mutual Reciprocity Bonus
+                score += SCORE_MUTUAL_BONUS  # Mutual reciprocity
 
-            # Skill Evidence Confidence
-            if any(s.evidence_url for s in cand_teach):
-                score += 4.0
+            # Evidence confidence: teacher has a verified evidence URL
+            if any(bool(s.evidence_url) for s in cand_teach):
+                score += SCORE_EVIDENCE_BONUS
 
-            # Department / Interest Alignment
-            if user and candidate.department == user.department:
-                score += 5.0
+            # Department alignment
+            if candidate.department and user.department and candidate.department == user.department:
+                score += SCORE_DEPT_BONUS
 
-            score = min(98.0, max(72.0, score))
+            # Cap score; do NOT enforce artificial minimum that inflates no-skill candidates
+            score = min(SCORE_MAX, score)
 
-            cand_first_name = candidate.full_name.split()[0] if candidate.full_name else "Peer"
-            teach_me_str = can_teach_me[0].name if can_teach_me else (cand_teach[0].name if cand_teach else "their specialty")
-            i_teach_str = i_can_teach[0].name if i_can_teach else (user_teach_skills[0].name if user_teach_skills else "your skills")
+            # Skip candidates with score at base (no overlap at all) if user has skills
+            if score == BASE_SCORE and (user_teach_skills or user_learn_skills):
+                if not cand_teach and not cand_learn:
+                    continue  # Candidate has no skills — skip rather than fake 65%
 
-            reason_str = f"You can teach {cand_first_name} {i_teach_str}, she can teach you {teach_me_str}."
-            if user and candidate.department == user.department:
-                reason_str += f" Both in {candidate.department}."
+            cand_first = candidate.full_name.split()[0]
+
+            # Build reason string (gender-neutral)
+            if i_can_teach and can_teach_me:
+                teach_me_str = can_teach_me[0].name
+                i_teach_str = i_can_teach[0].name
+                reason = (
+                    f"You can teach {cand_first} {i_teach_str} and they can teach you {teach_me_str}."
+                )
+            elif can_teach_me:
+                reason = f"{cand_first} can teach you {can_teach_me[0].name}."
+            elif i_can_teach:
+                i_teach_str = i_can_teach[0].name
+                reason = f"You can teach {cand_first} {i_teach_str}."
+            elif cand_teach:
+                reason = f"{cand_first} offers {cand_teach[0].name}."
+            else:
+                reason = f"{cand_first} is looking to expand their skills."
+
+            if candidate.department and user.department and candidate.department == user.department:
+                reason += f" Both in {candidate.department}."
 
             ranked_results.append({
                 "user_id": candidate.id,
                 "full_name": candidate.full_name,
-                "department": candidate.department,
-                "year_of_study": candidate.year_of_study,
+                "department": candidate.department or "Unknown",
+                "year_of_study": candidate.year_of_study or "Student",
                 "compatibility_percent": int(score),
-                "reason": reason_str,
-                "teaches": [s.name for s in cand_teach] or ["Peer Mentorship"],
-                "wants": [s.name for s in cand_learn] or ["Skill Growth"],
+                "reason": reason,
+                "teaches": [s.name for s in cand_teach] if cand_teach else ["Open to Mentoring"],
+                "wants": [s.name for s in cand_learn] if cand_learn else ["Skill Growth"],
                 "evidence_verified": any(bool(s.evidence_url) for s in cand_teach),
             })
 
@@ -100,5 +153,6 @@ class RecommendationService:
 
     @classmethod
     def get_recommendations(cls, db: Session, user_id: int, limit: int = 10) -> List[Dict[str, Any]]:
+        """Public entry point: get_candidates (Stage 1) → rank_candidates (Stage 2)."""
         candidates = cls.get_candidates(db, user_id)
         return cls.rank_candidates(db, user_id, candidates, top_n=limit)

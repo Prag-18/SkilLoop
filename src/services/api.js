@@ -10,7 +10,7 @@ const api = axios.create({
   },
 });
 
-// Request interceptor for injecting JWT auth token
+// Request interceptor — inject JWT Bearer token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('skillloop_token');
@@ -22,19 +22,27 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor for catching auth errors
+// Response interceptor — handle 401 with hard redirect to /login
+// This is the canonical "session expired" handler used app-wide.
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
+      // Clear invalid credentials from storage
       localStorage.removeItem('skillloop_token');
       localStorage.removeItem('skillloop_user');
+      // Hard-redirect to login so AuthContext re-initialises on next load.
+      // Using window.location ensures we escape any stale React Router state.
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
 );
 
-// Auth & Health API
+// ─── Auth & Health ────────────────────────────────────────────────────────────
+
 export const authAPI = {
   login: async (credentials) => {
     const response = await api.post('/auth/login', credentials);
@@ -57,6 +65,8 @@ export const healthAPI = {
   },
 };
 
+// ─── Users ───────────────────────────────────────────────────────────────────
+
 export const usersAPI = {
   getProfile: async (userId) => {
     const response = await api.get(`/users/${userId}`);
@@ -68,7 +78,8 @@ export const usersAPI = {
   },
 };
 
-// Discovery API
+// ─── Discovery ───────────────────────────────────────────────────────────────
+
 export const discoverAPI = {
   getRecommendations: async (limit = 10) => {
     const response = await api.get(`/discover?limit=${limit}`);
@@ -76,7 +87,8 @@ export const discoverAPI = {
   },
 };
 
-// Learning Requests API
+// ─── Learning Requests ───────────────────────────────────────────────────────
+
 export const requestsAPI = {
   createRequest: async (data) => {
     const response = await api.post('/requests', data);
@@ -96,7 +108,8 @@ export const requestsAPI = {
   },
 };
 
-// Exchanges API
+// ─── Exchanges ───────────────────────────────────────────────────────────────
+
 export const exchangesAPI = {
   getExchanges: async (statusFilter) => {
     const url = statusFilter ? `/exchanges?status=${statusFilter}` : '/exchanges';
