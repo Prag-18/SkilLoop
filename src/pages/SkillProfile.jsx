@@ -44,6 +44,13 @@ export const SkillProfile = () => {
   const [taxonomyTree, setTaxonomyTree] = useState([]);
   const [loadingTaxonomy, setLoadingTaxonomy] = useState(false);
 
+  const [toast, setToast] = useState(null); // { message: '', type: 'success' | 'error' }
+
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  };
+
   useEffect(() => {
     fetchUserSkills();
   }, []);
@@ -61,6 +68,7 @@ export const SkillProfile = () => {
       setUserSkills(res.data || []);
     } catch (err) {
       console.error('Failed to load user skills:', err);
+      showToast('Could not load skills. Please check connection.', 'error');
     } finally {
       setLoading(false);
     }
@@ -73,6 +81,7 @@ export const SkillProfile = () => {
       setTaxonomyTree(res.data || []);
     } catch (err) {
       console.error('Failed to fetch taxonomy tree:', err);
+      showToast('Failed to fetch university taxonomy.', 'error');
     } finally {
       setLoadingTaxonomy(false);
     }
@@ -86,9 +95,10 @@ export const SkillProfile = () => {
       setDeletingId(userSkillId);
       await api.delete(`/users/me/skills/${userSkillId}`);
       setUserSkills((prev) => prev.filter((s) => s.id !== userSkillId));
+      showToast('Skill successfully removed from your profile.', 'success');
     } catch (err) {
       console.error('Failed to remove skill:', err);
-      alert('Could not remove skill. Please try again.');
+      showToast('Could not remove skill. Please try again.', 'error');
     } finally {
       setDeletingId(null);
     }
@@ -105,7 +115,7 @@ export const SkillProfile = () => {
   };
 
   const handleEvidenceUpdated = () => {
-    // Refresh user skills to reflect updated confidence score
+    showToast('Evidence updated! Recalculated confidence score.', 'success');
     fetchUserSkills();
   };
 
@@ -142,6 +152,22 @@ export const SkillProfile = () => {
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
       <Navbar />
+
+      {/* Floating Toast Notification */}
+      {toast && (
+        <div className="fixed top-20 right-6 z-50 animate-bounce-in">
+          <div
+            className={`px-4 py-3 rounded-2xl shadow-2xl border text-xs font-semibold flex items-center gap-2 backdrop-blur-xl ${
+              toast.type === 'error'
+                ? 'bg-rose-950/90 border-rose-500/40 text-rose-200'
+                : 'bg-emerald-950/90 border-emerald-500/40 text-emerald-200'
+            }`}
+          >
+            <CheckCircle2 className="w-4 h-4 shrink-0" />
+            <span>{toast.message}</span>
+          </div>
+        </div>
+      )}
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Profile Skill Header Banner */}
