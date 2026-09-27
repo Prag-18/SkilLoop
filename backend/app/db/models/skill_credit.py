@@ -8,9 +8,10 @@ class SkillCredit(Base):
     __tablename__ = "skill_credits"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
     amount = Column(Integer, nullable=False)
     reason = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-    user = relationship("User", foreign_keys=[user_id])
+    # Relationships
+    user = relationship("User", back_populates="credit_transactions", foreign_keys=[user_id])

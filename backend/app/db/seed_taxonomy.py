@@ -108,6 +108,7 @@ def seed_taxonomy():
             description="Full-stack web, cloud systems, and database engineering",
             icon="Layers",
         )
+        get_or_create_skill(db, "Python", swe_sub.id, "Python 3, backend development, FastAPI, scripting, and algorithmic problem solving.")
         get_or_create_skill(db, "Full-Stack Web Development", swe_sub.id, "Modern React, Next.js, FastAPI, Node.js, and responsive frontend architecture.")
         get_or_create_skill(db, "REST & GraphQL API Architecture", swe_sub.id, "Robust schema design, JWT authentication, rate limiting, and documentation.")
         get_or_create_skill(db, "Database Engineering & SQL", swe_sub.id, "PostgreSQL schema modeling, query optimization, indexing, and migrations.")
@@ -131,6 +132,7 @@ def seed_taxonomy():
             description="Interface wireframing, high-fidelity prototypes, and design systems",
             icon="Layout",
         )
+        get_or_create_skill(db, "UI/UX Design", design_sub.id, "User interface wireframing, high-fidelity prototypes, Figma components, and usability.")
         get_or_create_skill(db, "UI/UX Design & Prototyping (Figma)", design_sub.id, "Design tokens, auto-layout, wireframing, and interactive component libraries.")
         get_or_create_skill(db, "User Research & Usability Testing", design_sub.id, "Student persona mapping, heuristic analysis, and testing workflows.")
         get_or_create_skill(db, "Design Systems & Token Architecture", design_sub.id, "Scalable atomic design systems and theme token sync.")
