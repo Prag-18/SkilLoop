@@ -27,7 +27,6 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Clear invalid token if unauthenticated response
       localStorage.removeItem('skillloop_token');
       localStorage.removeItem('skillloop_user');
     }
@@ -35,10 +34,9 @@ api.interceptors.response.use(
   }
 );
 
-// API Services
+// Auth & Health API
 export const authAPI = {
   login: async (credentials) => {
-    // Accepts form-urlencoded or json depending on backend setup
     const response = await api.post('/auth/login', credentials);
     return response.data;
   },
@@ -66,6 +64,51 @@ export const usersAPI = {
   },
   updateProfile: async (profileData) => {
     const response = await api.put('/users/me', profileData);
+    return response.data;
+  },
+};
+
+// Discovery API
+export const discoverAPI = {
+  getRecommendations: async (limit = 10) => {
+    const response = await api.get(`/discover?limit=${limit}`);
+    return response.data;
+  },
+};
+
+// Learning Requests API
+export const requestsAPI = {
+  createRequest: async (data) => {
+    const response = await api.post('/requests', data);
+    return response.data;
+  },
+  getRequests: async (type = 'received') => {
+    const response = await api.get(`/requests?type=${type}`);
+    return response.data;
+  },
+  acceptRequest: async (id) => {
+    const response = await api.patch(`/requests/${id}/accept`);
+    return response.data;
+  },
+  rejectRequest: async (id) => {
+    const response = await api.patch(`/requests/${id}/reject`);
+    return response.data;
+  },
+};
+
+// Exchanges API
+export const exchangesAPI = {
+  getExchanges: async (statusFilter) => {
+    const url = statusFilter ? `/exchanges?status=${statusFilter}` : '/exchanges';
+    const response = await api.get(url);
+    return response.data;
+  },
+  completeExchange: async (requestId, payload = {}) => {
+    const response = await api.post(`/exchanges/${requestId}/complete`, payload);
+    return response.data;
+  },
+  submitFeedback: async (exchangeId, feedbackData) => {
+    const response = await api.post(`/exchanges/${exchangeId}/feedback`, feedbackData);
     return response.data;
   },
 };
