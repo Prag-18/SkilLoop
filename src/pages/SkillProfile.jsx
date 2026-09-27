@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { Navbar } from '../components/layout/Navbar';
-import { Footer } from '../components/layout/Footer';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Input } from '../components/ui/Input';
@@ -151,8 +149,6 @@ export const SkillProfile = () => {
 
   return (
     <div className="min-h-screen bg-[#faf6ee] text-stone-800 flex flex-col">
-      <Navbar />
-
       {/* Floating Toast Notification */}
       {toast && (
         <div className="fixed top-20 right-6 z-50 animate-bounce-in">
@@ -481,8 +477,6 @@ export const SkillProfile = () => {
         userSkill={selectedSkillForEvidence}
         onEvidenceUpdated={handleEvidenceUpdated}
       />
-
-      <Footer />
     </div>
   );
 };
