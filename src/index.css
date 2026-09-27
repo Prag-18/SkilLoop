@@ -16,128 +16,189 @@
 }
 
 @layer utilities {
-  /* Paper Cards */
-  .paper-card {
-    background: #ffffff;
-    border: 1px solid #e7ddca;
-    box-shadow: 2px 4px 0px rgba(60, 50, 40, 0.08), 0 10px 20px -5px rgba(60, 50, 40, 0.08);
+  /* Authentic Journal Paper Background */
+  .journal-grid {
+    background-color: #f6f1e3;
+    background-image: 
+      radial-gradient(#d3c5ab 1.2px, transparent 1.2px),
+      linear-gradient(to right, rgba(225, 215, 195, 0.25) 1px, transparent 1px);
+    background-size: 22px 22px, 100% 100%;
   }
 
+  /* Paper Cards with tactile craft shadow */
+  .paper-card {
+    background: #fffdf9;
+    border: 2px solid #e2d7c0;
+    box-shadow: 2px 6px 16px -2px rgba(45, 35, 25, 0.08), 0 2px 4px rgba(45, 35, 25, 0.04);
+  }
+
+  /* Genuine Polaroid Frame (Instax Style: wide bottom margin for handwriting) */
   .polaroid-frame {
     background: #ffffff;
-    border: 1px solid #e5dcc7;
-    box-shadow: 0 10px 25px -4px rgba(40, 30, 20, 0.12), 0 3px 8px -2px rgba(40, 30, 20, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.03);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid #dfd5be;
+    box-shadow: 3px 8px 22px -3px rgba(35, 25, 15, 0.15), 0 2px 6px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
   }
 
   .polaroid-frame:hover {
-    transform: translateY(-3px) rotate(0deg) !important;
-    box-shadow: 0 16px 32px -6px rgba(40, 30, 20, 0.16), 0 6px 12px -3px rgba(40, 30, 20, 0.1);
+    transform: translateY(-4px) rotate(0deg) scale(1.01) !important;
+    box-shadow: 4px 14px 28px -4px rgba(35, 25, 15, 0.2), 0 4px 10px rgba(0, 0, 0, 0.08);
   }
 
-  /* Washi Tape Strips */
-  .tape-strip {
+  /* Serrated Jagged Ripped Washi Tape Strips */
+  .washi-tape {
     position: absolute;
-    height: 18px;
-    width: 60px;
-    background-color: rgba(254, 240, 138, 0.85); /* tape yellow default */
-    box-shadow: inset 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+    height: 22px;
+    background-color: rgba(253, 224, 71, 0.88);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), inset 0 0 4px rgba(0,0,0,0.06);
     backdrop-filter: blur(1px);
-    z-index: 10;
+    z-index: 15;
     pointer-events: none;
+    clip-path: polygon(
+      0% 4%, 2% 0%, 4% 6%, 6% 1%, 8% 5%, 92% 3%, 94% 0%, 97% 5%, 100% 2%,
+      98% 96%, 95% 100%, 93% 95%, 90% 99%, 8% 97%, 6% 100%, 3% 95%, 0% 98%
+    );
   }
 
-  .tape-strip-pink {
-    background-color: rgba(251, 207, 232, 0.85);
+  .washi-tape-pink {
+    background-color: rgba(244, 114, 182, 0.75);
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,0.2) 5px, rgba(255,255,255,0.2) 10px);
   }
 
-  .tape-strip-sage {
-    background-color: rgba(187, 247, 208, 0.85);
+  .washi-tape-yellow {
+    background-color: rgba(250, 204, 21, 0.82);
+    background-image: repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,0.25) 6px, rgba(255,255,255,0.25) 12px);
   }
 
-  .tape-strip-sky {
-    background-color: rgba(186, 230, 253, 0.85);
+  .washi-tape-sage {
+    background-color: rgba(134, 239, 172, 0.75);
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255,255,255,0.2) 4px, rgba(255,255,255,0.2) 8px);
   }
 
-  .tape-strip-amber {
-    background-color: rgba(254, 215, 170, 0.85);
+  .washi-tape-sky {
+    background-color: rgba(125, 211, 252, 0.78);
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,0.2) 5px, rgba(255,255,255,0.2) 10px);
   }
 
-  /* Stamp / Sticker Badges */
-  .stamp-badge {
-    border: 2px dashed #d6c5a5;
-    background: #fdfbf7;
-    box-shadow: 1px 2px 0px rgba(60, 50, 40, 0.08);
+  .washi-tape-craft {
+    background-color: rgba(217, 185, 143, 0.85);
   }
 
+  /* Receipt / Ticket Stub with Jagged Torn Bottom */
+  .receipt-edge {
+    clip-path: polygon(
+      0% 0%, 100% 0%, 100% calc(100% - 8px),
+      97% 100%, 94% calc(100% - 8px), 91% 100%, 88% calc(100% - 8px), 85% 100%, 82% calc(100% - 8px),
+      79% 100%, 76% calc(100% - 8px), 73% 100%, 70% calc(100% - 8px), 67% 100%, 64% calc(100% - 8px),
+      61% 100%, 58% calc(100% - 8px), 55% 100%, 52% calc(100% - 8px), 49% 100%, 46% calc(100% - 8px),
+      43% 100%, 40% calc(100% - 8px), 37% 100%, 34% calc(100% - 8px), 31% 100%, 28% calc(100% - 8px),
+      25% 100%, 22% calc(100% - 8px), 19% 100%, 16% calc(100% - 8px), 13% 100%, 10% calc(100% - 8px),
+      7% 100%, 4% calc(100% - 8px), 0% 100%
+    );
+  }
+
+  /* Deckle / Torn Paper Edge */
+  .deckle-paper {
+    background: #fcf9f2;
+    border: 1px solid #ded3ba;
+    box-shadow: 2px 6px 18px rgba(35, 25, 15, 0.08);
+  }
+
+  /* Circular Dymo / Label-Maker Punch Sticker */
+  .label-sticker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 9999px;
+    background-color: #292524;
+    color: #ffffff;
+    font-family: monospace;
+    font-size: 11px;
+    font-weight: bold;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.2);
+    user-select: none;
+  }
+
+  /* Rubber Ink Stamp Seal */
+  .stamp-seal {
+    border: 2px solid #b45309;
+    color: #b45309;
+    border-radius: 8px;
+    padding: 2px 8px;
+    font-family: 'Kalam', cursive;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    mask-image: radial-gradient(circle, black 70%, rgba(0,0,0,0.8) 100%);
+  }
+
+  .stamp-seal-emerald {
+    border: 2px solid #047857;
+    color: #047857;
+    border-radius: 8px;
+    padding: 2px 8px;
+    font-family: 'Kalam', cursive;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+  }
+
+  /* Highlighter Strokes */
   .highlighter-yellow {
-    background: linear-gradient(104deg, rgba(254, 240, 138, 0) 0.9%, rgba(254, 240, 138, 0.8) 2.4%, rgba(254, 240, 138, 0.7) 95%, rgba(254, 240, 138, 0) 98%);
-    padding: 0.1em 0.3em;
-    border-radius: 4px;
+    background: linear-gradient(104deg, rgba(254, 240, 138, 0) 0.9%, rgba(254, 240, 138, 0.85) 2.4%, rgba(254, 240, 138, 0.75) 95%, rgba(254, 240, 138, 0) 98%);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
   }
 
   .highlighter-pink {
-    background: linear-gradient(104deg, rgba(251, 207, 232, 0) 0.9%, rgba(251, 207, 232, 0.8) 2.4%, rgba(251, 207, 232, 0.7) 95%, rgba(251, 207, 232, 0) 98%);
-    padding: 0.1em 0.3em;
-    border-radius: 4px;
+    background: linear-gradient(104deg, rgba(251, 207, 232, 0) 0.9%, rgba(251, 207, 232, 0.85) 2.4%, rgba(251, 207, 232, 0.75) 95%, rgba(251, 207, 232, 0) 98%);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
   }
 
   .highlighter-sage {
-    background: linear-gradient(104deg, rgba(187, 247, 208, 0) 0.9%, rgba(187, 247, 208, 0.8) 2.4%, rgba(187, 247, 208, 0.7) 95%, rgba(187, 247, 208, 0) 98%);
-    padding: 0.1em 0.3em;
-    border-radius: 4px;
-  }
-
-  /* Pen & Marker Underlines */
-  .scribble-underline {
-    position: relative;
-  }
-  .scribble-underline::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: #f59e0b;
-    border-radius: 2px;
-    opacity: 0.7;
-    transform: rotate(-0.5deg);
+    background: linear-gradient(104deg, rgba(187, 247, 208, 0) 0.9%, rgba(187, 247, 208, 0.85) 2.4%, rgba(187, 247, 208, 0.75) 95%, rgba(187, 247, 208, 0) 98%);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
   }
 
   /* Glass/Card legacy utility aliases mapped to scrapbook styling */
   .glass-panel {
-    background: #fcf9f2;
-    border: 1px solid #e7ddca;
-    box-shadow: 0 4px 12px rgba(60, 50, 40, 0.05);
+    background: #fffdf9;
+    border: 2px solid #e2d7c0;
+    box-shadow: 2px 6px 18px -2px rgba(45, 35, 25, 0.08);
   }
   
   .glass-card {
-    background: #ffffff;
-    border: 1px solid #e7ddca;
-    box-shadow: 2px 4px 0px rgba(60, 50, 40, 0.08), 0 8px 16px -4px rgba(60, 50, 40, 0.06);
+    background: #fffdf9;
+    border: 2px solid #e2d7c0;
+    box-shadow: 2px 6px 16px -2px rgba(45, 35, 25, 0.08);
   }
 
   .glass-card-hover {
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .glass-card-hover:hover {
-    transform: translateY(-2px);
-    box-shadow: 3px 6px 0px rgba(60, 50, 40, 0.1), 0 12px 24px -4px rgba(60, 50, 40, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 3px 12px 24px -4px rgba(45, 35, 25, 0.12);
   }
 
   .text-gradient {
-    color: #b45309;
+    color: #92400e;
   }
 
   .text-gradient-emerald {
-    color: #059669;
+    color: #065f46;
   }
 
   .bg-grid-pattern {
-    background-image: radial-gradient(#dfd4c0 1.2px, transparent 1.2px);
-    background-size: 24px 24px;
+    background-image: radial-gradient(#d3c5ab 1.2px, transparent 1.2px);
+    background-size: 22px 22px;
   }
 }
 

@@ -102,73 +102,136 @@ export const Dashboard = () => {
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Main Dashboard Content */}
-      <main className="flex-1 p-4 md:p-8 overflow-y-auto">
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto journal-grid">
         {/* OVERVIEW TAB */}
         {activeTab === 'overview' && (
           <div className="space-y-8">
-            <Header
-              title={`Welcome back, ${userProfile?.full_name || user?.full_name || 'Student'}!`}
-              description="Manage your skill offers, learning targets, campus matches, and exchange activity."
-              badgeText="Phase 1 Active"
-            >
-              <Button
-                variant="primary"
-                size="sm"
-                icon={Plus}
-                onClick={() => navigate('/skills/me')}
-              >
-                Manage Skill Profile
-              </Button>
-            </Header>
+            {/* Scrapbook Header Banner */}
+            <div className="relative bg-[#fffdfa] border-2 border-[#dfd7c5] rounded-3xl p-6 sm:p-8 shadow-[3px_6px_22px_rgba(40,30,20,0.07)]">
+              {/* Corner washi tape strips */}
+              <div className="washi-tape washi-tape-yellow -top-3 left-8 w-32 -rotate-2" />
+              <div className="washi-tape washi-tape-sage -top-3 right-10 w-28 rotate-3" />
 
-            {/* Top Metric Cards in Scrapbook style */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="polaroid-frame p-4 rounded-2xl relative -rotate-1">
-                <div className="tape-strip tape-strip-yellow -top-2 left-6 -rotate-2" />
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-stone-600 font-semibold font-sans">Skills I Teach</span>
-                  <div className="w-8 h-8 rounded-lg bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800">
-                    <GraduationCap className="w-4 h-4" />
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10 pt-2">
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <span className="stamp-seal text-xs">★ CAMPUS SKILL LOG ★</span>
+                    <span className="text-xs text-stone-500 font-handwriting font-bold text-sm">semester entry · 2025</span>
                   </div>
+                  <h1 className="text-3xl sm:text-4xl font-extrabold text-stone-900 font-heading tracking-tight">
+                    Welcome back, <span className="highlighter-yellow">{userProfile?.full_name || user?.full_name || 'Dark sider'}</span>!
+                  </h1>
+                  <p className="text-sm text-stone-600 font-medium max-w-2xl leading-relaxed font-sans">
+                    Manage your skill offers, learning targets, campus matches, and peer exchange journal.
+                  </p>
                 </div>
-                <p className="text-3xl font-bold text-stone-900 mt-2 font-heading">{teachingSkills.length}</p>
-                <p className="text-[11px] text-stone-500 mt-1 font-sans">Verified offerings</p>
+
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="primary"
+                    size="md"
+                    icon={Plus}
+                    onClick={() => navigate('/skills/me')}
+                    className="shadow-md font-semibold"
+                  >
+                    + Manage Skill Profile
+                  </Button>
+                </div>
               </div>
 
-              <div className="polaroid-frame p-4 rounded-2xl relative rotate-1">
-                <div className="tape-strip tape-strip-pink -top-2 right-6 rotate-2" />
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-stone-600 font-semibold font-sans">Skills I Want</span>
-                  <div className="w-8 h-8 rounded-lg bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-800">
-                    <BookOpen className="w-4 h-4" />
+              {/* Decorative label punch stickers in corner */}
+              <div className="mt-4 pt-3 border-t border-dashed border-[#e5dcc7] flex items-center gap-1.5 text-stone-500 text-xs">
+                <span className="font-handwriting font-bold text-sm text-stone-600">index tags:</span>
+                <span className="label-sticker">S</span>
+                <span className="label-sticker">K</span>
+                <span className="label-sticker">I</span>
+                <span className="label-sticker">L</span>
+                <span className="label-sticker">L</span>
+                <span className="label-sticker">S</span>
+                <span className="text-[11px] text-stone-400 font-mono ml-2">#peer-exchange #campus-graph</span>
+              </div>
+            </div>
+
+            {/* Top Metric Cards: Authentic Polaroid Instant Photos */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-2">
+              {/* Polaroid 1: Skills I Teach */}
+              <div className="polaroid-frame p-3 pb-6 rounded-[2px] relative -rotate-2">
+                <div className="washi-tape washi-tape-yellow -top-3 left-1/2 -translate-x-1/2 w-24 -rotate-1" />
+                <div className="bg-[#fcfaf4] border border-[#ebe1cc] rounded-[2px] p-4 flex flex-col justify-between h-32">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-stone-700 font-bold uppercase tracking-wider font-mono">I TEACH</span>
+                    <div className="w-8 h-8 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-900 shadow-inner">
+                      <GraduationCap className="w-4 h-4" />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-extrabold text-stone-900 font-heading leading-none">{teachingSkills.length}</p>
+                    <p className="text-[10px] text-stone-500 font-mono uppercase mt-1">OFFERINGS</p>
                   </div>
                 </div>
-                <p className="text-3xl font-bold text-stone-900 mt-2 font-heading">{learningSkills.length}</p>
-                <p className="text-[11px] text-stone-500 mt-1 font-sans">Active targets</p>
+                <div className="pt-2 text-center">
+                  <p className="font-handwriting text-sm font-bold text-stone-600">"my verified skill stack ✎"</p>
+                </div>
               </div>
 
-              <div className="polaroid-frame p-4 rounded-2xl relative -rotate-1">
-                <div className="tape-strip tape-strip-sky -top-2 left-6 -rotate-1" />
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-stone-600 font-semibold font-sans">Campus Matches</span>
-                  <div className="w-8 h-8 rounded-lg bg-sky-100 border border-sky-300 flex items-center justify-center text-sky-800">
-                    <Users className="w-4 h-4" />
+              {/* Polaroid 2: Skills I Want */}
+              <div className="polaroid-frame p-3 pb-6 rounded-[2px] relative rotate-2">
+                <div className="washi-tape washi-tape-pink -top-3 left-1/2 -translate-x-1/2 w-24 rotate-2" />
+                <div className="bg-[#fcfaf4] border border-[#ebe1cc] rounded-[2px] p-4 flex flex-col justify-between h-32">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-stone-700 font-bold uppercase tracking-wider font-mono">I WANT</span>
+                    <div className="w-8 h-8 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-900 shadow-inner">
+                      <BookOpen className="w-4 h-4" />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-extrabold text-stone-900 font-heading leading-none">{learningSkills.length}</p>
+                    <p className="text-[10px] text-stone-500 font-mono uppercase mt-1">LEARNING GOALS</p>
                   </div>
                 </div>
-                <p className="text-3xl font-bold text-sky-900 mt-2 font-heading">{recommendations.length}</p>
-                <p className="text-[11px] text-stone-500 mt-1 font-sans">Complementary peers</p>
+                <div className="pt-2 text-center">
+                  <p className="font-handwriting text-sm font-bold text-stone-600">"what i need to master ↳"</p>
+                </div>
               </div>
 
-              <div className="polaroid-frame p-4 rounded-2xl relative rotate-1">
-                <div className="tape-strip tape-strip-sage -top-2 right-6 rotate-3" />
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-stone-600 font-semibold font-sans">Skill Credits</span>
-                  <div className="w-8 h-8 rounded-lg bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800">
-                    <Award className="w-4 h-4" />
+              {/* Polaroid 3: Campus Matches */}
+              <div className="polaroid-frame p-3 pb-6 rounded-[2px] relative -rotate-1">
+                <div className="washi-tape washi-tape-sky -top-3 left-1/2 -translate-x-1/2 w-24 -rotate-2" />
+                <div className="bg-[#fcfaf4] border border-[#ebe1cc] rounded-[2px] p-4 flex flex-col justify-between h-32">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-stone-700 font-bold uppercase tracking-wider font-mono">MATCHES</span>
+                    <div className="w-8 h-8 rounded-full bg-sky-100 border border-sky-300 flex items-center justify-center text-sky-900 shadow-inner">
+                      <Users className="w-4 h-4" />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-extrabold text-sky-950 font-heading leading-none">{recommendations.length}</p>
+                    <p className="text-[10px] text-stone-500 font-mono uppercase mt-1">PEER GRAPH</p>
                   </div>
                 </div>
-                <p className="text-3xl font-bold text-amber-800 mt-2 font-heading">{creditBalance} CR</p>
-                <p className="text-[11px] text-stone-500 mt-1 font-sans">Available balance</p>
+                <div className="pt-2 text-center">
+                  <p className="font-handwriting text-sm font-bold text-stone-600">"complementary peers ★"</p>
+                </div>
+              </div>
+
+              {/* Polaroid 4: Skill Credits */}
+              <div className="polaroid-frame p-3 pb-6 rounded-[2px] relative rotate-3">
+                <div className="washi-tape washi-tape-sage -top-3 left-1/2 -translate-x-1/2 w-24 rotate-1" />
+                <div className="bg-[#fcfaf4] border border-[#ebe1cc] rounded-[2px] p-4 flex flex-col justify-between h-32">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-stone-700 font-bold uppercase tracking-wider font-mono">CREDITS</span>
+                    <div className="w-8 h-8 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-900 shadow-inner">
+                      <Award className="w-4 h-4" />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-extrabold text-amber-900 font-heading leading-none">{creditBalance} <span className="text-lg">CR</span></p>
+                    <p className="text-[10px] text-stone-500 font-mono uppercase mt-1">WALLET</p>
+                  </div>
+                </div>
+                <div className="pt-2 text-center">
+                  <p className="font-handwriting text-sm font-bold text-stone-600">"available balance ✓"</p>
+                </div>
               </div>
             </div>
 
@@ -176,36 +239,42 @@ export const Dashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Left 2 Cols: Quick Skills & Matches */}
               <div className="lg:col-span-2 space-y-6">
-                <Card>
-                  <div className="flex items-center justify-between mb-4">
-                    <CardTitle className="flex items-center gap-2">
+                {/* Teaching Skills Card */}
+                <div className="bg-[#fffdfa] border-2 border-[#dfd7c5] rounded-3xl p-6 shadow-sm relative">
+                  <div className="washi-tape washi-tape-yellow -top-2.5 right-10 w-28 rotate-1" />
+
+                  <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#ede5d3]">
+                    <div className="flex items-center gap-2">
                       <GraduationCap className="w-5 h-5 text-amber-800" />
-                      Teaching Skills Portfolio
-                    </CardTitle>
-                    <Button variant="ghost" size="sm" onClick={() => navigate('/skills/me')}>
+                      <h2 className="text-lg font-bold text-stone-900 font-heading">
+                        Teaching Skills Portfolio
+                      </h2>
+                    </div>
+                    <Button variant="ghost" size="sm" onClick={() => navigate('/skills/me')} className="font-medium text-xs">
                       Manage at /skills/me <ArrowRight className="w-3.5 h-3.5 ml-1" />
                     </Button>
                   </div>
 
                   {teachingSkills.length === 0 ? (
-                    <div className="text-center py-8 rounded-xl border-2 border-dashed border-[#d6c5a5] bg-[#fdfbf7] text-stone-500 text-xs space-y-2">
-                      <p>No teaching skills claimed yet.</p>
-                      <Button variant="primary" size="sm" onClick={() => navigate('/skills/me')}>
+                    <div className="text-center py-10 rounded-2xl border-2 border-dashed border-[#dfd7c5] bg-[#fbf8f0] text-stone-600 text-xs space-y-3">
+                      <p className="font-heading text-base font-bold text-stone-800">No teaching skills claimed yet.</p>
+                      <p className="text-stone-500 max-w-sm mx-auto font-sans">Claim skills from the university taxonomy graph to start receiving student requests.</p>
+                      <Button variant="primary" size="sm" onClick={() => navigate('/skills/me')} className="shadow-sm">
                         + Claim Skills from Taxonomy
                       </Button>
                     </div>
                   ) : (
                     <div className="space-y-3">
                       {teachingSkills.slice(0, 3).map((skill) => (
-                        <div key={skill.id} className="p-3.5 rounded-xl bg-[#fefdf9] border border-[#e5dcc7] shadow-sm flex items-center justify-between gap-4">
+                        <div key={skill.id} className="p-3.5 rounded-2xl bg-[#faf6ee] border-2 border-[#e5dcc7] shadow-xs flex items-center justify-between gap-4">
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="text-sm font-bold text-stone-900 font-sans">{skill.skill?.name}</span>
-                              <Badge variant="indigo" size="sm">{skill.level}</Badge>
+                              <span className="text-sm font-bold text-stone-900 font-heading">{skill.skill?.name}</span>
+                              <Badge variant="amber" size="sm">{skill.level}</Badge>
                             </div>
-                            <p className="text-xs text-stone-600 mt-0.5 flex items-center gap-2 font-sans">
+                            <p className="text-xs text-stone-600 mt-0.5 flex items-center gap-2 font-sans font-medium">
                               <span>Confidence:</span>
-                              <span className="text-amber-800 font-bold">{skill.confidence_score}%</span>
+                              <span className="text-amber-900 font-bold font-mono">{skill.confidence_score}%</span>
                               <span>•</span>
                               <span>{skill.evidence?.length || 0} proofs attached</span>
                             </p>
@@ -222,48 +291,57 @@ export const Dashboard = () => {
                       ))}
                     </div>
                   )}
-                </Card>
+                </div>
 
-                {/* Campus Matches Preview */}
-                <Card>
-                  <div className="flex items-center justify-between mb-4">
-                    <CardTitle className="flex items-center gap-2">
-                      <Zap className="w-5 h-5 text-amber-700" />
-                      Top Campus Skill Matches
-                    </CardTitle>
-                    <Button variant="ghost" size="sm" onClick={() => setActiveTab('matches')}>
+                {/* Campus Matches Preview styled as Ticket Stubs */}
+                <div className="bg-[#fffdfa] border-2 border-[#dfd7c5] rounded-3xl p-6 shadow-sm relative">
+                  <div className="washi-tape washi-tape-pink -top-2.5 left-10 w-24 -rotate-1" />
+
+                  <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#ede5d3]">
+                    <div className="flex items-center gap-2">
+                      <Zap className="w-5 h-5 text-amber-800" />
+                      <h2 className="text-lg font-bold text-stone-900 font-heading">
+                        Top Campus Skill Matches
+                      </h2>
+                    </div>
+                    <Button variant="ghost" size="sm" onClick={() => setActiveTab('matches')} className="font-medium text-xs">
                       Explore All ({recommendations.length})
                     </Button>
                   </div>
 
                   {recommendations.length === 0 ? (
-                    <div className="text-center py-8 text-stone-500 text-xs bg-[#fdfbf7] rounded-xl border border-dashed border-[#d6c5a5]">
+                    <div className="text-center py-10 text-stone-600 text-xs bg-[#fbf8f0] rounded-2xl border-2 border-dashed border-[#dfd7c5] font-medium">
                       No matches found yet. Add more teach/learn skills at /skills/me to generate peer recommendations.
                     </div>
                   ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {recommendations.slice(0, 2).map((match) => (
-                        <div key={match.user_id} className="p-4 rounded-xl bg-[#fefdf9] border border-[#e5dcc7] shadow-sm flex flex-col justify-between space-y-3">
+                        <div key={match.user_id} className="p-4 rounded-2xl bg-[#faf6ee] border-2 border-[#e5dcc7] shadow-sm flex flex-col justify-between space-y-3 relative overflow-hidden">
+                          {/* Top ticket header */}
                           <div className="flex items-start justify-between">
                             <div>
-                              <h4 className="text-sm font-bold text-stone-900 font-heading text-base">{match.full_name}</h4>
-                              <p className="text-xs text-stone-500">{match.department} • {match.year_of_study}</p>
+                              <h4 className="text-base font-bold text-stone-900 font-heading">{match.full_name}</h4>
+                              <p className="text-xs text-stone-500 font-medium">{match.department} • {match.year_of_study}</p>
                             </div>
-                            <Badge variant="emerald" size="sm">{match.compatibility_percent}% Match</Badge>
+                            <div className="bg-emerald-100 border border-emerald-300 text-emerald-900 font-bold px-2.5 py-1 rounded-xl text-xs font-mono">
+                              {match.compatibility_percent}% Match
+                            </div>
                           </div>
-                          <div className="text-xs space-y-1 bg-[#fbf7ed] p-2.5 rounded-lg border border-[#e5dcc7]">
+
+                          <div className="text-xs space-y-1 bg-[#fffdfa] p-3 rounded-xl border border-[#dfd7c5] font-sans">
                             <p className="text-stone-800">
-                              <strong className="text-amber-800">Offers:</strong> {match.teaches?.join(', ')}
+                              <strong className="text-amber-900 font-semibold">Offers:</strong> {match.teaches?.join(', ')}
                             </p>
                             <p className="text-stone-800">
-                              <strong className="text-emerald-800">Wants:</strong> {match.wants?.join(', ')}
+                              <strong className="text-emerald-800 font-semibold">Wants:</strong> {match.wants?.join(', ')}
                             </p>
                           </div>
+
                           <Button
                             variant="primary"
                             size="sm"
                             icon={Send}
-                            className="w-full"
+                            className="w-full shadow-xs font-semibold"
                             onClick={() => handleSendLearningRequest(match)}
                           >
                             Send Learning Request
@@ -272,46 +350,59 @@ export const Dashboard = () => {
                       ))}
                     </div>
                   )}
-                </Card>
+                </div>
               </div>
 
-              {/* Right Column: User Profile Summary */}
+              {/* Right Column: Student Passport & Profile Badge */}
               <div className="space-y-6">
-                <Card>
-                  <div className="text-center pb-4 border-b border-stone-200">
-                    <div className="w-16 h-16 rounded-full bg-amber-200 border-2 border-amber-400 mx-auto flex items-center justify-center text-2xl font-bold text-stone-900 font-heading shadow-md mb-3">
-                      {userProfile?.full_name ? userProfile.full_name.charAt(0).toUpperCase() : 'U'}
+                <div className="bg-[#fffdfa] border-2 border-[#dfd7c5] rounded-3xl p-6 shadow-sm relative">
+                  {/* Tape pin at top center */}
+                  <div className="washi-tape washi-tape-sage -top-3 left-1/2 -translate-x-1/2 w-28 -rotate-1" />
+
+                  {/* Passport / ID header */}
+                  <div className="text-center pb-4 border-b-2 border-dashed border-[#dfd7c5] pt-1">
+                    {/* Instant photo frame for avatar */}
+                    <div className="w-20 h-24 bg-white border-2 border-[#dfd7c5] rounded-sm p-1.5 pb-4 mx-auto shadow-md rotate-1 mb-3">
+                      <div className="w-full h-full bg-[#ebdcc2] border border-[#d6c7b2] flex items-center justify-center text-2xl font-bold text-amber-950 font-heading">
+                        {userProfile?.full_name ? userProfile.full_name.charAt(0).toUpperCase() : 'U'}
+                      </div>
                     </div>
-                    <h3 className="text-base font-bold text-stone-900 font-heading">{userProfile?.full_name || 'Student User'}</h3>
-                    <p className="text-xs text-amber-800 font-medium mt-0.5">{userProfile?.department || 'Computer Science'}</p>
-                    <p className="text-[11px] text-stone-500">{userProfile?.email || 'student@university.edu'}</p>
+
+                    <h3 className="text-lg font-bold text-stone-900 font-heading">{userProfile?.full_name || 'Dark sider'}</h3>
+                    <p className="text-xs text-amber-900 font-semibold mt-0.5">{userProfile?.department || 'Computer Science'}</p>
+                    <p className="text-[11px] text-stone-500 font-mono">{userProfile?.email || 'darksider70117@gmail.com'}</p>
+                    
+                    <div className="mt-2.5">
+                      <span className="stamp-seal-emerald text-[10px]">★ VERIFIED STUDENT ★</span>
+                    </div>
                   </div>
 
+                  {/* ID metadata rows */}
                   <div className="pt-4 space-y-2.5 text-xs text-stone-700">
-                    <div className="flex justify-between py-1 border-b border-stone-200">
-                      <span className="text-stone-500">Year of Study</span>
-                      <span className="font-semibold text-stone-800">{userProfile?.year_of_study || '3rd Year'}</span>
+                    <div className="flex justify-between py-1.5 border-b border-[#f0e8d7]">
+                      <span className="text-stone-500 font-medium">Year of Study</span>
+                      <span className="font-bold text-stone-800 font-sans">{userProfile?.year_of_study || '3rd Year'}</span>
                     </div>
-                    <div className="flex justify-between py-1 border-b border-stone-200">
-                      <span className="text-stone-500">Credit Balance</span>
-                      <span className="font-bold text-emerald-800">{creditBalance} CR</span>
+                    <div className="flex justify-between py-1.5 border-b border-[#f0e8d7]">
+                      <span className="text-stone-500 font-medium">Credit Balance</span>
+                      <span className="font-extrabold text-amber-900 font-mono text-sm">{creditBalance} CR</span>
                     </div>
-                    <div className="flex justify-between py-1 border-b border-stone-200">
-                      <span className="text-stone-500">Verification Status</span>
-                      <Badge variant="emerald" size="sm" icon={ShieldCheck}>Verified</Badge>
+                    <div className="flex justify-between py-1.5 border-b border-[#f0e8d7]">
+                      <span className="text-stone-500 font-medium">Verification Status</span>
+                      <Badge variant="emerald" size="sm" icon={ShieldCheck}>VERIFIED</Badge>
                     </div>
-                    <div className="pt-2">
+                    <div className="pt-3">
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full"
+                        className="w-full font-semibold shadow-xs"
                         onClick={() => navigate('/skills/me')}
                       >
                         Open Skill & Evidence Portal
                       </Button>
                     </div>
                   </div>
-                </Card>
+                </div>
               </div>
             </div>
           </div>
