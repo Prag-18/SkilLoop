@@ -12,6 +12,24 @@ from app.schemas.request import LearningRequestCreate, LearningRequestResponse
 router = APIRouter(prefix="/requests", tags=["Learning Requests"])
 
 
+def _build_request_response(r: LearningRequest, db: Session) -> LearningRequestResponse:
+    """Helper to build a consistent LearningRequestResponse."""
+    sender = db.query(User).filter(User.id == r.sender_id).first()
+    receiver = db.query(User).filter(User.id == r.receiver_id).first()
+    skill = db.query(Skill).filter(Skill.id == r.requested_skill_id).first() if r.requested_skill_id else None
+    return LearningRequestResponse(
+        id=r.id,
+        sender_id=r.sender_id,
+        receiver_id=r.receiver_id,
+        requested_skill_id=r.requested_skill_id,
+        status=r.status,
+        created_at=r.created_at,
+        sender_name=sender.full_name if sender else "Student",
+        receiver_name=receiver.full_name if receiver else "Student",
+        skill_name=skill.name if skill else "Skill Exchange",
+    )
+
+
 @router.post("", response_model=LearningRequestResponse, status_code=status.HTTP_201_CREATED)
 def create_learning_request(
     request_in: LearningRequestCreate,
@@ -28,12 +46,23 @@ def create_learning_request(
             detail="Cannot send a learning request to yourself.",
         )
 
-    # Verify receiver exists
     receiver = db.query(User).filter(User.id == request_in.receiver_id).first()
     if not receiver:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Target student user not found.",
+        )
+
+    # Guard: prevent duplicate pending requests
+    existing = db.query(LearningRequest).filter(
+        LearningRequest.sender_id == current_user.id,
+        LearningRequest.receiver_id == request_in.receiver_id,
+        LearningRequest.status == "pending",
+    ).first()
+    if existing:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="A pending learning request to this student already exists.",
         )
 
     learning_req = LearningRequest(
@@ -46,19 +75,7 @@ def create_learning_request(
     db.commit()
     db.refresh(learning_req)
 
-    skill_obj = db.query(Skill).filter(Skill.id == learning_req.requested_skill_id).first() if learning_req.requested_skill_id else None
-
-    return LearningRequestResponse(
-        id=learning_req.id,
-        sender_id=learning_req.sender_id,
-        receiver_id=learning_req.receiver_id,
-        requested_skill_id=learning_req.requested_skill_id,
-        status=learning_req.status,
-        created_at=learning_req.created_at,
-        sender_name=current_user.full_name,
-        receiver_name=receiver.full_name,
-        skill_name=skill_obj.name if skill_obj else "Skill Exchange",
-    )
+    return _build_request_response(learning_req, db)
 
 
 @router.get("", response_model=List[LearningRequestResponse])
@@ -76,27 +93,7 @@ def get_learning_requests(
     else:
         query = db.query(LearningRequest).filter(LearningRequest.receiver_id == current_user.id)
 
-    requests = query.all()
-    results = []
-    for r in requests:
-        sender = db.query(User).filter(User.id == r.sender_id).first()
-        receiver = db.query(User).filter(User.id == r.receiver_id).first()
-        skill = db.query(Skill).filter(Skill.id == r.requested_skill_id).first() if r.requested_skill_id else None
-
-        results.append(
-            LearningRequestResponse(
-                id=r.id,
-                sender_id=r.sender_id,
-                receiver_id=r.receiver_id,
-                requested_skill_id=r.requested_skill_id,
-                status=r.status,
-                created_at=r.created_at,
-                sender_name=sender.full_name if sender else "Student",
-                receiver_name=receiver.full_name if receiver else "Student",
-                skill_name=skill.name if skill else "Skill Exchange",
-            )
-        )
-    return results
+    return [_build_request_response(r, db) for r in query.order_by(LearningRequest.created_at.desc()).all()]
 
 
 @router.patch("/{id}/accept", response_model=LearningRequestResponse)
@@ -108,6 +105,7 @@ def accept_learning_request(
     """
     PATCH /api/v1/requests/{id}/accept
     Accept a received learning request and create a scheduled Exchange.
+    Rejects invalid state transitions (already accepted/rejected).
     """
     learning_req = db.query(LearningRequest).filter(LearningRequest.id == id).first()
     if not learning_req:
@@ -120,37 +118,33 @@ def accept_learning_request(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You can only accept requests sent to you.",
         )
+    # State-machine guard: only pending can be accepted
+    if learning_req.status != "pending":
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Cannot accept a request that is already '{learning_req.status}'. Only pending requests can be accepted.",
+        )
 
     learning_req.status = "accepted"
 
-    # Automatically create a scheduled Exchange
-    exchange = Exchange(
-        request_id=learning_req.id,
-        teacher_id=learning_req.receiver_id,
-        learner_id=learning_req.sender_id,
-        skill_id=learning_req.requested_skill_id,
-        status="scheduled",
-        duration_minutes=60,
-        credits_awarded=0,
-    )
-    db.add(exchange)
+    # Prevent duplicate exchanges for same request
+    existing_exchange = db.query(Exchange).filter(Exchange.request_id == learning_req.id).first()
+    if not existing_exchange:
+        exchange = Exchange(
+            request_id=learning_req.id,
+            teacher_id=learning_req.receiver_id,
+            learner_id=learning_req.sender_id,
+            skill_id=learning_req.requested_skill_id,
+            status="scheduled",
+            duration_minutes=60,
+            credits_awarded=0,
+        )
+        db.add(exchange)
+
     db.commit()
     db.refresh(learning_req)
 
-    sender = db.query(User).filter(User.id == learning_req.sender_id).first()
-    skill = db.query(Skill).filter(Skill.id == learning_req.requested_skill_id).first() if learning_req.requested_skill_id else None
-
-    return LearningRequestResponse(
-        id=learning_req.id,
-        sender_id=learning_req.sender_id,
-        receiver_id=learning_req.receiver_id,
-        requested_skill_id=learning_req.requested_skill_id,
-        status=learning_req.status,
-        created_at=learning_req.created_at,
-        sender_name=sender.full_name if sender else "Student",
-        receiver_name=current_user.full_name,
-        skill_name=skill.name if skill else "Skill Exchange",
-    )
+    return _build_request_response(learning_req, db)
 
 
 @router.patch("/{id}/reject", response_model=LearningRequestResponse)
@@ -162,6 +156,7 @@ def reject_learning_request(
     """
     PATCH /api/v1/requests/{id}/reject
     Reject a received learning request.
+    Rejects invalid state transitions (already accepted/rejected).
     """
     learning_req = db.query(LearningRequest).filter(LearningRequest.id == id).first()
     if not learning_req:
@@ -174,22 +169,15 @@ def reject_learning_request(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You can only reject requests sent to you.",
         )
+    # State-machine guard: only pending can be rejected
+    if learning_req.status != "pending":
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Cannot reject a request that is already '{learning_req.status}'. Only pending requests can be rejected.",
+        )
 
     learning_req.status = "rejected"
     db.commit()
     db.refresh(learning_req)
 
-    sender = db.query(User).filter(User.id == learning_req.sender_id).first()
-    skill = db.query(Skill).filter(Skill.id == learning_req.requested_skill_id).first() if learning_req.requested_skill_id else None
-
-    return LearningRequestResponse(
-        id=learning_req.id,
-        sender_id=learning_req.sender_id,
-        receiver_id=learning_req.receiver_id,
-        requested_skill_id=learning_req.requested_skill_id,
-        status=learning_req.status,
-        created_at=learning_req.created_at,
-        sender_name=sender.full_name if sender else "Student",
-        receiver_name=current_user.full_name,
-        skill_name=skill.name if skill else "Skill Exchange",
-    )
+    return _build_request_response(learning_req, db)
