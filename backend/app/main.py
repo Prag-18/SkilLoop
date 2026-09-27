@@ -57,7 +57,7 @@ app.include_router(exchanges.router, prefix=settings.API_V1_STR)
 @app.get("/")
 def root():
     return {
-        "message": "Welcome to SkillLoop Campus Skill-Exchange Platform API",
+        "message": "Welcome to Synapse Campus Skill-Exchange Platform API",
         "docs_url": "/docs",
         "health_check": f"{settings.API_V1_STR}/health",
         "version": settings.VERSION,

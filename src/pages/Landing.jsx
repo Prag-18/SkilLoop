@@ -98,7 +98,7 @@ export const Landing = () => {
         </h1>
 
         <p className="mt-6 text-base sm:text-lg text-stone-700 max-w-2xl mx-auto leading-relaxed font-sans">
-          SkillLoop connects students for direct, peer-to-peer skill swaps. Exchange coding, design, academics, and creative crafts with verified campus evidence & credit rewards.
+          Synapse connects students for direct, peer-to-peer skill swaps. Exchange coding, design, academics, and creative crafts with verified campus evidence & credit rewards.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -163,7 +163,7 @@ export const Landing = () => {
       {/* Feature Pinboard Grid */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative">
         <div className="text-center mb-14">
-          <Badge variant="amber" className="mb-3">How SkillLoop Works</Badge>
+          <Badge variant="amber" className="mb-3">How Synapse Works</Badge>
           <h2 className="text-3xl sm:text-4xl font-bold text-stone-900 font-heading">
             Everything You Need for Campus Skill Swaps
           </h2>

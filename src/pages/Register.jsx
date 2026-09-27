@@ -67,7 +67,7 @@ export const Register = () => {
           <div className="inline-flex w-12 h-12 rounded-2xl bg-[#ebdcc2] border border-[#d6c7b2] items-center justify-center shadow-sm mb-3">
             <Sparkles className="w-6 h-6 text-amber-900" />
           </div>
-          <h1 className="text-3xl font-bold font-heading text-stone-900 tracking-tight">Join SkillLoop</h1>
+          <h1 className="text-3xl font-bold font-heading text-stone-900 tracking-tight">Join Synapse</h1>
           <p className="text-xs text-stone-600 mt-1 font-medium">Create your student profile and start exchanging skills</p>
         </div>
 
@@ -159,7 +159,7 @@ export const Register = () => {
 
           <div className="mt-6 pt-4 border-t border-[#dfd7c5] text-center">
             <p className="text-xs text-stone-600">
-              Already have a SkillLoop account?{' '}
+              Already have a Synapse account?{' '}
               <Link to="/login" className="font-bold text-amber-900 hover:text-amber-950 underline underline-offset-2 transition-colors">
                 Sign In Instead
               </Link>

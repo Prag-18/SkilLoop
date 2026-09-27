@@ -54,7 +54,7 @@ export const Login = () => {
             <Sparkles className="w-6 h-6 text-amber-900" />
           </div>
           <h1 className="text-3xl font-bold font-heading text-stone-900 tracking-tight">Welcome Back</h1>
-          <p className="text-xs text-stone-600 mt-1 font-medium">Sign in to your SkillLoop student account</p>
+          <p className="text-xs text-stone-600 mt-1 font-medium">Sign in to your Synapse student account</p>
         </div>
 
         <Card padding="lg" hoverable={false} className="shadow-[3px_8px_30px_rgba(40,30,20,0.1)] bg-[#fffdfa] border-2 border-[#e5dcc7] rounded-3xl">
@@ -97,14 +97,14 @@ export const Login = () => {
                 isLoading={isSubmitting}
                 icon={ArrowRight}
               >
-                Sign In to SkillLoop
+                Sign In to Synapse
               </Button>
             </div>
           </form>
 
           <div className="mt-6 pt-4 border-t border-[#dfd7c5] text-center">
             <p className="text-xs text-stone-600">
-              New to SkillLoop?{' '}
+              New to Synapse?{' '}
               <Link to="/register" className="font-bold text-amber-900 hover:text-amber-950 underline underline-offset-2 transition-colors">
                 Create Student Account
               </Link>
