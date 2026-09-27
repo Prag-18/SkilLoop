@@ -3,13 +3,14 @@ import Card, { CardTitle, CardDescription } from '../ui/Card';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
 import { exchangesAPI } from '../../services/api';
-import { Repeat, CheckCircle2, Award, Clock, Star, ExternalLink } from 'lucide-react';
+import { Repeat, CheckCircle2, Award, Clock, Star, ExternalLink, AlertCircle } from 'lucide-react';
 
-export const ExchangeSummary = () => {
+export const ExchangeSummary = ({ onExchangeCompleted }) => {
   const [exchanges, setExchanges] = useState([]);
   const [loading, setLoading] = useState(true);
   const [completingId, setCompletingId] = useState(null);
   const [feedbackSuccess, setFeedbackSuccess] = useState('');
+  const [feedbackError, setFeedbackError] = useState('');
 
   const sampleExchanges = [
     {
@@ -51,22 +52,37 @@ export const ExchangeSummary = () => {
 
   const handleComplete = async (exchangeId) => {
     setCompletingId(exchangeId);
+    setFeedbackSuccess('');
+    setFeedbackError('');
     try {
-      await exchangesAPI.completeExchange(exchangeId, {
+      const res = await exchangesAPI.completeExchange(exchangeId, {
         duration_minutes: 60,
         is_verified_mentor: true,
       });
-      setFeedbackSuccess('Exchange marked complete! +50 Skill Credits awarded.');
+
+      // Confirm response validity before showing success
+      if (res && (res.status === 'completed' || res.id)) {
+        await fetchExchanges();
+        if (onExchangeCompleted) {
+          await onExchangeCompleted();
+        }
+        setFeedbackSuccess('Exchange marked complete! +50 Skill Credits awarded.');
+      } else {
+        throw new Error('Unexpected response received from server.');
+      }
     } catch (err) {
-      setFeedbackSuccess('Exchange marked complete! +50 Skill Credits awarded.');
+      const errMsg =
+        err.response?.data?.detail ||
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to complete exchange due to a network or server error.';
+      setFeedbackError(errMsg);
     } finally {
-      setExchanges((prev) =>
-        prev.map((e) =>
-          e.id === exchangeId ? { ...e, status: 'completed', credits_awarded: 50 } : e
-        )
-      );
       setCompletingId(null);
-      setTimeout(() => setFeedbackSuccess(''), 4000);
+      setTimeout(() => {
+        setFeedbackSuccess('');
+        setFeedbackError('');
+      }, 5000);
     }
   };
 
@@ -97,8 +113,15 @@ export const ExchangeSummary = () => {
 
       {feedbackSuccess && (
         <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{feedbackSuccess}</span>
+        </div>
+      )}
+
+      {feedbackError && (
+        <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+          <span>{feedbackError}</span>
         </div>
       )}
 

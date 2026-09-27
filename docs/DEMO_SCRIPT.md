@@ -6,6 +6,13 @@ This click-by-click script guides presenters through the end-to-end SkillLoop de
 
 ## 0. Quick Reset / Pre-Demo Setup
 
+> [!IMPORTANT]
+> **Locked Demo Database Configuration**:
+> The demo is locked to a local SQLite database for zero-dependency reliability and data persistence on stage.
+> - **Database Engine**: SQLite
+> - **Connection String**: `sqlite:///./skillloop.db`
+> - **Database File Path**: `backend/skillloop.db` (can be backed up or reset before going on stage)
+
 Before presenting on stage, ensure database and demo users are seeded:
 
 ```bash

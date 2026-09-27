@@ -424,7 +424,7 @@ export const Dashboard = () => {
         {/* EXCHANGES TAB (Track B component untouched) */}
         {activeTab === 'exchanges' && (
           <div className="space-y-6">
-            <ExchangeSummary />
+            <ExchangeSummary onExchangeCompleted={fetchDashboardData} />
           </div>
         )}
 
