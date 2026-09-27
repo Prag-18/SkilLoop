@@ -11,7 +11,7 @@ export const Footer = () => {
               <Sparkles className="w-4 h-4 text-amber-800" />
             </div>
             <span className="text-sm font-bold text-stone-800 font-heading">
-              SkillLoop Campus Board
+              Synapse Campus Board
             </span>
           </div>
 

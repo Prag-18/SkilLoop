@@ -56,7 +56,7 @@ export const Navbar = () => {
             </div>
             <div>
               <span className="font-heading font-extrabold text-2xl tracking-tight text-stone-900">
-                Skill<span className="text-amber-800 font-extrabold">Loop</span>
+                Syn<span className="text-amber-800 font-extrabold">apse</span>
               </span>
               <span className="block text-[9px] text-stone-600 font-bold -mt-1 tracking-widest uppercase font-mono">
                 Campus Skill Exchange

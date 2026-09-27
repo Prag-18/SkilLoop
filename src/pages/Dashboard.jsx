@@ -116,7 +116,7 @@ export const Dashboard = () => {
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
                     <span className="stamp-seal text-xs">★ CAMPUS SKILL LOG ★</span>
-                    <span className="text-xs text-stone-500 font-handwriting font-bold text-sm">semester entry · 2025</span>
+                    <span className="text-xs text-stone-500 font-handwriting font-bold text-sm">semester entry · 2026</span>
                   </div>
                   <h1 className="text-3xl sm:text-4xl font-extrabold text-stone-900 font-heading tracking-tight">
                     Welcome back, <span className="highlighter-yellow">{userProfile?.full_name || user?.full_name || 'Dark sider'}</span>!

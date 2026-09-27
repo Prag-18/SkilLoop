@@ -35,7 +35,7 @@ export const Sidebar = ({ activeTab = 'overview', setActiveTab }) => {
             <span className="w-2 h-2 rounded-full bg-amber-700 inline-block" />
             STUDENT JOURNAL
           </span>
-          <span className="text-[10px] text-stone-500 font-handwriting font-bold text-sm">2025/26</span>
+          <span className="text-[10px] text-stone-500 font-handwriting font-bold text-sm">2026/27</span>
         </div>
 
         <nav className="space-y-1.5">
