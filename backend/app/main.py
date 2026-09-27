@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.db.database import engine, Base
 import app.db.models  # Ensures models are imported for metadata creation
-from app.routers import health, auth, users, discover, requests, exchanges
+from app.routers import health, auth, users, skills, evidence, discover, requests, exchanges
 
 # Configure logger
 logging.basicConfig(level=logging.INFO)
@@ -47,6 +47,8 @@ app.include_router(health.router, prefix=settings.API_V1_STR)
 app.include_router(health.router)  # Also expose /health at root level for flexibility
 app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(users.router, prefix=settings.API_V1_STR)
+app.include_router(skills.router, prefix=settings.API_V1_STR)
+app.include_router(evidence.router, prefix=settings.API_V1_STR)
 app.include_router(discover.router, prefix=settings.API_V1_STR)
 app.include_router(requests.router, prefix=settings.API_V1_STR)
 app.include_router(exchanges.router, prefix=settings.API_V1_STR)

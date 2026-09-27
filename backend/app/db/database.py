@@ -18,6 +18,8 @@ try:
         pool_pre_ping=True,
         connect_args=connect_args,
     )
+    with engine.connect() as conn:
+        pass
 except Exception as e:
     logger.warning(f"Failed to connect to primary DB ({DATABASE_URL}), using SQLite fallback: {e}")
     DATABASE_URL = "sqlite:///./skillloop.db"
