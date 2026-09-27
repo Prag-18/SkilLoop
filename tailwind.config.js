@@ -9,10 +9,53 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-        heading: ['"Space Grotesk"', 'sans-serif'],
+        heading: ['"Kalam"', 'cursive'],
+        handwriting: ['"Caveat"', 'cursive'],
+        display: ['"Kalam"', 'cursive'],
+        mono: ['monospace'],
       },
       colors: {
+        paper: {
+          50: '#fdfbf7',
+          100: '#faf6ee',
+          200: '#f3ebd9',
+          300: '#e8dcbe',
+          400: '#d9c69f',
+          kraft: '#e6d7be',
+          card: '#ffffff',
+          warm: '#fefcf8',
+        },
+        ink: {
+          950: '#1c1917',
+          900: '#292524',
+          800: '#44403c',
+          700: '#57534e',
+          500: '#78716c',
+          400: '#a8a29e',
+          pen: '#1e293b',
+        },
+        tape: {
+          yellow: '#fef08a',
+          pink: '#fbcfe8',
+          sage: '#bbf7d0',
+          sky: '#bae6fd',
+          peach: '#fed7aa',
+          lavender: '#e9d5ff',
+          kraft: '#d7c4a3',
+        },
         brand: {
+          50: '#fef3c7',
+          100: '#fde68a',
+          200: '#fcd34d',
+          300: '#fbbf24',
+          400: '#f59e0b',
+          500: '#d97706',
+          600: '#b45309',
+          700: '#92400e',
+          800: '#78350f',
+          900: '#451a03',
+        },
+        indigo: {
           50: '#eef2ff',
           100: '#e0e7ff',
           200: '#c7d2fe',
@@ -23,32 +66,25 @@ export default {
           700: '#4338ca',
           800: '#3730a3',
           900: '#312e81',
-          950: '#1e1b4b',
         },
-        emerald: {
-          500: '#10b981',
-          600: '#059669',
-        },
-        dark: {
-          800: '#0f172a',
-          900: '#0b0f19',
-          950: '#060911',
-        }
+      },
+      boxShadow: {
+        'paper': '2px 4px 0px rgba(60, 50, 40, 0.08), 0 10px 20px -5px rgba(60, 50, 40, 0.08)',
+        'paper-lg': '3px 6px 0px rgba(60, 50, 40, 0.1), 0 16px 28px -6px rgba(60, 50, 40, 0.12)',
+        'paper-flat': '2px 3px 0px rgba(60, 50, 40, 0.1)',
+        'polaroid': '0 8px 24px -4px rgba(40, 30, 20, 0.12), 0 2px 6px -1px rgba(40, 30, 20, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04)',
+        'tape': 'inset 0 0 2px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08)',
+        'sticker': '0 4px 0px rgba(60, 50, 40, 0.12), 0 8px 16px -2px rgba(60, 50, 40, 0.1)',
       },
       animation: {
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'float': 'float 6s ease-in-out infinite',
-        'glow': 'glow 3s ease-in-out infinite alternate',
       },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-10px)' },
+          '50%': { transform: 'translateY(-6px)' },
         },
-        glow: {
-          '0%': { opacity: '0.4', filter: 'blur(20px)' },
-          '100%': { opacity: '0.8', filter: 'blur(30px)' },
-        }
       }
     },
   },

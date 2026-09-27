@@ -4,65 +4,158 @@
 
 @layer base {
   body {
-    @apply bg-slate-950 text-slate-100 font-sans antialiased min-h-screen overflow-x-hidden;
+    @apply bg-[#faf6ee] text-stone-800 font-sans antialiased min-h-screen overflow-x-hidden;
+    background-color: #faf6ee;
+    background-image: radial-gradient(#dfd4c0 1.2px, transparent 1.2px);
+    background-size: 24px 24px;
+  }
+
+  h1, h2, h3, h4, .font-heading {
+    font-family: 'Kalam', 'Space Grotesk', cursive, sans-serif;
   }
 }
 
 @layer utilities {
+  /* Paper Cards */
+  .paper-card {
+    background: #ffffff;
+    border: 1px solid #e7ddca;
+    box-shadow: 2px 4px 0px rgba(60, 50, 40, 0.08), 0 10px 20px -5px rgba(60, 50, 40, 0.08);
+  }
+
+  .polaroid-frame {
+    background: #ffffff;
+    border: 1px solid #e5dcc7;
+    box-shadow: 0 10px 25px -4px rgba(40, 30, 20, 0.12), 0 3px 8px -2px rgba(40, 30, 20, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .polaroid-frame:hover {
+    transform: translateY(-3px) rotate(0deg) !important;
+    box-shadow: 0 16px 32px -6px rgba(40, 30, 20, 0.16), 0 6px 12px -3px rgba(40, 30, 20, 0.1);
+  }
+
+  /* Washi Tape Strips */
+  .tape-strip {
+    position: absolute;
+    height: 18px;
+    width: 60px;
+    background-color: rgba(254, 240, 138, 0.85); /* tape yellow default */
+    box-shadow: inset 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+    backdrop-filter: blur(1px);
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .tape-strip-pink {
+    background-color: rgba(251, 207, 232, 0.85);
+  }
+
+  .tape-strip-sage {
+    background-color: rgba(187, 247, 208, 0.85);
+  }
+
+  .tape-strip-sky {
+    background-color: rgba(186, 230, 253, 0.85);
+  }
+
+  .tape-strip-amber {
+    background-color: rgba(254, 215, 170, 0.85);
+  }
+
+  /* Stamp / Sticker Badges */
+  .stamp-badge {
+    border: 2px dashed #d6c5a5;
+    background: #fdfbf7;
+    box-shadow: 1px 2px 0px rgba(60, 50, 40, 0.08);
+  }
+
+  .highlighter-yellow {
+    background: linear-gradient(104deg, rgba(254, 240, 138, 0) 0.9%, rgba(254, 240, 138, 0.8) 2.4%, rgba(254, 240, 138, 0.7) 95%, rgba(254, 240, 138, 0) 98%);
+    padding: 0.1em 0.3em;
+    border-radius: 4px;
+  }
+
+  .highlighter-pink {
+    background: linear-gradient(104deg, rgba(251, 207, 232, 0) 0.9%, rgba(251, 207, 232, 0.8) 2.4%, rgba(251, 207, 232, 0.7) 95%, rgba(251, 207, 232, 0) 98%);
+    padding: 0.1em 0.3em;
+    border-radius: 4px;
+  }
+
+  .highlighter-sage {
+    background: linear-gradient(104deg, rgba(187, 247, 208, 0) 0.9%, rgba(187, 247, 208, 0.8) 2.4%, rgba(187, 247, 208, 0.7) 95%, rgba(187, 247, 208, 0) 98%);
+    padding: 0.1em 0.3em;
+    border-radius: 4px;
+  }
+
+  /* Pen & Marker Underlines */
+  .scribble-underline {
+    position: relative;
+  }
+  .scribble-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #f59e0b;
+    border-radius: 2px;
+    opacity: 0.7;
+    transform: rotate(-0.5deg);
+  }
+
+  /* Glass/Card legacy utility aliases mapped to scrapbook styling */
   .glass-panel {
-    background: rgba(15, 23, 42, 0.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #fcf9f2;
+    border: 1px solid #e7ddca;
+    box-shadow: 0 4px 12px rgba(60, 50, 40, 0.05);
   }
   
   .glass-card {
-    background: rgba(30, 41, 59, 0.5);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: #ffffff;
+    border: 1px solid #e7ddca;
+    box-shadow: 2px 4px 0px rgba(60, 50, 40, 0.08), 0 8px 16px -4px rgba(60, 50, 40, 0.06);
   }
 
   .glass-card-hover {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .glass-card-hover:hover {
-    background: rgba(30, 41, 59, 0.75);
-    border-color: rgba(99, 102, 241, 0.3);
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px -10px rgba(99, 102, 241, 0.2);
+    box-shadow: 3px 6px 0px rgba(60, 50, 40, 0.1), 0 12px 24px -4px rgba(60, 50, 40, 0.1);
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400;
+    color: #b45309;
   }
 
   .text-gradient-emerald {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400;
+    color: #059669;
   }
 
   .bg-grid-pattern {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-image: radial-gradient(#dfd4c0 1.2px, transparent 1.2px);
     background-size: 24px 24px;
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar in craft tones */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: #f3ebd9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #d4c3a3;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #b5a07c;
 }

@@ -46,19 +46,19 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 glass-panel border-b border-slate-800/80 backdrop-blur-md">
+    <nav className="sticky top-0 z-50 bg-[#fcf9f2]/95 border-b border-[#e5dcc7] shadow-sm backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform duration-200">
-              <Sparkles className="w-5 h-5 text-white" />
+          <Link to="/" className="flex items-center gap-2.5 group relative">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 border border-amber-300 shadow-paper-flat flex items-center justify-center text-amber-800 group-hover:rotate-2 transition-transform duration-200">
+              <Sparkles className="w-5 h-5 text-amber-800" />
             </div>
             <div>
-              <span className="font-heading font-bold text-xl tracking-tight text-white">
-                Skill<span className="text-indigo-400">Loop</span>
+              <span className="font-heading font-bold text-2xl tracking-tight text-stone-900">
+                Skill<span className="text-amber-800 font-bold">Loop</span>
               </span>
-              <span className="block text-[10px] text-slate-400 font-medium -mt-1 tracking-wider uppercase">
+              <span className="block text-[10px] text-stone-500 font-medium -mt-1 tracking-wider uppercase">
                 Campus Skill Exchange
               </span>
             </div>
@@ -69,7 +69,7 @@ export const Navbar = () => {
             <Link
               to="/"
               className={`text-sm font-medium transition-colors ${
-                location.pathname === '/' ? 'text-indigo-400 font-semibold' : 'text-slate-300 hover:text-white'
+                location.pathname === '/' ? 'text-amber-800 font-bold underline decoration-amber-400 decoration-2' : 'text-stone-600 hover:text-stone-900'
               }`}
             >
               Home
@@ -78,7 +78,7 @@ export const Navbar = () => {
               <Link
                 to="/dashboard"
                 className={`text-sm font-medium transition-colors ${
-                  location.pathname === '/dashboard' ? 'text-indigo-400 font-semibold' : 'text-slate-300 hover:text-white'
+                  location.pathname === '/dashboard' ? 'text-amber-800 font-bold underline decoration-amber-400 decoration-2' : 'text-stone-600 hover:text-stone-900'
                 }`}
               >
                 Dashboard
@@ -107,17 +107,17 @@ export const Navbar = () => {
                 >
                   Dashboard
                 </Button>
-                <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
-                  <div className="w-8 h-8 rounded-full bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center text-xs font-bold text-indigo-300">
+                <div className="flex items-center gap-2 pl-2 border-l border-stone-300">
+                  <div className="w-8 h-8 rounded-full bg-amber-200 border border-amber-400 flex items-center justify-center text-xs font-bold text-stone-900 font-heading">
                     {user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
                   </div>
-                  <span className="text-xs font-medium text-slate-300 max-w-[100px] truncate">
+                  <span className="text-xs font-semibold text-stone-800 max-w-[100px] truncate">
                     {user?.full_name || 'Student'}
                   </span>
                   <button
                     onClick={handleLogout}
                     title="Sign Out"
-                    className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800/80 rounded-lg transition-colors"
+                    className="p-1.5 text-stone-500 hover:text-rose-700 hover:bg-stone-200/80 rounded-lg transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
                   </button>
