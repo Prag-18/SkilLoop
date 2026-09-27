@@ -4,6 +4,7 @@ import Landing from '../pages/Landing';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
+import SkillProfile from '../pages/SkillProfile';
 import ProtectedRoute from './ProtectedRoute';
 
 export const AppRoutes = () => {
@@ -17,6 +18,14 @@ export const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/skills/me"
+        element={
+          <ProtectedRoute>
+            <SkillProfile />
           </ProtectedRoute>
         }
       />
