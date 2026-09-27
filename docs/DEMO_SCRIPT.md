@@ -25,7 +25,7 @@ uvicorn app.main:app --reload --port 8000
 npm run dev
 ```
 
-Open Browser at: `http://localhost:5173`
+Open Browser at: `http://localhost:3000` (or `http://localhost:5173`)
 
 ---
 
