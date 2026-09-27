@@ -25,6 +25,8 @@ import {
   Filter
 } from 'lucide-react';
 
+import ExchangeSummary from '../components/dashboard/ExchangeSummary';
+
 export const Dashboard = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
@@ -405,8 +407,15 @@ export const Dashboard = () => {
           </div>
         )}
 
+        {/* EXCHANGES TAB */}
+        {activeTab === 'exchanges' && (
+          <div className="space-y-6">
+            <ExchangeSummary />
+          </div>
+        )}
+
         {/* OTHER TABS PLACEHOLDERS */}
-        {(activeTab === 'requests' || activeTab === 'exchanges' || activeTab === 'credits' || activeTab === 'profile') && (
+        {(activeTab === 'requests' || activeTab === 'credits' || activeTab === 'profile') && (
           <div className="space-y-6">
             <Header
               title={activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}

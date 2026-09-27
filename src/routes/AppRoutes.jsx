@@ -5,6 +5,8 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import SkillProfile from '../pages/SkillProfile';
+import Discover from '../pages/Discover';
+import Requests from '../pages/Requests';
 import ProtectedRoute from './ProtectedRoute';
 
 export const AppRoutes = () => {
@@ -26,6 +28,22 @@ export const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <SkillProfile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/discover"
+        element={
+          <ProtectedRoute>
+            <Discover />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/requests"
+        element={
+          <ProtectedRoute>
+            <Requests />
           </ProtectedRoute>
         }
       />
