@@ -11,6 +11,7 @@ import SkillCard from '../components/skills/SkillCard';
 import EvidenceUploader from '../components/skills/EvidenceUploader';
 import RecommendationCard from '../components/discover/RecommendationCard';
 import ExchangeSummary from '../components/dashboard/ExchangeSummary';
+import Requests from './Requests';
 import {
   GraduationCap,
   BookOpen,
@@ -523,25 +524,187 @@ export const Dashboard = () => {
           </div>
         )}
 
-        {/* OTHER TABS PLACEHOLDERS */}
-        {(activeTab === 'requests' || activeTab === 'credits' || activeTab === 'profile') && (
+        {/* LEARNING REQUESTS TAB */}
+        {activeTab === 'requests' && (
           <div className="space-y-6">
+            <Requests />
+          </div>
+        )}
+
+        {/* SKILL CREDITS & TRUST ECONOMY TAB */}
+        {activeTab === 'credits' && (
+          <div className="space-y-8">
             <Header
-              title={activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
-              description="Campus skill exchange portal."
+              title="Skill Credits & Campus Trust Economy"
+              description="Track your peer currency ledger, completed exchange payouts, and verification trust tiers."
+              badgeText="Trust Ledger"
             />
-            <Card padding="lg" className="text-center py-12 bg-[#fffdfa] border-2 border-[#e5dcc7]">
-              <ShieldCheck className="w-12 h-12 text-amber-800 mx-auto mb-3" />
-              <CardTitle className="text-xl font-heading text-stone-900">Campus Skill Exchange Active</CardTitle>
-              <CardDescription className="max-w-md mx-auto mt-2 text-stone-600 font-medium">
-                Manage your skills, proofs, and peer exchanges seamlessly.
-              </CardDescription>
-              <div className="mt-4">
-                <Button variant="primary" size="sm" onClick={() => navigate('/skills/me')}>
-                  Go to /skills/me
-                </Button>
+
+            {/* Top Credit Stats */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div className="polaroid-frame p-6 rounded-3xl relative -rotate-1 shadow-md">
+                <div className="tape-strip tape-strip-yellow -top-2.5 left-8 w-24 -rotate-2" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-stone-500">Available Balance</span>
+                <div className="text-4xl font-extrabold text-stone-900 font-heading mt-2">
+                  {creditBalance} <span className="text-amber-800 text-2xl">CR</span>
+                </div>
+                <p className="text-xs text-stone-600 mt-2 font-medium">Ready for peer exchange matching & learning requests</p>
               </div>
-            </Card>
+
+              <div className="polaroid-frame p-6 rounded-3xl relative rotate-1 shadow-md">
+                <div className="tape-strip tape-strip-sage -top-2.5 left-8 w-24 rotate-3" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-800">Exchange Payout</span>
+                <div className="text-4xl font-extrabold text-emerald-900 font-heading mt-2">
+                  +50 <span className="text-emerald-700 text-2xl">CR</span>
+                </div>
+                <p className="text-xs text-stone-600 mt-2 font-medium">Earned automatically upon 1-on-1 session completion</p>
+              </div>
+
+              <div className="polaroid-frame p-6 rounded-3xl relative -rotate-1 shadow-md">
+                <div className="tape-strip tape-strip-pink -top-2.5 left-8 w-24 -rotate-1" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-amber-800">Verified Mentor Bonus</span>
+                <div className="text-4xl font-extrabold text-amber-950 font-heading mt-2">
+                  +25 <span className="text-amber-700 text-2xl">CR</span>
+                </div>
+                <p className="text-xs text-stone-600 mt-2 font-medium">Extra reward for teaching evidence-verified skills</p>
+              </div>
+            </div>
+
+            {/* Ledger Rules & Economy Guide */}
+            <div className="bg-[#fffdfa] border-2 border-[#dfd7c5] rounded-3xl p-6 sm:p-8 shadow-sm space-y-4 relative">
+              <div className="washi-tape washi-tape-sage -top-3 left-10 w-28 rotate-2" />
+              <h3 className="text-xl font-bold text-stone-900 font-heading pt-2">How Campus Credits Work</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-medium text-stone-700">
+                <div className="p-4 rounded-2xl bg-[#faf6ee] border border-[#dfd7c5]">
+                  <div className="font-bold text-stone-900 font-heading text-sm mb-1">1. Welcome Grant (100 CR)</div>
+                  Every student receives 100 CR upon registration to kickstart learning requests without prior teaching.
+                </div>
+                <div className="p-4 rounded-2xl bg-[#faf6ee] border border-[#dfd7c5]">
+                  <div className="font-bold text-stone-900 font-heading text-sm mb-1">2. Peer Exchange (+50 CR)</div>
+                  Complete a teaching session and confirm mutual completion to deposit +50 CR directly to your ledger.
+                </div>
+                <div className="p-4 rounded-2xl bg-[#faf6ee] border border-[#dfd7c5]">
+                  <div className="font-bold text-stone-900 font-heading text-sm mb-1">3. Proof Multiplier (+25 CR)</div>
+                  Skills backed with verified GitHub projects or certificates earn a +25 CR reputation multiplier.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* MY PROFILE & EVIDENCE TAB */}
+        {activeTab === 'profile' && (
+          <div className="space-y-8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <Header
+                title="Student Identity & Evidence Dossier"
+                description="Your verified campus profile, credentials, and evidence attachments."
+                badgeText="Verified Student ID"
+              />
+              <Button
+                variant="primary"
+                size="sm"
+                icon={Plus}
+                onClick={() => navigate('/skills/me')}
+              >
+                Manage Full Skill Taxonomy
+              </Button>
+            </div>
+
+            {/* Student ID Card / Dossier */}
+            <div className="relative bg-[#fffdfa] border-2 border-[#dfd7c5] rounded-3xl p-6 sm:p-8 shadow-[3px_6px_22px_rgba(40,30,20,0.07)]">
+              <div className="washi-tape washi-tape-pink -top-3 left-8 w-32 -rotate-2" />
+              <div className="washi-tape washi-tape-yellow -top-3 right-10 w-28 rotate-3" />
+
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-6 pt-2">
+                {/* Polaroid Avatar Frame */}
+                <div className="polaroid-frame p-4 rounded-2xl shrink-0 -rotate-2 shadow-md">
+                  <div className="w-24 h-24 rounded-xl bg-[#e5dcc7] flex items-center justify-center text-3xl font-extrabold text-stone-800 font-heading border border-[#d6c7b2] shadow-inner">
+                    {(userProfile?.full_name || user?.full_name || 'S').charAt(0).toUpperCase()}
+                  </div>
+                  <div className="mt-2 text-center">
+                    <span className="stamp-seal text-[10px] inline-block">★ VERIFIED ★</span>
+                  </div>
+                </div>
+
+                {/* Details */}
+                <div className="space-y-3 flex-1">
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <span className="text-xs font-mono font-bold text-amber-900 bg-amber-100/80 px-2.5 py-0.5 rounded-md border border-amber-300">
+                        {userProfile?.department || user?.department || 'Engineering & Science'}
+                      </span>
+                      <span className="text-xs font-mono font-bold text-stone-700 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-300">
+                        {userProfile?.year_of_study || user?.year_of_study || 'Student'}
+                      </span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 font-heading">
+                      {userProfile?.full_name || user?.full_name || 'Campus Scholar'}
+                    </h2>
+                    <p className="text-xs font-mono text-stone-500 mt-0.5">
+                      {userProfile?.email || user?.email}
+                    </p>
+                  </div>
+
+                  <p className="text-sm text-stone-700 font-medium leading-relaxed max-w-2xl">
+                    {userProfile?.bio || user?.bio || 'Active campus learner participating in peer skill swaps.'}
+                  </p>
+
+                  <div className="flex items-center gap-3 pt-1 flex-wrap">
+                    {(userProfile?.github_url || user?.github_url) && (
+                      <a
+                        href={userProfile?.github_url || user?.github_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-1.5 text-xs font-semibold text-stone-700 hover:text-stone-950 bg-[#efe7d3] px-3 py-1.5 rounded-xl border border-[#dfd7c5] transition-colors"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" /> GitHub Profile
+                      </a>
+                    )}
+                    {(userProfile?.portfolio_url || user?.portfolio_url) && (
+                      <a
+                        href={userProfile?.portfolio_url || user?.portfolio_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-1.5 text-xs font-semibold text-stone-700 hover:text-stone-950 bg-[#efe7d3] px-3 py-1.5 rounded-xl border border-[#dfd7c5] transition-colors"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" /> Portfolio / Showcase
+                      </a>
+                    )}
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900 bg-amber-200/70 px-3 py-1.5 rounded-xl border border-amber-300 font-mono">
+                      <Award className="w-3.5 h-3.5" /> {creditBalance} Skill Credits
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Attached Skills & Proofs Overview */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-bold text-stone-900 font-heading">Claimed Skills & Attached Proofs</h3>
+                <span className="text-xs text-stone-500 font-handwriting text-sm">
+                  {userSkills.length} total active skills
+                </span>
+              </div>
+
+              {userSkills.length === 0 ? (
+                <div className="text-center py-12 rounded-3xl bg-[#fffdfa] border-2 border-dashed border-[#dfd7c5] text-stone-600 text-xs">
+                  No skills claimed yet. Click "Manage Full Skill Taxonomy" above to get started.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {userSkills.map((userSkill) => (
+                    <SkillCard
+                      key={userSkill.id}
+                      userSkill={userSkill}
+                      onOpenEvidence={handleOpenEvidence}
+                      onDeleteSkill={handleDeleteSkill}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </main>
