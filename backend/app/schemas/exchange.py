@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class ExchangeResponse(BaseModel):
@@ -18,8 +18,7 @@ class ExchangeResponse(BaseModel):
     learner_name: Optional[str] = None
     skill_name: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CompleteExchangeRequest(BaseModel):
@@ -40,5 +39,4 @@ class FeedbackResponse(BaseModel):
     comment: Optional[str] = None
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

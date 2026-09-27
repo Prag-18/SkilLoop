@@ -92,6 +92,7 @@ graph TD
       - `Natural Language Processing (Transformers)`
       - `MLOps & Model Deployment`
   - **Subcategory (Level 2)**: `Software Engineering` (`id: 4`, parent: 1)
+    - `Python`
     - `Full-Stack Web Development`
     - `REST & GraphQL API Architecture`
     - `Database Engineering & SQL`
@@ -101,6 +102,7 @@ graph TD
 ### 2. Creative
 - **Root Category**: `Creative` (`id: 5`)
   - **Subcategory (Level 2)**: `UI/UX & Product Design` (`id: 6`, parent: 5)
+    - `UI/UX Design`
     - `UI/UX Design & Prototyping (Figma)`
     - `User Research & Usability Testing`
     - `Design Systems & Token Architecture`

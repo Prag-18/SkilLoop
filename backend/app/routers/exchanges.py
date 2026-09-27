@@ -145,20 +145,25 @@ def complete_exchange(
     exchange.completed_at = datetime.datetime.utcnow()
     db.add(exchange)
 
-    # Award credits to teacher via ledger
+    # Credit award ledger for teacher (duration + completion + verified mentor bonuses)
     teacher = db.query(User).filter(User.id == exchange.teacher_id).first()
     if teacher:
-        teacher.skill_credits = (teacher.skill_credits or 0) + total_credits
-        db.add(teacher)
-        credit_reason = (
-            f"Completed {duration}min exchange"
-            f"{' (verified mentor)' if body.is_verified_mentor else ''}"
-        )
-        db.add(SkillCredit(
+        credit_entry_teacher = SkillCredit(
             user_id=teacher.id,
             amount=total_credits,
-            reason=credit_reason,
-        ))
+            reason=f"Completed {duration}min skill exchange mentorship (duration={duration_credits}, completion={completion_bonus}, mentor_bonus={mentor_bonus})",
+        )
+        db.add(credit_entry_teacher)
+
+    # Credit award ledger for learner (participation / completion bonus)
+    learner = db.query(User).filter(User.id == exchange.learner_id).first()
+    if learner:
+        credit_entry_learner = SkillCredit(
+            user_id=learner.id,
+            amount=completion_bonus,
+            reason=f"Completed {duration}min skill exchange session (completion_bonus={completion_bonus})",
+        )
+        db.add(credit_entry_learner)
 
     db.commit()
     db.refresh(exchange)

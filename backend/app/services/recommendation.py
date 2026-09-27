@@ -1,7 +1,7 @@
 from typing import List, Dict, Any
 from sqlalchemy.orm import Session
 from app.db.models.user import User
-from app.db.models.skill import Skill
+from app.db.models.user_skill import UserSkill
 
 # Scoring constants (must match walkthrough doc)
 BASE_SCORE = 65.0
@@ -14,18 +14,12 @@ SCORE_MIN = 65.0            # Don't inflate no-skill candidates with artificial 
 SCORE_MAX = 98.0
 
 
-def _get_gender_neutral_pronoun_phrase(full_name: str, skill_name: str) -> str:
-    """Return gender-neutral reason fragment: '<Name> can teach you <skill>'."""
-    first = full_name.split()[0] if full_name else "Peer"
-    return f"{first} can teach you {skill_name}"
-
-
 class RecommendationService:
     @staticmethod
     def get_candidates(db: Session, user_id: int) -> List[User]:
         """
         Stage 1 (Candidate Generation):
-        Pull all active users excluding current user as initial candidate pool.
+        Pull all active users excluding current user as the initial candidate pool.
         Future slot: replace with vector DB ANN query here.
         """
         return db.query(User).filter(
@@ -35,106 +29,105 @@ class RecommendationService:
 
     @staticmethod
     def rank_candidates(
-        db: Session,
-        user_id: int,
-        candidates: List[User],
-        top_n: int = 10,
+        db: Session, user_id: int, candidates: List[User], top_n: int = 10
     ) -> List[Dict[str, Any]]:
         """
         Stage 2 (Ranking & Reason Generation):
-        Scores candidates by reciprocity, category overlap, evidence confidence,
-        and department alignment. Returns top_n with human-readable reason string.
+        Scores candidates by reciprocity, taxonomy category overlap, evidence
+        confidence, and department alignment. Returns top_n with a human-readable
+        reason string.
 
         Scoring breakdown (matching walkthrough doc):
           Base: 65%
           Candidate teaches what user wants:   +15%
           User teaches what candidate wants:   +15%
           Mutual reciprocity bonus:            +10%
-          Verified evidence URL on skill:      +4%
+          Verified evidence on skill:          +4%
           Shared department:                   +5%
-          Max capped at 98%
+          Max capped at 98%, no artificial minimum
         """
         user = db.query(User).filter(User.id == user_id).first()
         if not user:
             return []
 
-        user_skills = db.query(Skill).filter(Skill.user_id == user_id).all()
-        user_teach_skills = [s for s in user_skills if s.skill_type == "teach"]
-        user_learn_skills = [s for s in user_skills if s.skill_type == "learn"]
+        user_skills = db.query(UserSkill).filter(UserSkill.user_id == user_id).all()
+        user_teach_skills = [s for s in user_skills if s.direction == "teach"]
+        user_learn_skills = [s for s in user_skills if s.direction == "learn"]
 
-        user_teach_names = {s.name.lower() for s in user_teach_skills}
-        user_learn_names = {s.name.lower() for s in user_learn_skills}
-        user_teach_cats = {s.category.lower() for s in user_teach_skills}
-        user_learn_cats = {s.category.lower() for s in user_learn_skills}
+        user_teach_names = {s.skill.name.lower() for s in user_teach_skills if s.skill}
+        user_learn_names = {s.skill.name.lower() for s in user_learn_skills if s.skill}
+        user_teach_cats = {s.skill.category.name.lower() for s in user_teach_skills if s.skill and s.skill.category}
+        user_learn_cats = {s.skill.category.name.lower() for s in user_learn_skills if s.skill and s.skill.category}
 
         ranked_results = []
+
+        def match_skill(cand_s, target_names, target_cats):
+            if not cand_s.skill:
+                return False
+            name_l = cand_s.skill.name.lower()
+            if name_l in target_names or any(name_l in t or t in name_l for t in target_names):
+                return True
+            if cand_s.skill.category and cand_s.skill.category.name.lower() in target_cats:
+                return True
+            return False
 
         for candidate in candidates:
             if not candidate.full_name:
                 continue
 
-            cand_skills = db.query(Skill).filter(Skill.user_id == candidate.id).all()
-            cand_teach = [s for s in cand_skills if s.skill_type == "teach"]
-            cand_learn = [s for s in cand_skills if s.skill_type == "learn"]
+            cand_skills = db.query(UserSkill).filter(UserSkill.user_id == candidate.id).all()
+            cand_teach = [s for s in cand_skills if s.direction == "teach"]
+            cand_learn = [s for s in cand_skills if s.direction == "learn"]
 
             score = BASE_SCORE
 
-            # What candidate can teach current user (name or category overlap)
-            can_teach_me = [
-                s for s in cand_teach
-                if s.name.lower() in user_learn_names or s.category.lower() in user_learn_cats
-            ]
-
-            # What current user can teach candidate (name or category overlap)
-            i_can_teach = [
-                s for s in cand_learn
-                if s.name.lower() in user_teach_names or s.category.lower() in user_teach_cats
-            ]
+            can_teach_me = [s for s in cand_teach if match_skill(s, user_learn_names, user_learn_cats)]
+            i_can_teach = [s for s in cand_learn if match_skill(s, user_teach_names, user_teach_cats)]
 
             if can_teach_me:
                 score += SCORE_TEACH_ME
             if i_can_teach:
                 score += SCORE_I_CAN_TEACH
             if can_teach_me and i_can_teach:
-                score += SCORE_MUTUAL_BONUS  # Mutual reciprocity
+                score += SCORE_MUTUAL_BONUS
 
-            # Evidence confidence: teacher has a verified evidence URL
-            if any(bool(s.evidence_url) for s in cand_teach):
+            has_verified_evidence = any(
+                any(e.verification_state == "verified" for e in (s.evidence or []))
+                for s in cand_teach
+            )
+            if has_verified_evidence:
                 score += SCORE_EVIDENCE_BONUS
 
-            # Department alignment
             if candidate.department and user.department and candidate.department == user.department:
                 score += SCORE_DEPT_BONUS
 
-            # Cap score; do NOT enforce artificial minimum that inflates no-skill candidates
+            # Cap only — no artificial minimum that inflates no-overlap candidates
             score = min(SCORE_MAX, score)
 
-            # Skip candidates with score at base (no overlap at all) if user has skills
             if score == BASE_SCORE and (user_teach_skills or user_learn_skills):
                 if not cand_teach and not cand_learn:
-                    continue  # Candidate has no skills — skip rather than fake 65%
+                    continue  # No skills at all — skip rather than fake a match
 
             cand_first = candidate.full_name.split()[0]
 
-            # Build reason string (gender-neutral)
             if i_can_teach and can_teach_me:
-                teach_me_str = can_teach_me[0].name
-                i_teach_str = i_can_teach[0].name
-                reason = (
-                    f"You can teach {cand_first} {i_teach_str} and they can teach you {teach_me_str}."
-                )
+                teach_me_str = can_teach_me[0].skill.name
+                i_teach_str = i_can_teach[0].skill.name
+                reason = f"You can teach {cand_first} {i_teach_str} and they can teach you {teach_me_str}."
             elif can_teach_me:
-                reason = f"{cand_first} can teach you {can_teach_me[0].name}."
+                reason = f"{cand_first} can teach you {can_teach_me[0].skill.name}."
             elif i_can_teach:
-                i_teach_str = i_can_teach[0].name
-                reason = f"You can teach {cand_first} {i_teach_str}."
+                reason = f"You can teach {cand_first} {i_can_teach[0].skill.name}."
             elif cand_teach:
-                reason = f"{cand_first} offers {cand_teach[0].name}."
+                reason = f"{cand_first} offers {cand_teach[0].skill.name}."
             else:
                 reason = f"{cand_first} is looking to expand their skills."
 
             if candidate.department and user.department and candidate.department == user.department:
                 reason += f" Both in {candidate.department}."
+
+            teaches_list = [s.skill.name for s in cand_teach if s.skill] or ["Open to Mentoring"]
+            wants_list = [s.skill.name for s in cand_learn if s.skill] or ["Skill Growth"]
 
             ranked_results.append({
                 "user_id": candidate.id,
@@ -143,9 +136,9 @@ class RecommendationService:
                 "year_of_study": candidate.year_of_study or "Student",
                 "compatibility_percent": int(score),
                 "reason": reason,
-                "teaches": [s.name for s in cand_teach] if cand_teach else ["Open to Mentoring"],
-                "wants": [s.name for s in cand_learn] if cand_learn else ["Skill Growth"],
-                "evidence_verified": any(bool(s.evidence_url) for s in cand_teach),
+                "teaches": teaches_list,
+                "wants": wants_list,
+                "evidence_verified": has_verified_evidence,
             })
 
         ranked_results.sort(key=lambda x: x["compatibility_percent"], reverse=True)

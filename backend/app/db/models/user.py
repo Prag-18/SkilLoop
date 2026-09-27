@@ -16,10 +16,20 @@ class User(Base):
     bio = Column(Text, nullable=True)
     github_url = Column(String, nullable=True)
     portfolio_url = Column(String, nullable=True)
-    skill_credits = Column(Integer, default=100)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
     # Relationships
     skills = relationship("UserSkill", back_populates="user", cascade="all, delete-orphan")
+    credit_transactions = relationship("SkillCredit", back_populates="user", cascade="all, delete-orphan")
+
+    @property
+    def skill_credits(self) -> int:
+        """
+        Single Source of Truth: Ledger-based credit balance.
+        Calculated as SUM(SkillCredit.amount) for this user.
+        """
+        if self.credit_transactions:
+            return sum(tx.amount for tx in self.credit_transactions)
+        return 0

@@ -2,6 +2,7 @@ from typing import Optional
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from app.db.models.user import User
+from app.db.models.skill_credit import SkillCredit
 from app.schemas.user import UserCreate
 from app.core.security import get_password_hash, verify_password
 
@@ -33,10 +34,19 @@ class AuthService:
             bio=user_in.bio,
             github_url=user_in.github_url,
             portfolio_url=user_in.portfolio_url,
-            skill_credits=100,
             is_active=True,
         )
         db.add(user)
+        db.flush()  # Generate user.id
+
+        # Ledger-based credit initial grant (100 credits signup bonus)
+        initial_credit = SkillCredit(
+            user_id=user.id,
+            amount=100,
+            reason="signup_bonus",
+        )
+        db.add(initial_credit)
+
         db.commit()
         db.refresh(user)
         return user
