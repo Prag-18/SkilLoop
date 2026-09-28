@@ -1,6 +1,7 @@
 import io
 import os
 import sys
+import uuid
 import pytest
 from fastapi.testclient import TestClient
 from PIL import Image
@@ -32,10 +33,12 @@ def create_test_image_bytes(format="PNG", size=(50, 50), color="blue"):
 
 def test_profile_personalization_flow():
     client = TestClient(app)
+    unique_suffix = uuid.uuid4().hex[:6]
+    test_email = f"test.user.{unique_suffix}@campus.edu"
 
     # 1. Register with no profile fields (default/minimal)
     minimal_user = {
-        "email": "minimal.user@campus.edu",
+        "email": test_email,
         "password": "password123",
         "full_name": "Minimal User",
         "department": "Mathematics",
@@ -52,7 +55,7 @@ def test_profile_personalization_flow():
     me_res = client.get("/api/v1/users/me", headers=headers)
     assert me_res.status_code == 200
     me_data = me_res.json()
-    assert me_data["email"] == "minimal.user@campus.edu"
+    assert me_data["email"] == test_email
     assert me_data["bio"] is None
     assert me_data["headline"] is None
     assert me_data["avatar_url"] is None
