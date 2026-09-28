@@ -135,7 +135,7 @@ export const Dashboard = () => {
                     onClick={() => navigate('/skills/me')}
                     className="shadow-md font-semibold"
                   >
-                    + Manage Skill Profile
+                    Manage Skill Profile
                   </Button>
                 </div>
               </div>
@@ -391,7 +391,7 @@ export const Dashboard = () => {
                         "{userProfile.favorite_quote}"
                       </div>
                     )}
-                    
+
                     <div className="mt-2.5">
                       <span className="stamp-seal-emerald text-[10px]">★ VERIFIED STUDENT ★</span>
                     </div>
