@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/Button';
-import { 
+import {
   ArrowRight,
   Zap,
   Sparkles,
@@ -58,7 +58,7 @@ export const Landing = () => {
       {/* 1. Top Torn Kraft Strip with Spaced Lead-in & Main Headline */}
       <div className="w-full torn-kraft-top pt-6 pb-10 px-4 sm:px-8 text-center shadow-md relative z-10">
         <p className="font-lead text-xs sm:text-sm uppercase tracking-widest text-[#4b5560] font-bold">
-          SkillLoop Platform:
+          Synapse Platform:
         </p>
         <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl text-[#7b4630] font-bold mt-1">
           “Little Joys of Learning”
@@ -95,7 +95,7 @@ export const Landing = () => {
           </h2>
 
           <p className="mt-4 text-sm sm:text-base text-[#2d241e] font-mono leading-relaxed max-w-2xl mx-auto">
-            SkillLoop connects university students for genuine, peer-to-peer knowledge sharing. Swap coding, design, academics, and creative crafts with verified evidence and skill credits.
+            Synapse connects university students for genuine, peer-to-peer knowledge sharing. Swap coding, design, academics, and creative crafts with verified evidence and skill credits.
           </p>
 
           {/* Primary Action Buttons */}
@@ -147,14 +147,14 @@ export const Landing = () => {
                   OVERVIEW
                 </span>
                 <h3 className="font-heading text-xl font-bold text-[#7b4630]">
-                  WHAT IS SKILLLOOP?
+                  WHAT IS SYNAPSE?
                 </h3>
               </div>
               <SmileySticker className="w-12 h-12" rotation="-rotate-2" />
             </div>
 
             <p className="text-xs sm:text-sm font-mono text-[#2d241e] leading-relaxed mb-6">
-              SkillLoop is a collaborative student community where knowledge is the currency. Instead of paying expensive tutors, swap your Python expertise for Figma design, or Calculus help for Guitar lessons.
+              Synapse is a collaborative student community where knowledge is the currency. Instead of paying expensive tutors, swap your Python expertise for Figma design, or Calculus help for Guitar lessons.
             </p>
 
             {/* 3 Step List */}

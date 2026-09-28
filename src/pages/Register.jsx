@@ -155,7 +155,7 @@ export const Register = () => {
             <Sparkles className="w-6 h-6 text-amber-900" />
           </div>
           <h1 className="text-3xl font-bold font-heading text-stone-900 tracking-tight">
-            {step === 1 ? 'Join SkillLoop' : 'Personalize Your Profile'}
+            {step === 1 ? 'Join Synapse' : 'Personalize Your Profile'}
           </h1>
           <p className="text-xs text-stone-600 mt-1 font-medium">
             {step === 1
@@ -166,22 +166,20 @@ export const Register = () => {
 
         {/* Step Progress Pills */}
         <div className="flex items-center justify-center gap-3 mb-6">
-          <div className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full ${
-            step === 1
-              ? 'bg-amber-100 text-amber-950 border border-amber-300'
-              : 'bg-emerald-100 text-emerald-950 border border-emerald-300'
-          }`}>
+          <div className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full ${step === 1
+            ? 'bg-amber-100 text-amber-950 border border-amber-300'
+            : 'bg-emerald-100 text-emerald-950 border border-emerald-300'
+            }`}>
             <span className="w-4 h-4 rounded-full bg-current/20 flex items-center justify-center text-[10px]">1</span>
             <span>Account</span>
           </div>
 
           <div className="w-6 h-[1px] bg-[#dfd7c5]" />
 
-          <div className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full ${
-            step === 2
-              ? 'bg-amber-100 text-amber-950 border border-amber-300'
-              : 'bg-[#faf6ee] text-stone-500 border border-[#dfd7c5]'
-          }`}>
+          <div className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full ${step === 2
+            ? 'bg-amber-100 text-amber-950 border border-amber-300'
+            : 'bg-[#faf6ee] text-stone-500 border border-[#dfd7c5]'
+            }`}>
             <span className="w-4 h-4 rounded-full bg-current/20 flex items-center justify-center text-[10px]">2</span>
             <span>Personalization</span>
           </div>
@@ -283,7 +281,7 @@ export const Register = () => {
 
               <div className="mt-4 pt-4 border-t border-[#dfd7c5] text-center">
                 <p className="text-xs text-stone-600">
-                  Already have a SkillLoop account?{' '}
+                  Already have a Synapse account?{' '}
                   <Link to="/login" className="font-bold text-amber-900 hover:text-amber-950 underline underline-offset-2 transition-colors">
                     Sign In Instead
                   </Link>
