@@ -139,6 +139,9 @@ class RecommendationService:
                 "teaches": teaches_list,
                 "wants": wants_list,
                 "evidence_verified": has_verified_evidence,
+                "avatar_url": candidate.avatar_url,
+                "headline": candidate.headline,
+                "interests": candidate.interests or [],
             })
 
         ranked_results.sort(key=lambda x: x["compatibility_percent"], reverse=True)
