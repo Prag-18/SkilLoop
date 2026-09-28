@@ -4,52 +4,126 @@
 
 @layer base {
   body {
-    @apply bg-[#faf6ee] text-stone-800 font-sans antialiased min-h-screen overflow-x-hidden;
-    background-color: #faf6ee;
-    background-image: radial-gradient(#dfd4c0 1.2px, transparent 1.2px);
-    background-size: 24px 24px;
+    @apply text-[#1e1b18] antialiased min-h-screen overflow-x-hidden;
+    font-family: 'Space Mono', 'Courier Prime', monospace;
+    font-size: 16px;
+    letter-spacing: 0.015em;
+    background-color: #f1e4d3;
+    background-image: 
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"),
+      linear-gradient(135deg, rgba(248, 240, 227, 0.6) 0%, rgba(241, 228, 211, 0.9) 50%, rgba(233, 217, 196, 0.6) 100%);
   }
 
   h1, h2, h3, h4, .font-heading {
-    font-family: 'Kalam', 'Space Grotesk', cursive, sans-serif;
+    font-family: 'Bevan', 'Bree Serif', serif;
+    color: #7b4630;
+    letter-spacing: 0.01em;
+  }
+
+  .font-lead {
+    font-family: 'Courier Prime', monospace;
+    color: #4b5560;
+    letter-spacing: 0.06em;
   }
 }
 
 @layer utilities {
-  /* Authentic Journal Paper Background */
-  .journal-grid {
-    background-color: #f6f1e3;
+  /* Torn Kraft Paper Banners */
+  .torn-kraft-top {
+    background-color: #c8a57e;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(185, 143, 102, 0.15) 10px, rgba(185, 143, 102, 0.15) 20px);
+    clip-path: polygon(
+      0% 12px, 4% 0px, 9% 14px, 15% 3px, 21% 12px, 27% 1px, 33% 15px, 39% 4px,
+      45% 12px, 52% 0px, 58% 14px, 64% 2px, 70% 13px, 76% 1px, 82% 15px, 88% 4px,
+      94% 12px, 100% 0px, 100% 100%, 0% 100%
+    );
+  }
+
+  .torn-kraft-bottom {
+    background-color: #c8a57e;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(185, 143, 102, 0.15) 10px, rgba(185, 143, 102, 0.15) 20px);
+    clip-path: polygon(
+      0% 0%, 100% 0%, 100% calc(100% - 12px), 95% 100%, 89% calc(100% - 14px),
+      83% calc(100% - 3px), 77% 100%, 71% calc(100% - 15px), 65% calc(100% - 2px),
+      59% 100%, 53% calc(100% - 13px), 47% 100%, 41% calc(100% - 14px), 35% calc(100% - 3px),
+      29% 100%, 23% calc(100% - 15px), 17% calc(100% - 2px), 11% 100%, 5% calc(100% - 13px), 0% 100%
+    );
+  }
+
+  /* Paper Note Cards */
+  .note-sage {
+    background-color: #e3e5df;
+    border: 1.5px solid #cbcfc6;
+    box-shadow: 2px 5px 14px rgba(70, 50, 30, 0.09), 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .note-peach {
+    background-color: #f0d4b6;
+    border: 1.5px solid #dec0a0;
+    box-shadow: 2px 5px 14px rgba(70, 50, 30, 0.09), 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .note-cream {
+    background-color: #faf6ee;
+    border: 1.5px solid #dfd7c5;
+    box-shadow: 2px 5px 14px rgba(70, 50, 30, 0.09), 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .note-receipt {
+    background-color: #f8f7f4;
+    border: 1.5px solid #dcd7cb;
+    box-shadow: 2px 6px 16px rgba(70, 50, 30, 0.1);
+  }
+
+  /* Gingham Fabric Patch */
+  .patch-gingham {
+    background-color: #c6d6e6;
     background-image: 
-      radial-gradient(#d3c5ab 1.2px, transparent 1.2px),
-      linear-gradient(to right, rgba(225, 215, 195, 0.25) 1px, transparent 1px);
-    background-size: 22px 22px, 100% 100%;
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.45) 0, rgba(255,255,255,0.45) 8px, transparent 8px, transparent 16px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.45) 0, rgba(255,255,255,0.45) 8px, transparent 8px, transparent 16px);
   }
 
-  /* Paper Cards with tactile craft shadow */
-  .paper-card {
-    background: #fffdf9;
-    border: 2px solid #e2d7c0;
-    box-shadow: 2px 6px 16px -2px rgba(45, 35, 25, 0.08), 0 2px 4px rgba(45, 35, 25, 0.04);
+  /* Halftone Sunburst Dots */
+  .halftone-dots {
+    background-image: radial-gradient(#e9c85c 22%, transparent 26%), radial-gradient(#e9c85c 22%, transparent 26%);
+    background-position: 0 0, 7px 7px;
+    background-size: 14px 14px;
   }
 
-  /* Genuine Polaroid Frame (Instax Style: wide bottom margin for handwriting) */
+  /* Barcode Stripe */
+  .receipt-barcode {
+    background: repeating-linear-gradient(
+      90deg,
+      #1e1b18 0px, #1e1b18 2px,
+      transparent 2px, transparent 4px,
+      #1e1b18 4px, #1e1b18 8px,
+      transparent 8px, transparent 10px,
+      #1e1b18 10px, #1e1b18 11px,
+      transparent 11px, transparent 14px,
+      #1e1b18 14px, #1e1b18 18px,
+      transparent 18px, transparent 19px,
+      #1e1b18 19px, #1e1b18 22px,
+      transparent 22px, transparent 25px
+    );
+  }
+
+  /* Authentic Polaroid Frame */
   .polaroid-frame {
     background: #ffffff;
-    border: 1px solid #dfd5be;
-    box-shadow: 3px 8px 22px -3px rgba(35, 25, 15, 0.15), 0 2px 6px rgba(0, 0, 0, 0.06);
+    border: 1.5px solid #dcd3be;
+    box-shadow: 3px 8px 20px -2px rgba(60, 45, 30, 0.16), 0 2px 6px rgba(0, 0, 0, 0.06);
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
   }
 
   .polaroid-frame:hover {
-    transform: translateY(-4px) rotate(0deg) scale(1.01) !important;
-    box-shadow: 4px 14px 28px -4px rgba(35, 25, 15, 0.2), 0 4px 10px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 4px 12px 26px -3px rgba(60, 45, 30, 0.22);
   }
 
-  /* Serrated Jagged Ripped Washi Tape Strips */
+  /* Washi Tape Strips */
   .washi-tape {
     position: absolute;
     height: 22px;
-    background-color: rgba(253, 224, 71, 0.88);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), inset 0 0 4px rgba(0,0,0,0.06);
     backdrop-filter: blur(1px);
     z-index: 15;
@@ -60,28 +134,24 @@
     );
   }
 
-  .washi-tape-pink {
-    background-color: rgba(244, 114, 182, 0.75);
-    background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,0.2) 5px, rgba(255,255,255,0.2) 10px);
-  }
-
-  .washi-tape-yellow {
-    background-color: rgba(250, 204, 21, 0.82);
-    background-image: repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,0.25) 6px, rgba(255,255,255,0.25) 12px);
+  .washi-tape-mauve {
+    background-color: rgba(202, 168, 185, 0.85);
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,0.25) 5px, rgba(255,255,255,0.25) 10px);
   }
 
   .washi-tape-sage {
-    background-color: rgba(134, 239, 172, 0.75);
-    background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255,255,255,0.2) 4px, rgba(255,255,255,0.2) 8px);
+    background-color: rgba(180, 196, 178, 0.85);
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255,255,255,0.25) 4px, rgba(255,255,255,0.25) 8px);
   }
 
-  .washi-tape-sky {
-    background-color: rgba(125, 211, 252, 0.78);
+  .washi-tape-yellow {
+    background-color: rgba(245, 215, 115, 0.88);
+    background-image: repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,0.3) 6px, rgba(255,255,255,0.3) 12px);
+  }
+
+  .washi-tape-pink {
+    background-color: rgba(244, 114, 182, 0.75);
     background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,0.2) 5px, rgba(255,255,255,0.2) 10px);
-  }
-
-  .washi-tape-craft {
-    background-color: rgba(217, 185, 143, 0.85);
   }
 
   /* Receipt / Ticket Stub with Jagged Torn Bottom */

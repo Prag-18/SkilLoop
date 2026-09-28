@@ -9,12 +9,26 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-        heading: ['"Kalam"', 'cursive'],
-        handwriting: ['"Caveat"', 'cursive'],
-        display: ['"Kalam"', 'cursive'],
-        mono: ['monospace'],
+        heading: ['"Bevan"', '"Bree Serif"', 'serif'],
+        lead: ['"Courier Prime"', 'monospace'],
+        mono: ['"Space Mono"', '"Courier Prime"', 'monospace'],
+        body: ['"Space Mono"', '"Plus Jakarta Sans"', 'monospace'],
+        display: ['"Bevan"', '"Bree Serif"', 'serif'],
       },
       colors: {
+        scrapbook: {
+          cream: '#f1e4d3',
+          kraft: '#c8a57e',
+          kraftDark: '#b98f66',
+          brown: '#7b4630',
+          slate: '#4b5560',
+          ink: '#1e1b18',
+          sage: '#e3e5df',
+          peach: '#f0d4b6',
+          gingham: '#c6d6e6',
+          halftone: '#e9c85c',
+          receipt: '#f8f7f4',
+        },
         paper: {
           50: '#fdfbf7',
           100: '#faf6ee',
