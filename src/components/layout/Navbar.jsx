@@ -4,12 +4,12 @@ import { useAuth } from '../../context/AuthContext';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
 import { healthAPI } from '../../services/api';
-import { 
-  Sparkles, 
-  BookOpen, 
-  UserCheck, 
-  LogOut, 
-  LayoutDashboard, 
+import {
+  Sparkles,
+  BookOpen,
+  UserCheck,
+  LogOut,
+  LayoutDashboard,
   Activity,
   Menu,
   X
@@ -56,7 +56,7 @@ export const Navbar = () => {
             </div>
             <div>
               <span className="font-heading font-extrabold text-2xl tracking-tight text-stone-900">
-                Skill<span className="text-amber-800 font-extrabold">Loop</span>
+                Syna<span className="text-amber-800 font-extrabold">pse</span>
               </span>
               <span className="block text-[9px] text-stone-600 font-bold -mt-1 tracking-widest uppercase font-mono">
                 Campus Skill Exchange
@@ -68,18 +68,16 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center gap-6">
             <Link
               to="/"
-              className={`text-sm font-semibold transition-colors ${
-                location.pathname === '/' ? 'text-amber-950 font-bold underline decoration-amber-500 decoration-2 underline-offset-4' : 'text-stone-700 hover:text-stone-950'
-              }`}
+              className={`text-sm font-semibold transition-colors ${location.pathname === '/' ? 'text-amber-950 font-bold underline decoration-amber-500 decoration-2 underline-offset-4' : 'text-stone-700 hover:text-stone-950'
+                }`}
             >
               Home
             </Link>
             {isAuthenticated && (
               <Link
                 to="/dashboard"
-                className={`text-sm font-semibold transition-colors ${
-                  location.pathname === '/dashboard' ? 'text-amber-950 font-bold underline decoration-amber-500 decoration-2 underline-offset-4' : 'text-stone-700 hover:text-stone-950'
-                }`}
+                className={`text-sm font-semibold transition-colors ${location.pathname === '/dashboard' ? 'text-amber-950 font-bold underline decoration-amber-500 decoration-2 underline-offset-4' : 'text-stone-700 hover:text-stone-950'
+                  }`}
               >
                 Dashboard
               </Link>
