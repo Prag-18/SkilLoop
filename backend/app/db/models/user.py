@@ -1,5 +1,5 @@
 import datetime
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, JSON
 from sqlalchemy.orm import relationship
 from app.db.database import Base
 
@@ -14,6 +14,12 @@ class User(Base):
     department = Column(String, default="Computer Science")
     year_of_study = Column(String, default="3rd Year")
     bio = Column(Text, nullable=True)
+    avatar_url = Column(String, nullable=True)
+    headline = Column(String(80), nullable=True)
+    interests = Column(JSON, nullable=True)
+    links = Column(JSON, nullable=True)
+    availability = Column(String(100), nullable=True)
+    favorite_quote = Column(String(120), nullable=True)
     github_url = Column(String, nullable=True)
     portfolio_url = Column(String, nullable=True)
     is_active = Column(Boolean, default=True)

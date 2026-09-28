@@ -7,6 +7,7 @@ import datetime
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
 
 from app.db.database import SessionLocal, engine, Base
+from app.db.schema_helper import upgrade_user_columns
 from app.db.models.user import User
 from app.db.models.skill import Skill
 from app.db.models.user_skill import UserSkill
@@ -23,7 +24,50 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("synapse.seed_demo")
 
 
-def get_or_create_user(db, email, full_name, password, department, year_of_study, bio, github_url=None, portfolio_url=None):
+def generate_placeholder_avatar(filepath: str, initials: str, bg_color=(79, 70, 229, 255)):
+    """Generates a crisp initials placeholder avatar image using Pillow."""
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+        img = Image.new("RGBA", (256, 256), bg_color)
+        draw = ImageDraw.Draw(img)
+        
+        # Draw subtle inner gradient/ring
+        draw.ellipse([8, 8, 248, 248], outline=(255, 255, 255, 60), width=4)
+        
+        # Center the initials
+        try:
+            font = ImageFont.load_default(size=72)
+        except Exception:
+            try:
+                font = ImageFont.load_default()
+            except Exception:
+                font = None
+
+        draw.text((128, 128), initials, fill=(255, 255, 255, 255), anchor="mm", font=font)
+        img.save(filepath, format="PNG")
+        logger.info(f"Generated placeholder avatar: {filepath}")
+    except Exception as e:
+        logger.warning(f"Could not generate placeholder avatar via Pillow: {e}")
+
+
+def get_or_create_user(
+    db,
+    email,
+    full_name,
+    password,
+    department,
+    year_of_study,
+    bio,
+    github_url=None,
+    portfolio_url=None,
+    avatar_url=None,
+    headline=None,
+    interests=None,
+    links=None,
+    availability=None,
+    favorite_quote=None,
+):
     user = db.query(User).filter(User.email == email.lower()).first()
     if not user:
         user = User(
@@ -33,6 +77,12 @@ def get_or_create_user(db, email, full_name, password, department, year_of_study
             department=department,
             year_of_study=year_of_study,
             bio=bio,
+            avatar_url=avatar_url,
+            headline=headline,
+            interests=interests,
+            links=links,
+            availability=availability,
+            favorite_quote=favorite_quote,
             github_url=github_url,
             portfolio_url=portfolio_url,
             is_active=True,
@@ -51,10 +101,18 @@ def get_or_create_user(db, email, full_name, password, department, year_of_study
         user.department = department
         user.year_of_study = year_of_study
         user.bio = bio
-        user.github_url = github_url
-        user.portfolio_url = portfolio_url
+        user.avatar_url = avatar_url or user.avatar_url
+        user.headline = headline or user.headline
+        user.interests = interests if interests is not None else user.interests
+        user.links = links if links is not None else user.links
+        user.availability = availability or user.availability
+        user.favorite_quote = favorite_quote or user.favorite_quote
+        user.github_url = github_url or user.github_url
+        user.portfolio_url = portfolio_url or user.portfolio_url
+        db.add(user)
         db.commit()
         db.refresh(user)
+        logger.info(f"Updated existing student personalization: {full_name} ({email})")
     return user
 
 
@@ -121,14 +179,64 @@ def seed_demo_data():
     """Seeds rich campus dataset with Indian student profiles across all disciplines."""
     logger.info("Initializing Synapse Indian Campus Seed Data...")
     Base.metadata.create_all(bind=engine)
+    upgrade_user_columns(engine)
     
     # Ensure taxonomy is populated
     seed_taxonomy()
+
+    # Generate placeholder avatars in backend/uploads/avatars
+    backend_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+    uploads_avatars_dir = os.path.join(backend_root, "uploads", "avatars")
+    alex_avatar_path = os.path.join(uploads_avatars_dir, "alex_avatar.png")
+    sarah_avatar_path = os.path.join(uploads_avatars_dir, "sarah_avatar.png")
+    
+    generate_placeholder_avatar(alex_avatar_path, "AR", bg_color=(79, 70, 229, 255))
+    generate_placeholder_avatar(sarah_avatar_path, "SC", bg_color=(236, 72, 153, 255))
 
     db = SessionLocal()
     try:
         # Fetch Skill records
         skills = {s.name: s for s in db.query(Skill).all()}
+
+        # Also ensure Alex Rivera & Sarah Chen exist for backward compatibility with e2e scripts
+        get_or_create_user(
+            db,
+            email="alex.rivera@campus.edu",
+            full_name="Alex Rivera",
+            password="password123",
+            department="Computer Science",
+            year_of_study="3rd Year",
+            bio="Full-stack developer building fast Python & React tools. Looking to master UI/UX design and Figma prototyping.",
+            avatar_url="/uploads/avatars/alex_avatar.png",
+            headline="3rd-Year CS Student | Python Backend & Fast APIs",
+            interests=["Python", "FastAPI", "UI/UX", "Docker", "Machine Learning"],
+            links=[
+                {"label": "GitHub", "url": "https://github.com/alexrivera-dev"},
+                {"label": "Portfolio", "url": "https://alexrivera.dev"},
+            ],
+            availability="Weekday evenings & Saturday mornings",
+            favorite_quote="Code is like humor. When you have to explain it, it’s bad.",
+            github_url="https://github.com/alexrivera-dev",
+        )
+        get_or_create_user(
+            db,
+            email="sarah.chen@campus.edu",
+            full_name="Sarah Chen",
+            password="password123",
+            department="Computer Science",
+            year_of_study="4th Year",
+            bio="Product designer and Figma creator. Looking to learn Python backend development to bring interactive prototypes to life.",
+            avatar_url="/uploads/avatars/sarah_avatar.png",
+            headline="4th-Year Product Designer & Figma Specialist",
+            interests=["UI/UX Design", "Figma", "Design Systems", "Product Strategy", "React"],
+            links=[
+                {"label": "Figma", "url": "https://figma.com/@sarahchen_design"},
+                {"label": "LinkedIn", "url": "https://linkedin.com/in/sarahchen-design"},
+            ],
+            availability="Mon/Wed afternoons & Weekends",
+            favorite_quote="Design is not just what it looks like and feels like. Design is how it works.",
+            portfolio_url="https://figma.com/@sarahchen_design",
+        )
 
         # -------------------------------------------------------------
         # 1. Aarav Sharma (CS & AI, 3rd Year) - Lead Demo User
@@ -143,6 +251,15 @@ def seed_demo_data():
             department="Computer Science & Engineering",
             year_of_study="3rd Year",
             bio="AI/ML researcher & backend builder. Building transformer pipelines in PyTorch and FastAPI microservices. Eager to master Figma and product design.",
+            avatar_url="/uploads/avatars/alex_avatar.png",
+            headline="3rd-Year CS Student | Python Backend & Fast APIs",
+            interests=["Python", "FastAPI", "Deep Learning", "Docker", "PyTorch"],
+            links=[
+                {"label": "GitHub", "url": "https://github.com/aaravsharma-dev"},
+                {"label": "Portfolio", "url": "https://aaravsharma.ai"},
+            ],
+            availability="Weekday evenings & Saturday mornings",
+            favorite_quote="Code is like humor. When you have to explain it, it’s bad.",
             github_url="https://github.com/aaravsharma-dev",
             portfolio_url="https://aaravsharma.ai",
         )
@@ -169,6 +286,15 @@ def seed_demo_data():
             department="Interaction Design & HCI",
             year_of_study="4th Year",
             bio="Lead product designer for campus apps. Obsessed with typography, auto-layout, micro-interactions, and design systems. Looking to learn Python to code my own prototypes.",
+            avatar_url="/uploads/avatars/sarah_avatar.png",
+            headline="4th-Year Product Designer & Figma Specialist",
+            interests=["UI/UX Design", "Figma", "Design Systems", "Branding", "React"],
+            links=[
+                {"label": "Figma", "url": "https://figma.com/@priyapatel_ux"},
+                {"label": "GitHub", "url": "https://github.com/priyaux"},
+            ],
+            availability="Mon/Wed afternoons & Weekends",
+            favorite_quote="Design is not just what it looks like and feels like. Design is how it works.",
             portfolio_url="https://figma.com/@priyapatel_ux",
             github_url="https://github.com/priyaux",
         )

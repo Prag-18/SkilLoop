@@ -56,7 +56,7 @@ export const Navbar = () => {
             </div>
             <div>
               <span className="font-heading font-extrabold text-2xl tracking-tight text-stone-900">
-                Syn<span className="text-amber-800 font-extrabold">apse</span>
+                Skill<span className="text-amber-800 font-extrabold">Loop</span>
               </span>
               <span className="block text-[9px] text-stone-600 font-bold -mt-1 tracking-widest uppercase font-mono">
                 Campus Skill Exchange
@@ -109,21 +109,33 @@ export const Navbar = () => {
                 >
                   Dashboard
                 </Button>
-                <div className="flex items-center gap-2 pl-2 border-l border-[#dfd7c5]">
-                  <div className="w-8 h-8 rounded-full bg-[#ebdcc2] border-2 border-[#d6c7b2] flex items-center justify-center text-xs font-bold text-stone-900 font-heading shadow-inner">
-                    {user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
+                <Link
+                  to="/profile/edit"
+                  title="Edit Profile"
+                  className="flex items-center gap-2 pl-2 border-l border-[#dfd7c5] hover:opacity-80 transition-opacity"
+                >
+                  <div className="w-8 h-8 rounded-full bg-[#ebdcc2] border-2 border-[#d6c7b2] flex items-center justify-center text-xs font-bold text-stone-900 font-heading shadow-inner overflow-hidden shrink-0">
+                    {user?.avatar_url ? (
+                      <img
+                        src={user.avatar_url}
+                        alt={user.full_name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span>{user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}</span>
+                    )}
                   </div>
                   <span className="text-xs font-bold text-stone-800 max-w-[100px] truncate font-heading">
                     {user?.full_name || 'Student'}
                   </span>
-                  <button
-                    onClick={handleLogout}
-                    title="Sign Out"
-                    className="p-1.5 text-stone-500 hover:text-rose-700 hover:bg-[#ebdcc2]/60 rounded-lg transition-colors"
-                  >
-                    <LogOut className="w-4 h-4" />
-                  </button>
-                </div>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  title="Sign Out"
+                  className="p-1.5 text-stone-500 hover:text-rose-700 hover:bg-[#ebdcc2]/60 rounded-lg transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
               </div>
             ) : (
               <>
@@ -178,6 +190,13 @@ export const Navbar = () => {
                 className="block px-3 py-2 rounded-lg text-base font-medium text-stone-800 hover:bg-[#ebdcc2]/60 font-heading"
               >
                 Dashboard
+              </Link>
+              <Link
+                to="/profile/edit"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 rounded-lg text-base font-medium text-stone-800 hover:bg-[#ebdcc2]/60 font-heading"
+              >
+                Edit Profile
               </Link>
               <button
                 onClick={() => {

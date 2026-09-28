@@ -356,6 +356,8 @@ export const Dashboard = () => {
 
               {/* Right Column: Student Passport & Profile Badge */}
               <div className="space-y-6">
+              {/* Right Column: Student Passport & Profile Badge */}
+              <div className="space-y-6">
                 <div className="bg-[#fffdfa] border-2 border-[#dfd7c5] rounded-3xl p-6 shadow-sm relative">
                   {/* Tape pin at top center */}
                   <div className="washi-tape washi-tape-sage -top-3 left-1/2 -translate-x-1/2 w-28 -rotate-1" />
@@ -364,14 +366,33 @@ export const Dashboard = () => {
                   <div className="text-center pb-4 border-b-2 border-dashed border-[#dfd7c5] pt-1">
                     {/* Instant photo frame for avatar */}
                     <div className="w-20 h-24 bg-white border-2 border-[#dfd7c5] rounded-sm p-1.5 pb-4 mx-auto shadow-md rotate-1 mb-3">
-                      <div className="w-full h-full bg-[#ebdcc2] border border-[#d6c7b2] flex items-center justify-center text-2xl font-bold text-amber-950 font-heading">
-                        {userProfile?.full_name ? userProfile.full_name.charAt(0).toUpperCase() : 'U'}
-                      </div>
+                      {userProfile?.avatar_url || user?.avatar_url ? (
+                        <img
+                          src={userProfile?.avatar_url || user?.avatar_url}
+                          alt={userProfile?.full_name || 'Avatar'}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-[#ebdcc2] border border-[#d6c7b2] flex items-center justify-center text-2xl font-bold text-amber-950 font-heading">
+                          {userProfile?.full_name ? userProfile.full_name.charAt(0).toUpperCase() : 'U'}
+                        </div>
+                      )}
                     </div>
 
-                    <h3 className="text-lg font-bold text-stone-900 font-heading">{userProfile?.full_name || 'Dark sider'}</h3>
-                    <p className="text-xs text-amber-900 font-semibold mt-0.5">{userProfile?.department || 'Computer Science'}</p>
-                    <p className="text-[11px] text-stone-500 font-mono">{userProfile?.email || 'darksider70117@gmail.com'}</p>
+                    <h3 className="text-lg font-bold text-stone-900 font-heading">{userProfile?.full_name || 'Student User'}</h3>
+                    {userProfile?.headline && (
+                      <p className="text-xs text-amber-900 font-semibold mt-0.5 px-2">
+                        {userProfile.headline}
+                      </p>
+                    )}
+                    <p className="text-xs text-stone-600 font-medium mt-0.5">{userProfile?.department || 'Computer Science'}</p>
+                    <p className="text-[11px] text-stone-500 font-mono">{userProfile?.email || 'student@university.edu'}</p>
+
+                    {userProfile?.favorite_quote && (
+                      <div className="mt-3 p-2.5 rounded-xl bg-[#faf5e8] border border-[#e5dcc7] text-stone-700 text-xs italic">
+                        "{userProfile.favorite_quote}"
+                      </div>
+                    )}
                     
                     <div className="mt-2.5">
                       <span className="stamp-seal-emerald text-[10px]">★ VERIFIED STUDENT ★</span>
@@ -392,11 +413,19 @@ export const Dashboard = () => {
                       <span className="text-stone-500 font-medium">Verification Status</span>
                       <Badge variant="emerald" size="sm" icon={ShieldCheck}>VERIFIED</Badge>
                     </div>
-                    <div className="pt-3">
+                    <div className="pt-3 flex flex-col gap-2">
                       <Button
                         variant="outline"
                         size="sm"
                         className="w-full font-semibold shadow-xs"
+                        onClick={() => navigate('/profile/edit')}
+                      >
+                        Personalize / Edit Profile
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full text-stone-600 font-semibold"
                         onClick={() => navigate('/skills/me')}
                       >
                         Open Skill & Evidence Portal
@@ -405,6 +434,7 @@ export const Dashboard = () => {
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         )}
