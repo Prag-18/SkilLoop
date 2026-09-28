@@ -136,7 +136,7 @@ export const Landing = () => {
 
         {/* 2. Collage Note Cards (Sage "How it Works" & Peach "Skill Swap Recipe") */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start my-12">
-          {/* Left: Pale Gray-Green Note Card ("WHAT IS SKILLLOOP?") */}
+          {/* Left: Pale Gray-Green Note Card ("WHAT IS SYNAPSE?") */}
           <div className="md:col-span-6 relative note-sage p-6 sm:p-8 rounded-2xl -rotate-1">
             {/* Washi tape at top */}
             <WashiTape variant="mauve" rotation="-rotate-1" className="w-32 -top-3 left-8" />
@@ -274,7 +274,7 @@ export const Landing = () => {
           “Life is better when there’s a skill to share.”
         </p>
         <p className="font-lead text-[11px] text-[#4b5560] uppercase tracking-widest mt-1 font-bold">
-          © {new Date().getFullYear()} SkillLoop • Campus Skill-Exchange Platform
+          © {new Date().getFullYear()} Synapse • Campus Skill-Exchange Platform
         </p>
       </footer>
     </div>
