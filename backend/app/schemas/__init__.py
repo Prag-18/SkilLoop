@@ -1,6 +1,15 @@
 from app.schemas.health import HealthResponse
 from app.schemas.token import Token, TokenPayload
-from app.schemas.user import UserCreate, UserLogin, UserResponse, UserUpdate
+from app.schemas.user import (
+    UserCreate,
+    RegisterRequest,
+    UserLogin,
+    UserResponse,
+    UserUpdate,
+    LinkItem,
+    PublicUserResponse,
+    UserPublicResponse,
+)
 from app.schemas.skill import (
     SkillCategoryBase,
     SkillCategoryCreate,

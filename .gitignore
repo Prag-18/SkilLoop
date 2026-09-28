@@ -71,3 +71,4 @@ env/
 *.sqlite3
 backend/skillloop.db
 alembic/versions/*.pyc
+backend/uploads/
