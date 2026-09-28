@@ -7,6 +7,8 @@ import Dashboard from '../pages/Dashboard';
 import SkillProfile from '../pages/SkillProfile';
 import Discover from '../pages/Discover';
 import Requests from '../pages/Requests';
+import EditProfile from '../pages/EditProfile';
+import PublicProfile from '../pages/PublicProfile';
 import ProtectedRoute from './ProtectedRoute';
 
 export const AppRoutes = () => {
@@ -20,6 +22,22 @@ export const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile/edit"
+        element={
+          <ProtectedRoute>
+            <EditProfile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/u/:id"
+        element={
+          <ProtectedRoute>
+            <PublicProfile />
           </ProtectedRoute>
         }
       />

@@ -16,10 +16,16 @@ This click-by-click script guides presenters through the end-to-end SkillLoop de
 Before presenting on stage, ensure database and demo users are seeded:
 
 ```bash
-# Terminal 1: Backend
+# Terminal 1: Backend (Automatic in-place upgrade helper included)
 cd backend
 python -m app.db.seed_demo
 uvicorn app.main:app --reload --port 8000
+
+# Optional Database Hard Reset Fallback:
+# If you ever need a clean slate:
+# rm backend/skillloop.db
+# python -m app.db.seed_taxonomy
+# python -m app.db.seed_demo
 
 # Terminal 2: Frontend
 npm run dev

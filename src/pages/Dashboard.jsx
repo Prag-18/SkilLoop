@@ -275,12 +275,33 @@ export const Dashboard = () => {
               <div className="space-y-6">
                 <Card>
                   <div className="text-center pb-4 border-b border-slate-800">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 mx-auto flex items-center justify-center text-2xl font-bold text-white shadow-lg mb-3">
-                      {userProfile?.full_name ? userProfile.full_name.charAt(0).toUpperCase() : 'U'}
+                    <div className="w-16 h-16 rounded-full overflow-hidden bg-slate-900 border-2 border-indigo-500/40 mx-auto flex items-center justify-center text-2xl font-bold text-white shadow-lg mb-3 shrink-0">
+                      {userProfile?.avatar_url || user?.avatar_url ? (
+                        <img
+                          src={userProfile?.avatar_url || user?.avatar_url}
+                          alt={userProfile?.full_name || 'Avatar'}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center">
+                          {userProfile?.full_name ? userProfile.full_name.charAt(0).toUpperCase() : 'U'}
+                        </div>
+                      )}
                     </div>
                     <h3 className="text-base font-bold text-white font-heading">{userProfile?.full_name || 'Student User'}</h3>
-                    <p className="text-xs text-indigo-400 mt-0.5">{userProfile?.department || 'Computer Science'}</p>
+                    {userProfile?.headline && (
+                      <p className="text-xs text-indigo-300 font-medium mt-0.5 px-2">
+                        {userProfile.headline}
+                      </p>
+                    )}
+                    <p className="text-xs text-slate-400 mt-0.5">{userProfile?.department || 'Computer Science'}</p>
                     <p className="text-[11px] text-slate-500">{userProfile?.email || 'student@university.edu'}</p>
+
+                    {userProfile?.favorite_quote && (
+                      <div className="mt-3 p-2.5 rounded-xl bg-indigo-950/40 border border-indigo-500/20 text-indigo-300 text-[11px] italic">
+                        "{userProfile.favorite_quote}"
+                      </div>
+                    )}
                   </div>
 
                   <div className="pt-4 space-y-2.5 text-xs text-slate-300">
@@ -296,11 +317,19 @@ export const Dashboard = () => {
                       <span className="text-slate-500">Verification Status</span>
                       <Badge variant="emerald" size="sm" icon={ShieldCheck}>Verified</Badge>
                     </div>
-                    <div className="pt-2">
+                    <div className="pt-2 flex flex-col gap-2">
                       <Button
                         variant="outline"
                         size="sm"
                         className="w-full"
+                        onClick={() => navigate('/profile/edit')}
+                      >
+                        Personalize / Edit Profile
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full text-slate-400"
                         onClick={() => navigate('/skills/me')}
                       >
                         Open Skill & Evidence Portal

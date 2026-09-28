@@ -25,6 +25,10 @@ class AuthService:
                 detail="A student user with this email address already exists.",
             )
 
+        links_data = None
+        if user_in.links:
+            links_data = [l.model_dump() if hasattr(l, "model_dump") else l for l in user_in.links]
+
         user = User(
             email=user_in.email.lower(),
             hashed_password=get_password_hash(user_in.password),
@@ -32,6 +36,12 @@ class AuthService:
             department=user_in.department,
             year_of_study=user_in.year_of_study,
             bio=user_in.bio,
+            avatar_url=user_in.avatar_url,
+            headline=user_in.headline,
+            interests=user_in.interests,
+            links=links_data,
+            availability=user_in.availability,
+            favorite_quote=user_in.favorite_quote,
             github_url=user_in.github_url,
             portfolio_url=user_in.portfolio_url,
             is_active=True,

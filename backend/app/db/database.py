@@ -22,6 +22,10 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+# Auto-upgrade table schema in-place for SQLite
+from app.db.schema_helper import upgrade_user_columns
+upgrade_user_columns(engine)
+
 
 def get_db():
     """FastAPI Dependency for database session management."""
