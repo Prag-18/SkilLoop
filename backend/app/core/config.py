@@ -13,13 +13,8 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24 hours
 
-    # Database
-    POSTGRES_SERVER: str = "localhost"
-    POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "postgres"
-    POSTGRES_DB: str = "skillloop_db"
-    POSTGRES_PORT: str = "5432"
-    DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/skillloop_db"
+    # Database - Locked to SQLite for local demo stability
+    DATABASE_URL: str = "sqlite:///./skillloop.db"
 
     # CORS
     BACKEND_CORS_ORIGINS: List[str] = [

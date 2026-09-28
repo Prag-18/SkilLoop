@@ -5,28 +5,19 @@ from app.core.config import settings
 
 logger = logging.getLogger("skillloop.db")
 
-# Fallback URI mechanism if PostgreSQL is unavailable locally during early dev
+# Explicit database connection without silent fallback switches
 DATABASE_URL = settings.DATABASE_URL
 
 connect_args = {}
 if DATABASE_URL.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
 
-try:
-    engine = create_engine(
-        DATABASE_URL,
-        pool_pre_ping=True,
-        connect_args=connect_args,
-    )
-    with engine.connect() as conn:
-        pass
-except Exception as e:
-    logger.warning(f"Failed to connect to primary DB ({DATABASE_URL}), using SQLite fallback: {e}")
-    DATABASE_URL = "sqlite:///./skillloop.db"
-    engine = create_engine(
-        DATABASE_URL,
-        connect_args={"check_same_thread": False},
-    )
+logger.info(f"Connecting to database: {DATABASE_URL}")
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True if not DATABASE_URL.startswith("sqlite") else False,
+    connect_args=connect_args,
+)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
