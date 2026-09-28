@@ -76,6 +76,16 @@ export const usersAPI = {
     const response = await api.put('/users/me', profileData);
     return response.data;
   },
+  uploadAvatar: async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await api.post('/users/me/avatar', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
 };
 
 // ─── Discovery ───────────────────────────────────────────────────────────────
