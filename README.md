@@ -15,6 +15,81 @@ SkillLoop is a modern campus skill-exchange platform where students list skills 
 
 ---
 
+## Architecture Diagram
+
+```mermaid
+graph TB
+    subgraph Browser["🌐 Browser (React + Vite)"]
+        direction TB
+        Landing["Landing Page"]
+        Auth["Login / Register"]
+        Dashboard["Dashboard\n(Overview · Skills · Exchanges)"]
+        Discover["Discover\n(Reciprocal Matching)"]
+        Requests["Requests\n(Inbox · Sent)"]
+
+        Landing --> Auth
+        Auth --> Dashboard
+        Dashboard --> Discover
+        Dashboard --> Requests
+    end
+
+    subgraph Frontend["⚛️ Frontend Services"]
+        AC["AuthContext\n(JWT · localStorage)"]
+        API["api.js\n(Axios · 401 redirect)"]
+    end
+
+    subgraph Backend["🐍 FastAPI Backend"]
+        direction TB
+        Health["/health"]
+        AuthR["/auth\n(register · login · me)"]
+        UsersR["/users"]
+        DiscoverR["/discover"]
+        RequestsR["/requests"]
+        ExchangesR["/exchanges"]
+
+        subgraph Services["Services"]
+            Rec["RecommendationService\n(Stage 1 Candidates\n+ Stage 2 Ranking)"]
+            SecSvc["SecurityService\n(bcrypt · JWT sign/verify)"]
+        end
+    end
+
+    subgraph DB["🐘 PostgreSQL"]
+        Users[("users")]
+        Skills[("skills")]
+        Evidence[("evidence")]
+        LR[("learning_requests")]
+        Ex[("exchanges")]
+        FB[("feedback")]
+        SC[("skill_credits")]
+    end
+
+    Browser <-->|"HTTP + Bearer JWT"| API
+    API <-->|"axios interceptor"| AC
+    API --> Health & AuthR & UsersR & DiscoverR & RequestsR & ExchangesR
+
+    DiscoverR --> Rec
+    AuthR --> SecSvc
+
+    AuthR & UsersR --> Users
+    DiscoverR & Rec --> Skills & Users
+    RequestsR --> LR & Users
+    ExchangesR --> Ex & LR & FB & SC & Skills
+
+    Users -.->|"FK"| Skills
+    Skills -.->|"FK"| Evidence
+    LR -.->|"FK"| Ex
+    Ex -.->|"FK"| FB
+    Ex -.->|"FK"| SC
+
+    style Browser fill:#1e1b4b,stroke:#6366f1,color:#e0e7ff
+    style Frontend fill:#0f172a,stroke:#4f46e5,color:#c7d2fe
+    style Backend fill:#0c1a2e,stroke:#0ea5e9,color:#bae6fd
+    style DB fill:#052e16,stroke:#16a34a,color:#bbf7d0
+    style Services fill:#1a0533,stroke:#a855f7,color:#e9d5ff
+```
+
+---
+
 ## Directory Structure
 
 ```text
