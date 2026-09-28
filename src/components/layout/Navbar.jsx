@@ -107,21 +107,33 @@ export const Navbar = () => {
                 >
                   Dashboard
                 </Button>
-                <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
-                  <div className="w-8 h-8 rounded-full bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center text-xs font-bold text-indigo-300">
-                    {user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
+                <Link
+                  to="/profile/edit"
+                  title="Edit Profile"
+                  className="flex items-center gap-2 pl-2 border-l border-slate-800 hover:opacity-80 transition-opacity"
+                >
+                  <div className="w-8 h-8 rounded-full bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center text-xs font-bold text-indigo-300 overflow-hidden shrink-0">
+                    {user?.avatar_url ? (
+                      <img
+                        src={user.avatar_url}
+                        alt={user.full_name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span>{user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}</span>
+                    )}
                   </div>
                   <span className="text-xs font-medium text-slate-300 max-w-[100px] truncate">
                     {user?.full_name || 'Student'}
                   </span>
-                  <button
-                    onClick={handleLogout}
-                    title="Sign Out"
-                    className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800/80 rounded-lg transition-colors"
-                  >
-                    <LogOut className="w-4 h-4" />
-                  </button>
-                </div>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  title="Sign Out"
+                  className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800/80 rounded-lg transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
               </div>
             ) : (
               <>
@@ -174,6 +186,13 @@ export const Navbar = () => {
                 className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
               >
                 Dashboard
+              </Link>
+              <Link
+                to="/profile/edit"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
+              >
+                Edit Profile
               </Link>
               <button
                 onClick={() => {
