@@ -356,8 +356,6 @@ export const Dashboard = () => {
 
               {/* Right Column: Student Passport & Profile Badge */}
               <div className="space-y-6">
-              {/* Right Column: Student Passport & Profile Badge */}
-              <div className="space-y-6">
                 <div className="bg-[#fffdfa] border-2 border-[#dfd7c5] rounded-3xl p-6 shadow-sm relative">
                   {/* Tape pin at top center */}
                   <div className="washi-tape washi-tape-sage -top-3 left-1/2 -translate-x-1/2 w-28 -rotate-1" />

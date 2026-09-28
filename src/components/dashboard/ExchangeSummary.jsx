@@ -113,9 +113,7 @@ export const ExchangeSummary = ({ onExchangeCompleted }) => {
 
       {feedbackSuccess && (
         <div className="p-3 rounded-xl bg-[#ecfdf5] border-2 border-emerald-300 text-emerald-900 text-xs flex items-center gap-2 font-semibold">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-        <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
           <span>{feedbackSuccess}</span>
         </div>
       )}
