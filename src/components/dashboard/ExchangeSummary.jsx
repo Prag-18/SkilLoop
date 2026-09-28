@@ -91,29 +91,29 @@ export const ExchangeSummary = ({ onExchangeCompleted }) => {
   const completedCount = exchanges.filter((e) => e.status === 'completed').length;
 
   return (
-    <Card padding="lg" className="space-y-6">
+    <Card padding="lg" className="space-y-6 bg-[#fffdf9] border-2 border-[#e5dcc7] shadow-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <CardTitle className="flex items-center gap-2">
-            <Repeat className="w-5 h-5 text-indigo-400" />
+          <CardTitle className="flex items-center gap-2 font-heading text-xl text-stone-900">
+            <Repeat className="w-5 h-5 text-amber-800" />
             Active Exchanges & Credit Summary
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-stone-600 font-medium text-xs">
             Track scheduled 1-on-1 sessions, complete exchanges, and earn skill credit rewards.
           </CardDescription>
         </div>
 
         {/* Counter Badges */}
         <div className="flex items-center gap-2">
-          <Badge variant="indigo">Offered: {offeredCount}</Badge>
-          <Badge variant="emerald">Requested: {requestedCount}</Badge>
-          <Badge variant="amber">Completed: {completedCount}</Badge>
+          <Badge variant="amber" className="font-semibold">Offered: {offeredCount}</Badge>
+          <Badge variant="emerald" className="font-semibold">Requested: {requestedCount}</Badge>
+          <Badge variant="amber" className="font-semibold bg-[#fef3c7] text-amber-950">Completed: {completedCount}</Badge>
         </div>
       </div>
 
       {feedbackSuccess && (
-        <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+        <div className="p-3 rounded-xl bg-[#ecfdf5] border-2 border-emerald-300 text-emerald-900 text-xs flex items-center gap-2 font-semibold">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
           <span>{feedbackSuccess}</span>
         </div>
       )}
@@ -128,32 +128,32 @@ export const ExchangeSummary = ({ onExchangeCompleted }) => {
       {/* Exchanges List */}
       <div className="space-y-3">
         {loading ? (
-          <p className="text-xs text-slate-400 text-center py-4">Loading exchanges...</p>
+          <p className="text-xs text-stone-500 text-center py-4 font-medium">Loading exchanges...</p>
         ) : exchanges.length === 0 ? (
-          <p className="text-xs text-slate-500 text-center py-4">No active or completed exchanges yet.</p>
+          <p className="text-xs text-stone-500 text-center py-4 font-medium">No active or completed exchanges yet.</p>
         ) : (
           exchanges.map((ex) => (
             <div
               key={ex.id}
-              className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+              className="p-4 rounded-2xl bg-[#faf6ee] border-2 border-[#e5dcc7] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm"
             >
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-white">{ex.skill_name}</span>
-                  <Badge variant={ex.status === 'completed' ? 'emerald' : 'amber'}>
+                  <span className="text-sm font-bold text-stone-900 font-heading">{ex.skill_name}</span>
+                  <Badge variant={ex.status === 'completed' ? 'emerald' : 'amber'} className="font-semibold">
                     {ex.status.toUpperCase()}
                   </Badge>
                 </div>
-                <p className="text-xs text-slate-400 mt-1">
-                  Teacher: <strong className="text-indigo-400">{ex.teacher_name}</strong> • Learner:{' '}
-                  <strong className="text-emerald-400">{ex.learner_name}</strong>
+                <p className="text-xs text-stone-600 mt-1">
+                  Teacher: <strong className="text-amber-900 font-bold">{ex.teacher_name}</strong> • Learner:{' '}
+                  <strong className="text-emerald-800 font-bold">{ex.learner_name}</strong>
                 </p>
               </div>
 
               <div className="flex items-center gap-3">
                 {ex.status === 'completed' ? (
-                  <div className="flex items-center gap-1.5 text-xs text-amber-400 font-bold bg-amber-500/10 px-3 py-1.5 rounded-xl border border-amber-500/20">
-                    <Award className="w-4 h-4 text-amber-400" />
+                  <div className="flex items-center gap-1.5 text-xs text-amber-950 font-bold bg-[#fef3c7] px-3 py-1.5 rounded-xl border border-amber-300 shadow-xs">
+                    <Award className="w-4 h-4 text-amber-800" />
                     <span>+{ex.credits_awarded || 50} CR Earned</span>
                   </div>
                 ) : (
@@ -163,6 +163,7 @@ export const ExchangeSummary = ({ onExchangeCompleted }) => {
                     icon={CheckCircle2}
                     isLoading={completingId === ex.id}
                     onClick={() => handleComplete(ex.id)}
+                    className="shadow-sm font-semibold"
                   >
                     Mark Done (+50 CR)
                   </Button>

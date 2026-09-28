@@ -114,29 +114,29 @@ export const SkillPicker = ({
     : [];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm animate-fade-in">
+      <div className="bg-[#faf6ee] border-2 border-[#dfd7c5] rounded-3xl w-full max-w-4xl shadow-[0_20px_50px_rgba(40,30,20,0.25)] overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+        <div className="p-5 border-b border-[#dfd7c5] flex items-center justify-between bg-[#f4ecd8]/60">
           <div>
-            <h2 className="text-xl font-bold text-white font-heading flex items-center gap-2.5">
-              <Sparkles className="w-5 h-5 text-indigo-400" />
+            <h2 className="text-xl font-bold text-stone-900 font-heading flex items-center gap-2.5">
+              <Sparkles className="w-5 h-5 text-amber-800" />
               Claim Skill from Taxonomy
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-stone-600 mt-0.5 font-medium">
               Explore university verified skill categories or search across the campus graph
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1.5 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-[#ebdcc2] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Search & Claim Config Bar */}
-        <div className="p-4 bg-slate-900/40 border-b border-slate-800/80 flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <div className="p-4 bg-[#fcf9f2] border-b border-[#dfd7c5] flex flex-col sm:flex-row gap-3 items-center justify-between">
           <div className="w-full sm:w-80">
             <Input
               icon={Search}
@@ -149,14 +149,14 @@ export const SkillPicker = ({
 
           <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
             {/* Direction Selector */}
-            <div className="flex rounded-xl bg-slate-950 p-1 border border-slate-800">
+            <div className="flex rounded-xl bg-[#ebdcc2] p-1 border border-[#d6c7b2]">
               <button
                 type="button"
                 onClick={() => setDirection('teach')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   direction === 'teach'
-                    ? 'bg-indigo-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-amber-800 text-white shadow-sm'
+                    : 'text-stone-700 hover:text-stone-950'
                 }`}
               >
                 I Teach (Offer)
@@ -166,8 +166,8 @@ export const SkillPicker = ({
                 onClick={() => setDirection('learn')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   direction === 'learn'
-                    ? 'bg-emerald-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-emerald-700 text-white shadow-sm'
+                    : 'text-stone-700 hover:text-stone-950'
                 }`}
               >
                 I Want (Learn)
@@ -178,7 +178,7 @@ export const SkillPicker = ({
             <select
               value={level}
               onChange={(e) => setLevel(e.target.value)}
-              className="rounded-xl bg-slate-950 border border-slate-800 px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+              className="rounded-xl bg-[#fffdfa] border border-[#dfd7c5] px-3 py-1.5 text-xs text-stone-800 font-medium focus:outline-none focus:border-amber-700 shadow-sm"
             >
               <option value="Beginner">Beginner</option>
               <option value="Intermediate">Intermediate</option>
@@ -192,14 +192,14 @@ export const SkillPicker = ({
         <div className="flex-1 overflow-hidden flex flex-col md:flex-row">
           {searchQuery.trim() ? (
             /* Search Results View */
-            <div className="flex-1 p-5 overflow-y-auto max-h-[480px]">
+            <div className="flex-1 p-5 overflow-y-auto max-h-[480px] bg-[#fffdfa]">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                <span className="text-xs font-semibold text-stone-600 uppercase tracking-wider font-heading">
                   Search Results ({filteredSkills.length})
                 </span>
               </div>
               {filteredSkills.length === 0 ? (
-                <div className="text-center py-12 text-slate-500 text-sm">
+                <div className="text-center py-12 text-stone-500 text-sm">
                   No taxonomy skills match "{searchQuery}". Try browsing categories.
                 </div>
               ) : (
@@ -210,23 +210,23 @@ export const SkillPicker = ({
                       <div
                         key={skill.id}
                         onClick={() => setSelectedSkill(skill)}
-                        className={`p-3.5 rounded-xl border cursor-pointer transition-all ${
+                        className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
                           isSelected
-                            ? 'bg-indigo-600/20 border-indigo-500 shadow-md shadow-indigo-600/10'
-                            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-800/40'
+                            ? 'bg-[#fef3c7] border-amber-600 shadow-sm'
+                            : 'bg-[#faf6ee] border-[#dfd7c5] hover:border-amber-400 hover:bg-[#fbf7ee]'
                         }`}
                       >
                         <div className="flex items-start justify-between">
-                          <h4 className="text-sm font-semibold text-white">{skill.name}</h4>
-                          {isSelected && <CheckCircle2 className="w-4 h-4 text-indigo-400 shrink-0" />}
+                          <h4 className="text-sm font-bold text-stone-900 font-heading">{skill.name}</h4>
+                          {isSelected && <CheckCircle2 className="w-4 h-4 text-amber-700 shrink-0" />}
                         </div>
                         {skill.category_name && (
-                          <span className="text-[11px] text-indigo-300/80 font-medium block mt-0.5">
+                          <span className="text-[11px] text-amber-800 font-medium block mt-0.5">
                             {skill.category_name}
                           </span>
                         )}
                         {skill.description && (
-                          <p className="text-xs text-slate-400 mt-1.5 line-clamp-2">
+                          <p className="text-xs text-stone-600 mt-1.5 line-clamp-2">
                             {skill.description}
                           </p>
                         )}
@@ -240,9 +240,9 @@ export const SkillPicker = ({
             /* Hierarchical Category Tree View */
             <>
               {/* Category Roots Sidebar */}
-              <div className="w-full md:w-56 border-r border-slate-800/80 bg-slate-950/40 p-3 overflow-y-auto space-y-1 shrink-0">
+              <div className="w-full md:w-56 border-r border-[#dfd7c5] bg-[#f4ecd8]/60 p-3 overflow-y-auto space-y-1 shrink-0">
                 <div className="px-2 py-1 mb-1">
-                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                  <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider font-heading">
                     Taxonomy Pillars
                   </span>
                 </div>
@@ -255,35 +255,35 @@ export const SkillPicker = ({
                       onClick={() => setSelectedCategory(cat)}
                       className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all ${
                         isSelected
-                          ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
-                          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                          ? 'bg-amber-800 text-white shadow-sm'
+                          : 'text-stone-700 hover:text-stone-900 hover:bg-[#ebdcc2]/60'
                       }`}
                     >
                       <div className="flex items-center gap-2.5 truncate">
                         <Icon className="w-4 h-4 shrink-0" />
                         <span className="truncate">{cat.name}</span>
                       </div>
-                      <ChevronRight className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-white' : 'text-slate-600'}`} />
+                      <ChevronRight className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-white' : 'text-stone-400'}`} />
                     </button>
                   );
                 })}
               </div>
 
               {/* Category Tree & Skill Selector Pane */}
-              <div className="flex-1 p-5 overflow-y-auto max-h-[480px]">
+              <div className="flex-1 p-5 overflow-y-auto max-h-[480px] bg-[#fffdfa]">
                 {loading ? (
-                  <div className="flex items-center justify-center h-48 text-slate-400 text-sm">
+                  <div className="flex items-center justify-center h-48 text-stone-500 text-sm">
                     Loading category taxonomy...
                   </div>
                 ) : selectedCategory ? (
                   <div className="space-y-6">
                     {/* Category Header */}
                     <div>
-                      <h3 className="text-lg font-bold text-white font-heading">
+                      <h3 className="text-lg font-bold text-stone-900 font-heading">
                         {selectedCategory.name}
                       </h3>
                       {selectedCategory.description && (
-                        <p className="text-xs text-slate-400 mt-1">
+                        <p className="text-xs text-stone-600 mt-1">
                           {selectedCategory.description}
                         </p>
                       )}
@@ -292,7 +292,7 @@ export const SkillPicker = ({
                     {/* Direct Skills if any */}
                     {selectedCategory.skills?.length > 0 && (
                       <div className="space-y-2">
-                        <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                        <span className="text-[11px] font-semibold text-stone-600 uppercase tracking-wider font-heading">
                           General {selectedCategory.name} Skills
                         </span>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -302,18 +302,18 @@ export const SkillPicker = ({
                               <div
                                 key={skill.id}
                                 onClick={() => setSelectedSkill(skill)}
-                                className={`p-3 rounded-xl border cursor-pointer transition-all ${
+                                className={`p-3 rounded-xl border-2 cursor-pointer transition-all ${
                                   isSelected
-                                    ? 'bg-indigo-600/20 border-indigo-500 shadow-md shadow-indigo-600/10'
-                                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-800/40'
+                                    ? 'bg-[#fef3c7] border-amber-600 shadow-sm'
+                                    : 'bg-[#faf6ee] border-[#dfd7c5] hover:border-amber-400 hover:bg-[#fbf7ee]'
                                 }`}
                               >
                                 <div className="flex items-start justify-between">
-                                  <h4 className="text-xs font-semibold text-white">{skill.name}</h4>
-                                  {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 shrink-0" />}
+                                  <h4 className="text-xs font-bold text-stone-900 font-heading">{skill.name}</h4>
+                                  {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-amber-700 shrink-0" />}
                                 </div>
                                 {skill.description && (
-                                  <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">
+                                  <p className="text-[11px] text-stone-600 mt-1 line-clamp-2">
                                     {skill.description}
                                   </p>
                                 )}
@@ -326,17 +326,17 @@ export const SkillPicker = ({
 
                     {/* Subcategories (Level 2 & Level 3) */}
                     {selectedCategory.subcategories?.map((subcat) => (
-                      <div key={subcat.id} className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-4 space-y-3">
+                      <div key={subcat.id} className="bg-[#faf6ee] border-2 border-[#dfd7c5] rounded-2xl p-4 space-y-3">
                         <div className="flex items-center justify-between">
                           <div>
-                            <h4 className="text-sm font-bold text-indigo-300 font-heading">
+                            <h4 className="text-sm font-bold text-amber-900 font-heading">
                               {subcat.name}
                             </h4>
                             {subcat.description && (
-                              <p className="text-[11px] text-slate-400 mt-0.5">{subcat.description}</p>
+                              <p className="text-[11px] text-stone-600 mt-0.5">{subcat.description}</p>
                             )}
                           </div>
-                          <Badge variant="indigo" size="sm">Subcategory</Badge>
+                          <Badge variant="amber" size="sm">Subcategory</Badge>
                         </div>
 
                         {/* Level 2 Skills */}
@@ -348,18 +348,18 @@ export const SkillPicker = ({
                                 <div
                                   key={skill.id}
                                   onClick={() => setSelectedSkill(skill)}
-                                  className={`p-3 rounded-xl border cursor-pointer transition-all ${
+                                  className={`p-3 rounded-xl border-2 cursor-pointer transition-all ${
                                     isSelected
-                                      ? 'bg-indigo-600/20 border-indigo-500 shadow-md shadow-indigo-600/10'
-                                      : 'bg-slate-900/70 border-slate-800 hover:border-slate-700 hover:bg-slate-800/50'
+                                      ? 'bg-[#fef3c7] border-amber-600 shadow-sm'
+                                      : 'bg-[#fffdfa] border-[#dfd7c5] hover:border-amber-400 hover:bg-[#fbf7ee]'
                                   }`}
                                 >
                                   <div className="flex items-start justify-between">
-                                    <h5 className="text-xs font-semibold text-white">{skill.name}</h5>
-                                    {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 shrink-0" />}
+                                    <h5 className="text-xs font-bold text-stone-900 font-heading">{skill.name}</h5>
+                                    {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-amber-700 shrink-0" />}
                                   </div>
                                   {skill.description && (
-                                    <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">
+                                    <p className="text-[11px] text-stone-600 mt-1 line-clamp-2">
                                       {skill.description}
                                     </p>
                                   )}
@@ -371,13 +371,13 @@ export const SkillPicker = ({
 
                         {/* Level 3 Subcategories (e.g. Technical > AI/ML > Machine Learning) */}
                         {subcat.subcategories?.map((l3cat) => (
-                          <div key={l3cat.id} className="bg-slate-900/80 border border-slate-800 rounded-lg p-3 space-y-2 mt-2">
+                          <div key={l3cat.id} className="bg-[#f4ecd8]/70 border border-[#dfd7c5] rounded-xl p-3 space-y-2 mt-2">
                             <div className="flex items-center gap-2">
-                              <Sparkles className="w-3.5 h-3.5 text-pink-400" />
-                              <span className="text-xs font-bold text-slate-200">
+                              <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+                              <span className="text-xs font-bold text-stone-800 font-heading">
                                 {l3cat.name}
                               </span>
-                              <span className="text-[10px] text-slate-500 font-medium">(Deep Specialization)</span>
+                              <span className="text-[10px] text-stone-500 font-medium">(Deep Specialization)</span>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                               {l3cat.skills?.map((skill) => {
@@ -388,16 +388,16 @@ export const SkillPicker = ({
                                     onClick={() => setSelectedSkill(skill)}
                                     className={`p-2.5 rounded-lg border cursor-pointer transition-all ${
                                       isSelected
-                                        ? 'bg-indigo-600/25 border-indigo-400 shadow-md'
-                                        : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                                        ? 'bg-[#fef3c7] border-amber-600 shadow-xs'
+                                        : 'bg-[#fffdfa] border-[#dfd7c5] hover:border-amber-400'
                                     }`}
                                   >
                                     <div className="flex items-start justify-between">
-                                      <h6 className="text-xs font-medium text-white">{skill.name}</h6>
-                                      {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 shrink-0" />}
+                                      <h6 className="text-xs font-semibold text-stone-900">{skill.name}</h6>
+                                      {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-amber-700 shrink-0" />}
                                     </div>
                                     {skill.description && (
-                                      <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
+                                      <p className="text-[10px] text-stone-600 mt-0.5 line-clamp-2">
                                         {skill.description}
                                       </p>
                                     )}
@@ -417,30 +417,30 @@ export const SkillPicker = ({
         </div>
 
         {/* Selected Skill Confirmation & Footer */}
-        <div className="p-4 border-t border-slate-800 bg-slate-900/90 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="p-4 border-t border-[#dfd7c5] bg-[#f4ecd8]/60 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-3 w-full sm:w-auto">
             {selectedSkill ? (
               <div className="flex items-center gap-2 text-xs">
-                <span className="text-slate-400">Selected:</span>
-                <span className="font-bold text-white bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">
+                <span className="text-stone-600 font-medium">Selected:</span>
+                <span className="font-bold text-stone-900 bg-[#fffdfa] px-2.5 py-1 rounded-lg border border-[#dfd7c5] font-heading">
                   {selectedSkill.name}
                 </span>
-                <Badge variant={direction === 'teach' ? 'indigo' : 'emerald'} size="sm">
+                <Badge variant={direction === 'teach' ? 'amber' : 'emerald'} size="sm">
                   {direction.toUpperCase()} ({level})
                 </Badge>
               </div>
             ) : (
-              <span className="text-xs text-slate-500 italic flex items-center gap-1.5">
-                <HelpCircle className="w-4 h-4" /> Click any skill above to select
+              <span className="text-xs text-stone-500 italic flex items-center gap-1.5 font-handwriting text-sm">
+                <HelpCircle className="w-4 h-4 text-stone-400" /> Click any skill above to select
               </span>
             )}
           </div>
 
           {errorMessage && (
-            <span className="text-xs font-semibold text-rose-400">{errorMessage}</span>
+            <span className="text-xs font-semibold text-rose-600">{errorMessage}</span>
           )}
           {successMessage && (
-            <span className="text-xs font-semibold text-emerald-400">{successMessage}</span>
+            <span className="text-xs font-semibold text-emerald-700">{successMessage}</span>
           )}
 
           <div className="flex items-center gap-2 w-full sm:w-auto justify-end">

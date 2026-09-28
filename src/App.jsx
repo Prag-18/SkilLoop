@@ -9,7 +9,7 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 font-sans antialiased">
+        <div className="flex flex-col min-h-screen bg-[#faf6ee] text-stone-800 font-sans antialiased">
           <Navbar />
           <div className="flex-1 flex flex-col">
             <AppRoutes />

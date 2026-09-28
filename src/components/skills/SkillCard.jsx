@@ -29,42 +29,42 @@ export const SkillCard = ({
       return {
         variant: 'emerald',
         label: 'High Trust',
-        bg: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/30 text-emerald-300',
-        ring: 'text-emerald-400',
+        bg: 'bg-emerald-100 border-emerald-300 text-emerald-800',
+        ring: 'text-emerald-700 font-bold',
       };
     }
     if (score >= 40) {
       return {
         variant: 'indigo',
         label: 'Verified Proof',
-        bg: 'from-indigo-500/20 to-purple-500/10 border-indigo-500/30 text-indigo-300',
-        ring: 'text-indigo-400',
+        bg: 'bg-amber-100 border-amber-300 text-amber-800',
+        ring: 'text-amber-800 font-bold',
       };
     }
     if (score > 0) {
       return {
         variant: 'amber',
         label: 'Unverified',
-        bg: 'from-amber-500/20 to-yellow-500/10 border-amber-500/30 text-amber-300',
-        ring: 'text-amber-400',
+        bg: 'bg-yellow-100 border-yellow-300 text-yellow-800',
+        ring: 'text-yellow-700 font-bold',
       };
     }
     return {
       variant: 'slate',
       label: 'No Evidence',
-      bg: 'from-slate-800 to-slate-900 border-slate-700 text-slate-400',
-      ring: 'text-slate-500',
+      bg: 'bg-stone-100 border-stone-300 text-stone-600',
+      ring: 'text-stone-500 font-bold',
     };
   };
 
   const conf = getConfidenceDetails(confidence);
 
   return (
-    <div className="glass-card glass-card-hover rounded-2xl border border-slate-800/80 p-5 flex flex-col justify-between relative overflow-hidden group">
-      {/* Top ambient glow based on direction */}
+    <div className="bg-[#fffdf9] rounded-2xl border-2 border-[#e5dcc7] p-5 flex flex-col justify-between relative overflow-hidden group shadow-[2px_4px_16px_rgba(40,30,20,0.06)] hover:shadow-[3px_8px_20px_rgba(40,30,20,0.1)] transition-all duration-200">
+      {/* Top accent line based on direction */}
       <div
-        className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${
-          isTeaching ? 'from-indigo-500 via-purple-500 to-pink-500' : 'from-emerald-500 via-teal-500 to-cyan-500'
+        className={`absolute top-0 left-0 right-0 h-1.5 ${
+          isTeaching ? 'bg-[#ca8a04]' : 'bg-[#059669]'
         }`}
       />
 
@@ -72,30 +72,31 @@ export const SkillCard = ({
         {/* Badges Bar */}
         <div className="flex items-center justify-between gap-2 mb-3">
           <Badge
-            variant={isTeaching ? 'indigo' : 'emerald'}
+            variant={isTeaching ? 'amber' : 'emerald'}
             size="sm"
             icon={isTeaching ? GraduationCap : BookOpen}
+            className="font-medium"
           >
             {isTeaching ? 'I Can Teach' : 'I Want to Learn'}
           </Badge>
 
-          <span className="text-[11px] font-medium text-slate-400 px-2 py-0.5 rounded-full bg-slate-900 border border-slate-800">
+          <span className="text-[11px] font-semibold text-stone-600 px-2.5 py-0.5 rounded-full bg-[#f4ecd8] border border-[#dfd7c5]">
             {userSkill.level || 'Intermediate'}
           </span>
         </div>
 
         {/* Skill Title & Category */}
         <div className="space-y-1">
-          <h3 className="text-base font-bold text-white group-hover:text-indigo-300 transition-colors">
+          <h3 className="text-base font-bold text-stone-900 group-hover:text-amber-900 transition-colors font-heading tracking-wide">
             {userSkill.skill?.name || 'Skill Name'}
           </h3>
           {userSkill.skill?.category_name && (
-            <div className="text-xs text-indigo-400/90 font-medium">
+            <div className="text-xs text-amber-800 font-semibold">
               {userSkill.skill.category_name}
             </div>
           )}
           {userSkill.skill?.description && (
-            <p className="text-xs text-slate-400 line-clamp-2 mt-2 leading-relaxed">
+            <p className="text-xs text-stone-600 line-clamp-2 mt-2 leading-relaxed">
               {userSkill.skill.description}
             </p>
           )}
@@ -103,19 +104,19 @@ export const SkillCard = ({
       </div>
 
       {/* Confidence Score & Evidence Section */}
-      <div className="mt-5 pt-4 border-t border-slate-800/70 space-y-3">
+      <div className="mt-5 pt-4 border-t border-[#ede5d3] space-y-3">
         {isTeaching ? (
           /* For teaching skills, show confidence & evidence proofs */
-          <div className="flex items-center justify-between bg-slate-950/60 rounded-xl p-2.5 border border-slate-800/80">
+          <div className="flex items-center justify-between bg-[#fbf7ee] rounded-xl p-2.5 border border-[#dfd7c5]">
             <div className="flex items-center gap-2">
-              <div className="relative w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center font-bold text-xs">
+              <div className="relative w-8 h-8 rounded-full bg-[#ebdcc2] border border-[#d6c7b2] flex items-center justify-center font-bold text-xs shadow-inner">
                 <span className={conf.ring}>{confidence}%</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-[11px] font-semibold text-slate-200">
+                <span className="text-[11px] font-bold text-stone-800">
                   {conf.label}
                 </span>
-                <span className="text-[10px] text-slate-500">
+                <span className="text-[10px] text-stone-500 font-medium">
                   {evidenceCount} proof{evidenceCount !== 1 ? 's' : ''} attached
                 </span>
               </div>
@@ -126,19 +127,19 @@ export const SkillCard = ({
               size="sm"
               icon={Link2}
               onClick={() => onOpenEvidence(userSkill)}
-              className="text-xs py-1 px-2.5 h-7"
+              className="text-xs py-1 px-2.5 h-7 shadow-xs"
             >
               {evidenceCount > 0 ? 'Proofs' : '+ Proof'}
             </Button>
           </div>
         ) : (
           /* For learning skills, show learning intent */
-          <div className="flex items-center justify-between bg-slate-950/60 rounded-xl p-2.5 border border-slate-800/80">
+          <div className="flex items-center justify-between bg-[#f0fdf4] rounded-xl p-2.5 border border-[#bbf7d0]">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-emerald-400" />
-              <span className="text-xs text-slate-300">Ready for Peer Match</span>
+              <Sparkles className="w-4 h-4 text-emerald-700" />
+              <span className="text-xs text-emerald-900 font-medium">Ready for Peer Match</span>
             </div>
-            <span className="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider">
+            <span className="text-[10px] text-emerald-800 font-bold uppercase tracking-wider">
               Active Request
             </span>
           </div>
@@ -146,7 +147,7 @@ export const SkillCard = ({
 
         {/* Card Footer Actions */}
         <div className="flex items-center justify-between pt-1 text-xs">
-          <span className="text-[10px] text-slate-500">
+          <span className="text-[10px] text-stone-500 font-medium">
             Added {new Date(userSkill.created_at).toLocaleDateString()}
           </span>
 
@@ -154,7 +155,7 @@ export const SkillCard = ({
             onClick={() => onDeleteSkill(userSkill.id)}
             disabled={isDeleting}
             title="Remove claimed skill"
-            className="text-slate-500 hover:text-rose-400 p-1 rounded transition-colors"
+            className="text-stone-400 hover:text-rose-600 p-1 rounded transition-colors"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>

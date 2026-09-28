@@ -1,4 +1,4 @@
-export const APP_NAME = 'SkillLoop';
+export const APP_NAME = 'Synapse';
 export const APP_VERSION = '1.0.0-phase1';
 
 export const SKILL_CATEGORIES = [

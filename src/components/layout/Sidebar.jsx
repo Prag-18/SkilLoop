@@ -25,12 +25,17 @@ export const Sidebar = ({ activeTab = 'overview', setActiveTab }) => {
   ];
 
   return (
-    <aside className="w-full md:w-64 glass-panel border-r border-slate-800/80 p-4 shrink-0 flex flex-col justify-between">
-      <div className="space-y-6">
-        <div className="px-3 py-2">
-          <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider font-heading">
-            Student Portal
-          </h2>
+    <aside className="w-full md:w-64 bg-[#f8f4ea] border-r-2 border-[#dfd7c5] p-4 shrink-0 flex flex-col justify-between relative shadow-sm">
+      {/* Decorative Washi Tape at top of sidebar */}
+      <div className="washi-tape washi-tape-pink top-2 -left-2 w-28 rotate-[-3deg]" />
+
+      <div className="space-y-6 pt-3">
+        <div className="px-3 py-1 flex items-center justify-between border-b border-[#e5dcc7] pb-2">
+          <span className="text-[11px] font-bold text-stone-700 tracking-wider uppercase font-mono flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-amber-700 inline-block" />
+            STUDENT JOURNAL
+          </span>
+          <span className="text-[10px] text-stone-500 font-handwriting font-bold text-sm">2026/27</span>
         </div>
 
         <nav className="space-y-1.5">
@@ -41,22 +46,22 @@ export const Sidebar = ({ activeTab = 'overview', setActiveTab }) => {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 relative ${
                   isActive
-                    ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 shadow-md shadow-indigo-600/10'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                    ? 'bg-[#fffdfa] text-amber-950 border-2 border-amber-600/70 shadow-[2px_3px_8px_rgba(40,30,20,0.08)] font-bold -translate-r-1'
+                    : 'text-stone-700 hover:text-stone-950 hover:bg-[#efe7d3]'
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-slate-400'}`} />
-                  <span>{item.label}</span>
+                <div className="flex items-center gap-2.5">
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-amber-800' : 'text-stone-500'}`} />
+                  <span className="font-heading text-sm">{item.label}</span>
                 </div>
                 {item.badge && (
                   <span
-                    className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
+                    className={`text-[9px] px-2 py-0.5 rounded-md font-mono font-bold uppercase tracking-wider ${
                       isActive
-                        ? 'bg-indigo-500/30 text-indigo-200'
-                        : 'bg-slate-800 text-slate-400'
+                        ? 'bg-[#292524] text-white shadow-xs'
+                        : 'bg-[#e5dcc7] text-stone-700'
                     }`}
                   >
                     {item.badge}
@@ -68,14 +73,16 @@ export const Sidebar = ({ activeTab = 'overview', setActiveTab }) => {
         </nav>
       </div>
 
-      {/* System Status Footer inside sidebar */}
-      <div className="pt-4 border-t border-slate-800/60 mt-6 px-3">
-        <div className="bg-slate-900/80 rounded-xl p-3 border border-slate-800 text-xs">
-          <div className="flex items-center justify-between text-slate-400 mb-1">
-            <span>Skill Credit Balance</span>
-            <span className="font-bold text-emerald-400">100 CR</span>
+      {/* System Status Footer inside sidebar styled as a mini receipt */}
+      <div className="pt-4 border-t-2 border-dashed border-[#dfd7c5] mt-6 px-1">
+        <div className="bg-[#fffdf9] rounded-xl p-3 border border-[#dfd7c5] shadow-sm text-xs relative">
+          {/* Tape corner */}
+          <div className="washi-tape washi-tape-yellow -top-2.5 right-2 w-14 rotate-3" />
+          <div className="flex items-center justify-between text-stone-800 mb-1 pt-1">
+            <span className="font-semibold font-heading">Credit Balance</span>
+            <span className="font-bold text-amber-900 font-mono text-sm">100 CR</span>
           </div>
-          <p className="text-[11px] text-slate-500">Earn more by teaching peers.</p>
+          <p className="text-[11px] text-stone-500 font-handwriting text-xs font-semibold">Earn +50 CR for every peer exchange!</p>
         </div>
       </div>
     </aside>

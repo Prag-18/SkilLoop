@@ -16,7 +16,7 @@ export const Card = ({
 
   return (
     <div
-      className={`rounded-2xl glass-card border border-slate-800/80 shadow-xl relative overflow-hidden ${
+      className={`rounded-2xl bg-white border border-[#e5dcc7] shadow-paper relative ${
         hoverable ? 'glass-card-hover' : ''
       } ${paddings[padding]} ${className}`}
       {...props}
@@ -33,13 +33,13 @@ export const CardHeader = ({ children, className = '' }) => (
 );
 
 export const CardTitle = ({ children, className = '' }) => (
-  <h3 className={`text-lg font-bold text-slate-100 font-heading leading-tight ${className}`}>
+  <h3 className={`text-lg font-bold text-stone-900 font-heading leading-tight ${className}`}>
     {children}
   </h3>
 );
 
 export const CardDescription = ({ children, className = '' }) => (
-  <p className={`text-xs text-slate-400 leading-relaxed ${className}`}>
+  <p className={`text-xs text-stone-600 leading-relaxed ${className}`}>
     {children}
   </p>
 );
@@ -49,7 +49,7 @@ export const CardContent = ({ children, className = '' }) => (
 );
 
 export const CardFooter = ({ children, className = '' }) => (
-  <div className={`mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between ${className}`}>
+  <div className={`mt-6 pt-4 border-t border-stone-200/80 flex items-center justify-between ${className}`}>
     {children}
   </div>
 );

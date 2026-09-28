@@ -135,33 +135,33 @@ export const Discover = () => {
       {/* Toast notifications */}
       {toastMsg && (
         <div
-          className={`p-4 rounded-xl text-sm flex items-center gap-2 shadow-lg transition-all ${
+          className={`p-4 rounded-xl text-sm flex items-center gap-2 shadow-md transition-all border-2 ${
             toastType === 'success'
-              ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-300'
-              : 'bg-rose-500/10 border border-rose-500/30 text-rose-300'
+              ? 'bg-[#ecfdf5] border-emerald-500/40 text-emerald-900'
+              : 'bg-[#fff1f2] border-rose-400/40 text-rose-900'
           }`}
         >
           {toastType === 'success' ? (
-            <CheckCircle2 className="w-5 h-5 shrink-0" />
+            <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600" />
           ) : (
-            <AlertCircle className="w-5 h-5 shrink-0" />
+            <AlertCircle className="w-5 h-5 shrink-0 text-rose-600" />
           )}
-          <span>{toastMsg}</span>
+          <span className="font-medium">{toastMsg}</span>
         </div>
       )}
 
       {/* API error banner (non-blocking — shows demo data below) */}
       {apiError && (
-        <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center justify-between gap-3">
+        <div className="p-3.5 rounded-xl bg-[#fffbeb] border-2 border-amber-400/50 text-amber-900 text-xs flex items-center justify-between gap-3 shadow-sm">
           <div className="flex items-center gap-2">
-            <WifiOff className="w-4 h-4 shrink-0" />
+            <WifiOff className="w-4 h-4 shrink-0 text-amber-700" />
             <span>
               <strong>Backend unreachable</strong> — showing demo data. Start the API server to see live matches.
             </span>
           </div>
           <button
             onClick={fetchRecommendations}
-            className="flex items-center gap-1 px-2.5 py-1 bg-amber-500/20 rounded-lg hover:bg-amber-500/30 transition-colors font-semibold shrink-0"
+            className="flex items-center gap-1 px-3 py-1 bg-amber-200/70 hover:bg-amber-300/80 rounded-lg border border-amber-400 text-amber-950 transition-colors font-semibold shrink-0 shadow-xs"
           >
             <RefreshCw className="w-3 h-3" /> Retry
           </button>
@@ -169,7 +169,7 @@ export const Discover = () => {
       )}
 
       {/* Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 glass-panel p-4 rounded-2xl border border-slate-800">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-[#fffdfa] border-2 border-[#e5dcc7] shadow-sm">
         <div className="w-full sm:w-96">
           <Input
             placeholder="Search by name, department, or skill..."
@@ -178,8 +178,8 @@ export const Discover = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div className="flex items-center gap-2 text-xs text-slate-400 shrink-0">
-          <Sparkles className="w-4 h-4 text-indigo-400" />
+        <div className="flex items-center gap-2 text-xs text-stone-600 font-medium shrink-0 bg-[#f4ecd8]/60 px-3 py-1.5 rounded-xl border border-[#dfd7c5]">
+          <Sparkles className="w-4 h-4 text-amber-800" />
           <span>
             {usingDemo ? 'Demo data' : `${recommendations.length} matches found`}
           </span>
@@ -189,44 +189,44 @@ export const Discover = () => {
       {/* Content area */}
       {loading ? (
         <div className="text-center py-20 space-y-3">
-          <svg className="animate-spin h-8 w-8 mx-auto text-indigo-500" fill="none" viewBox="0 0 24 24">
+          <svg className="animate-spin h-8 w-8 mx-auto text-amber-800" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
           </svg>
-          <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">
+          <p className="text-xs text-stone-600 font-semibold uppercase tracking-wider font-heading text-sm">
             Calculating Reciprocal Skill Matches…
           </p>
         </div>
       ) : filteredRecs.length === 0 && searchQuery ? (
         /* No search results */
-        <Card padding="lg" className="text-center py-14">
-          <Search className="w-10 h-10 text-slate-500 mx-auto mb-3" />
-          <p className="text-slate-200 font-semibold">No matches for "{searchQuery}"</p>
-          <p className="text-xs text-slate-500 mt-1">Try a different skill, name, or department.</p>
+        <Card padding="lg" className="text-center py-14 bg-[#fffdf9] border-2 border-[#e5dcc7]">
+          <Search className="w-10 h-10 text-stone-400 mx-auto mb-3" />
+          <p className="text-stone-800 font-semibold font-heading text-lg">No matches for "{searchQuery}"</p>
+          <p className="text-xs text-stone-500 mt-1">Try a different skill, name, or department.</p>
           <Button variant="ghost" size="sm" className="mt-4" onClick={() => setSearchQuery('')}>
             Clear Search
           </Button>
         </Card>
       ) : recommendations.length === 0 ? (
         /* Backend returned empty — user likely has no skills yet */
-        <Card padding="lg" hoverable={false} className="text-center py-16 border border-dashed border-slate-700">
-          <Telescope className="w-12 h-12 text-indigo-400/50 mx-auto mb-4" />
-          <h3 className="text-lg font-bold text-slate-200 font-heading">No matches yet</h3>
-          <p className="text-sm text-slate-400 max-w-sm mx-auto mt-2 leading-relaxed">
+        <Card padding="lg" hoverable={false} className="text-center py-16 border-2 border-dashed border-[#dfd7c5] bg-[#fffdfa]">
+          <Telescope className="w-12 h-12 text-amber-700/60 mx-auto mb-4" />
+          <h3 className="text-xl font-bold text-stone-800 font-heading">No matches yet</h3>
+          <p className="text-sm text-stone-600 max-w-sm mx-auto mt-2 leading-relaxed">
             Claim more skills in your Teaching Portfolio and Learning Wants to improve your campus recommendations.
           </p>
           <Button
             variant="primary"
             size="md"
             icon={GraduationCap}
-            className="mt-6"
+            className="mt-6 shadow-md"
             onClick={() => window.location.href = '/dashboard'}
           >
             Add Skills to Profile
           </Button>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
           {filteredRecs.map((rec) => (
             <RecommendationCard
               key={rec.user_id}

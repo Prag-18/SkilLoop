@@ -29,73 +29,76 @@ export const Landing = () => {
       icon: GraduationCap,
       title: '1. List Teaching Skills',
       desc: 'Offer your expertise in Python, UI/UX, Data Structures, Calculus, or Music to campus peers.',
-      color: 'indigo'
+      tapeClass: 'tape-strip-yellow -rotate-3',
     },
     {
       icon: BookOpen,
       title: '2. List Learning Wants',
       desc: 'Specify skills you need help with to automatically match with campus experts.',
-      color: 'emerald'
+      tapeClass: 'tape-strip-pink rotate-2',
     },
     {
       icon: ShieldCheck,
       title: '3. Skill Evidence & Verification',
       desc: 'Attach GitHub links, certificates, portfolio work, or past project proofs.',
-      color: 'purple'
+      tapeClass: 'tape-strip-sage -rotate-2',
     },
     {
       icon: Users,
       title: '4. Complementary Matching',
       desc: 'Find peers whose taught skills match your learning desires and vice-versa.',
-      color: 'amber'
+      tapeClass: 'tape-strip-sky rotate-3',
     },
     {
       icon: Send,
       title: '5. Direct Learning Requests',
       desc: 'Send exchange requests specifying preferred session schedules and goals.',
-      color: 'indigo'
+      tapeClass: 'tape-strip-pink -rotate-1',
     },
     {
       icon: Repeat,
       title: '6. Structured Exchanges',
       desc: 'Conduct 1-on-1 skill exchanges with time-tracking and milestone confirmation.',
-      color: 'emerald'
+      tapeClass: 'tape-strip-yellow rotate-2',
     },
     {
       icon: MessageSquare,
       title: '7. Peer Feedback & Ratings',
       desc: 'Build campus reputation with authentic reviews following every session.',
-      color: 'rose'
+      tapeClass: 'tape-strip-amber -rotate-3',
     },
     {
       icon: Award,
       title: '8. Skill Credits Economy',
       desc: 'Earn credit tokens by teaching that you can spend to learn new skills.',
-      color: 'amber'
+      tapeClass: 'tape-strip-sage rotate-1',
     }
   ];
 
   return (
-    <div className="relative min-h-screen bg-slate-950 text-slate-100 overflow-hidden">
-      {/* Background Glow effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-indigo-600/10 blur-[120px] pointer-events-none rounded-full" />
-      <div className="absolute top-1/3 right-0 w-80 h-80 bg-purple-600/10 blur-[100px] pointer-events-none rounded-full" />
-      <div className="absolute bottom-10 left-0 w-80 h-80 bg-emerald-600/10 blur-[100px] pointer-events-none rounded-full" />
+    <div className="relative min-h-screen text-stone-800 overflow-hidden pb-16">
+      {/* Soft warm scrapbook background glow elements */}
+      <div className="absolute top-12 left-1/4 w-96 h-96 bg-amber-200/40 blur-[100px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/3 right-10 w-80 h-80 bg-rose-200/40 blur-[100px] pointer-events-none rounded-full" />
+      <div className="absolute bottom-20 left-10 w-80 h-80 bg-emerald-200/30 blur-[100px] pointer-events-none rounded-full" />
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-indigo-500/30 text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-8 animate-pulse-slow">
-          <Sparkles className="w-4 h-4 text-indigo-400" />
-          <span>Campus Skill Exchange Platform • Phase 1 Foundation</span>
+      <section className="relative pt-16 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto text-center">
+        {/* Scrapbook Stamp Header Badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full stamp-badge text-stone-800 text-xs font-semibold tracking-wide mb-8 shadow-sm">
+          <Sparkles className="w-4 h-4 text-amber-700" />
+          <span>Campus Skill Exchange Platform • Peer-Powered Mood Board</span>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight font-heading text-white max-w-4xl mx-auto leading-tight">
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight font-heading text-stone-900 max-w-4xl mx-auto leading-tight">
           Teach What You Know. <br />
-          <span className="text-gradient">Learn What You Need.</span>
+          <span className="highlighter-yellow inline-block -rotate-1 text-amber-950 mt-2 px-3 py-1 rounded-lg">
+            Learn What You Need.
+          </span>
         </h1>
 
-        <p className="mt-6 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
-          SkillLoop connects students for direct, peer-to-peer skill swaps. Exchange coding, design, academics, and creative crafts with verified campus evidence & credit rewards.
+        <p className="mt-6 text-base sm:text-lg text-stone-700 max-w-2xl mx-auto leading-relaxed font-sans">
+          Synapse connects students for direct, peer-to-peer skill swaps. Exchange coding, design, academics, and creative crafts with verified campus evidence & credit rewards.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -105,8 +108,9 @@ export const Landing = () => {
               variant="primary"
               icon={ArrowRight}
               onClick={() => navigate('/dashboard')}
+              className="shadow-paper hover:shadow-paper-lg"
             >
-              Go to Dashboard
+              Open Campus Dashboard
             </Button>
           ) : (
             <>
@@ -115,6 +119,7 @@ export const Landing = () => {
                 variant="primary"
                 icon={Zap}
                 onClick={() => navigate('/register')}
+                className="shadow-paper hover:shadow-paper-lg"
               >
                 Create Free Profile
               </Button>
@@ -122,6 +127,7 @@ export const Landing = () => {
                 size="lg"
                 variant="outline"
                 onClick={() => navigate('/login')}
+                className="shadow-paper"
               >
                 Student Sign In
               </Button>
@@ -129,36 +135,40 @@ export const Landing = () => {
           )}
         </div>
 
-        {/* Live Preview Stats */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-          <div className="glass-card p-4 rounded-2xl text-center border border-slate-800">
-            <p className="text-2xl font-bold text-white font-heading">100%</p>
-            <p className="text-xs text-slate-400 mt-1">Peer-to-Peer</p>
+        {/* Polaroid Preview Stats */}
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          <div className="polaroid-frame p-5 rounded-2xl text-center relative -rotate-1">
+            <div className="tape-strip tape-strip-yellow -top-2.5 left-1/2 -translate-x-1/2 -rotate-2" />
+            <p className="text-3xl font-bold text-stone-900 font-heading">100%</p>
+            <p className="text-xs font-semibold text-stone-600 mt-1">Peer-to-Peer</p>
           </div>
-          <div className="glass-card p-4 rounded-2xl text-center border border-slate-800">
-            <p className="text-2xl font-bold text-indigo-400 font-heading">Verified</p>
-            <p className="text-xs text-slate-400 mt-1">Skill Evidence</p>
+          <div className="polaroid-frame p-5 rounded-2xl text-center relative rotate-2">
+            <div className="tape-strip tape-strip-pink -top-2.5 left-1/2 -translate-x-1/2 rotate-3" />
+            <p className="text-3xl font-bold text-amber-800 font-heading">Verified</p>
+            <p className="text-xs font-semibold text-stone-600 mt-1">Proof Evidence</p>
           </div>
-          <div className="glass-card p-4 rounded-2xl text-center border border-slate-800">
-            <p className="text-2xl font-bold text-emerald-400 font-heading">Credit</p>
-            <p className="text-xs text-slate-400 mt-1">Reward System</p>
+          <div className="polaroid-frame p-5 rounded-2xl text-center relative -rotate-2">
+            <div className="tape-strip tape-strip-sage -top-2.5 left-1/2 -translate-x-1/2 -rotate-1" />
+            <p className="text-3xl font-bold text-emerald-800 font-heading">Ledger</p>
+            <p className="text-xs font-semibold text-stone-600 mt-1">Credit Economy</p>
           </div>
-          <div className="glass-card p-4 rounded-2xl text-center border border-slate-800">
-            <p className="text-2xl font-bold text-pink-400 font-heading">JWT</p>
-            <p className="text-xs text-slate-400 mt-1">Secure Fast API</p>
+          <div className="polaroid-frame p-5 rounded-2xl text-center relative rotate-1">
+            <div className="tape-strip tape-strip-sky -top-2.5 left-1/2 -translate-x-1/2 rotate-2" />
+            <p className="text-3xl font-bold text-sky-900 font-heading">Direct</p>
+            <p className="text-xs font-semibold text-stone-600 mt-1">1-on-1 Swaps</p>
           </div>
         </div>
       </section>
 
-      {/* Feature Grid */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
-        <div className="text-center mb-16">
-          <Badge variant="indigo" className="mb-3">Platform Workflow</Badge>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white font-heading">
-            Everything You Need for Campus Skill Exchange
+      {/* Feature Pinboard Grid */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative">
+        <div className="text-center mb-14">
+          <Badge variant="amber" className="mb-3">How Synapse Works</Badge>
+          <h2 className="text-3xl sm:text-4xl font-bold text-stone-900 font-heading">
+            Everything You Need for Campus Skill Swaps
           </h2>
-          <p className="text-slate-400 text-sm mt-2 max-w-xl mx-auto">
-            From listing evidence-backed skills to tracking exchange completion and earning reputation.
+          <p className="text-stone-600 text-sm mt-2 max-w-xl mx-auto">
+            From listing evidence-backed skills to tracking exchange completion and earning reputation on the campus board.
           </p>
         </div>
 
@@ -166,15 +176,29 @@ export const Landing = () => {
           {features.map((feat, idx) => {
             const Icon = feat.icon;
             return (
-              <Card key={idx} padding="md" className="flex flex-col justify-between">
+              <div
+                key={idx}
+                className={`polaroid-frame p-6 rounded-2xl flex flex-col justify-between relative ${
+                  idx % 4 === 0
+                    ? '-rotate-1'
+                    : idx % 4 === 1
+                    ? 'rotate-1'
+                    : idx % 4 === 2
+                    ? '-rotate-2'
+                    : 'rotate-2'
+                }`}
+              >
+                {/* Washi Tape Strip at Card Corner */}
+                <div className={`tape-strip ${feat.tapeClass} -top-2.5 left-6`} />
+
                 <div>
-                  <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-4">
-                    <Icon className="w-6 h-6 text-indigo-400" />
+                  <div className="w-11 h-11 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center mb-4 text-amber-800 shadow-sm">
+                    <Icon className="w-5 h-5" />
                   </div>
-                  <CardTitle className="text-base mb-2">{feat.title}</CardTitle>
-                  <CardDescription className="text-xs">{feat.desc}</CardDescription>
+                  <h3 className="text-base font-bold text-stone-900 font-heading mb-1.5">{feat.title}</h3>
+                  <p className="text-xs text-stone-600 leading-relaxed font-sans">{feat.desc}</p>
                 </div>
-              </Card>
+              </div>
             );
           })}
         </div>

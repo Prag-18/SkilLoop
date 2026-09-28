@@ -9,12 +9,12 @@ export const Badge = ({
   ...props
 }) => {
   const variants = {
-    indigo: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30',
-    emerald: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-    amber: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-    purple: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
-    rose: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
-    slate: 'bg-slate-800 text-slate-300 border-slate-700',
+    indigo: 'bg-amber-100 text-amber-900 border-amber-300/80 shadow-[0_1px_2px_rgba(0,0,0,0.05)] font-medium',
+    emerald: 'bg-emerald-100 text-emerald-900 border-emerald-300/80 shadow-[0_1px_2px_rgba(0,0,0,0.05)] font-medium',
+    amber: 'bg-orange-100 text-orange-900 border-orange-300/80 shadow-[0_1px_2px_rgba(0,0,0,0.05)] font-medium',
+    purple: 'bg-purple-100 text-purple-900 border-purple-300/80 shadow-[0_1px_2px_rgba(0,0,0,0.05)] font-medium',
+    rose: 'bg-rose-100 text-rose-900 border-rose-300/80 shadow-[0_1px_2px_rgba(0,0,0,0.05)] font-medium',
+    slate: 'bg-stone-200 text-stone-800 border-stone-300/80 shadow-[0_1px_2px_rgba(0,0,0,0.05)] font-medium',
   };
 
   const sizes = {
