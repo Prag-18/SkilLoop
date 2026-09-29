@@ -9,10 +9,12 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-        heading: ['"Syne"', '"Fraunces"', '"Playfair Display"', 'sans-serif'],
-        display: ['"Syne"', '"Fraunces"', 'sans-serif'],
-        artistic: ['"Fraunces"', '"Playfair Display"', 'serif'],
-        handwriting: ['"Kalam"', 'cursive'],
+        marker: ['"Permanent Marker"', '"Rock Salt"', '"Caveat Brush"', 'cursive'],
+        script: ['"Satisfy"', '"Pacifico"', '"Grand Hotel"', '"Dancing Script"', 'cursive'],
+        heading: ['"Satisfy"', '"Pacifico"', '"Grand Hotel"', 'cursive'],
+        display: ['"Satisfy"', '"Pacifico"', '"Grand Hotel"', 'cursive'],
+        artistic: ['"Satisfy"', '"Pacifico"', '"Dancing Script"', 'cursive'],
+        handwriting: ['"Satisfy"', '"Dancing Script"', '"Kaushan Script"', 'cursive'],
         lead: ['"Plus Jakarta Sans"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
         body: ['"Plus Jakarta Sans"', 'sans-serif'],

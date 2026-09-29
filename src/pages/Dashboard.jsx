@@ -120,8 +120,8 @@ export const Dashboard = () => {
                     <span className="stamp-seal text-xs">★ CAMPUS SKILL LOG ★</span>
                     <span className="text-xs text-stone-500 font-handwriting font-bold text-sm">semester entry · 2026</span>
                   </div>
-                  <h1 className="text-3xl sm:text-4xl font-bold text-stone-900 font-heading tracking-tight">
-                    Welcome back, <span className="highlighter-yellow">{userProfile?.full_name || user?.full_name || 'Dark sider'}</span>!
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl text-stone-900 font-heading tracking-wide leading-snug">
+                    Welcome back, <span className="font-script text-3xl sm:text-4xl lg:text-5xl text-amber-950 font-bold px-2 highlighter-yellow">{userProfile?.full_name || user?.full_name || 'Student'}</span> !
                   </h1>
                   <p className="text-sm text-stone-600 font-medium max-w-2xl leading-relaxed font-sans">
                     Manage your skill offers, learning targets, campus matches, and peer exchange journal.
@@ -322,7 +322,7 @@ export const Dashboard = () => {
                           {/* Top ticket header */}
                           <div className="flex items-start justify-between">
                             <div>
-                              <h4 className="text-base font-bold text-stone-900 font-heading">{match.full_name}</h4>
+                              <h4 className="text-2xl font-bold text-stone-900 font-script leading-tight">{match.full_name}</h4>
                               <p className="text-xs text-stone-500 font-medium">{match.department} • {match.year_of_study}</p>
                             </div>
                             <div className="bg-emerald-100 border border-emerald-300 text-emerald-900 font-bold px-2.5 py-1 rounded-xl text-xs font-mono">

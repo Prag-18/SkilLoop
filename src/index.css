@@ -15,15 +15,22 @@
   }
 
   h1, h2, h3, h4, .font-heading {
-    font-family: 'Syne', 'Fraunces', 'Playfair Display', sans-serif;
+    font-family: 'Satisfy', 'Pacifico', 'Grand Hotel', 'Dancing Script', cursive;
     color: #3b1d11;
-    letter-spacing: -0.02em;
-    font-weight: 700;
+    letter-spacing: 0.01em;
   }
 
-  .font-artistic {
-    font-family: 'Fraunces', 'Playfair Display', serif;
-    font-weight: 600;
+  .font-script, .font-artistic {
+    font-family: 'Satisfy', 'Pacifico', 'Grand Hotel', 'Dancing Script', cursive;
+  }
+
+  .font-marker {
+    font-family: 'Permanent Marker', 'Rock Salt', 'Caveat Brush', cursive;
+    letter-spacing: 0.04em;
+  }
+
+  .font-handwriting {
+    font-family: 'Satisfy', 'Dancing Script', 'Kaushan Script', cursive;
   }
 
   .font-lead {

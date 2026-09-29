@@ -38,7 +38,7 @@ export const Sidebar = ({ activeTab = 'overview', setActiveTab, creditBalance })
             <span className="w-2 h-2 rounded-full bg-amber-700 inline-block" />
             STUDENT JOURNAL
           </span>
-          <span className="text-[10px] text-stone-500 font-handwriting font-bold text-sm">2026/27</span>
+          <span className="text-stone-800 font-marker text-xs tracking-wider">2026/27</span>
         </div>
 
         <nav className="space-y-1.5">
@@ -49,19 +49,21 @@ export const Sidebar = ({ activeTab = 'overview', setActiveTab, creditBalance })
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 relative ${
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 relative group ${
                   isActive
-                    ? 'bg-[#fffdfa] text-amber-950 border-2 border-amber-600/70 shadow-[2px_3px_8px_rgba(40,30,20,0.08)] font-bold -translate-r-1'
+                    ? 'bg-[#fffdfa] text-amber-950 border-2 border-amber-600/70 shadow-[2px_3px_8px_rgba(40,30,20,0.08)] -translate-r-1'
                     : 'text-stone-700 hover:text-stone-950 hover:bg-[#efe7d3]'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-amber-800' : 'text-stone-500'}`} />
-                  <span className="font-heading text-sm">{item.label}</span>
+                  <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-amber-800' : 'text-stone-500'}`} />
+                  <span className={`font-marker text-xs sm:text-sm tracking-wide text-left block leading-tight ${isActive ? 'text-amber-950 underline decoration-amber-500/80 decoration-2 underline-offset-2' : 'text-stone-800'}`}>
+                    {item.label}
+                  </span>
                 </div>
                 {item.badge && (
                   <span
-                    className={`text-[9px] px-2 py-0.5 rounded-md font-mono font-bold uppercase tracking-wider ${
+                    className={`text-[9px] px-2 py-0.5 rounded-md font-mono font-bold uppercase tracking-wider shrink-0 ${
                       isActive
                         ? 'bg-[#292524] text-white shadow-xs'
                         : 'bg-[#e5dcc7] text-stone-700'
@@ -82,10 +84,10 @@ export const Sidebar = ({ activeTab = 'overview', setActiveTab, creditBalance })
           {/* Tape corner */}
           <div className="washi-tape washi-tape-yellow -top-2.5 right-2 w-14 rotate-3" />
           <div className="flex items-center justify-between text-stone-800 mb-1 pt-1">
-            <span className="font-semibold font-heading">Credit Balance</span>
+            <span className="font-marker text-xs text-stone-900 tracking-wide">Credit Balance</span>
             <span className="font-bold text-amber-900 font-mono text-sm">{balance} CR</span>
           </div>
-          <p className="text-[11px] text-stone-500 font-handwriting text-xs font-semibold">Earn +50 CR for every peer exchange!</p>
+          <p className="text-stone-600 font-script text-sm leading-tight">Earn +50 CR for every peer exchange!</p>
         </div>
       </div>
     </aside>
