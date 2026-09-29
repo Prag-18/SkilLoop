@@ -328,8 +328,8 @@ export const Requests = () => {
                 )}
               </div>
 
-              {/* MUTUAL CONTACT DETAILS (Revealed upon acceptance) */}
-              {req.status === 'accepted' && (
+              {/* MUTUAL CONTACT DETAILS (Revealed upon acceptance while active, hidden once completed) */}
+              {req.status === 'accepted' && req.contact_phone && (
                 <div className="mt-2 p-3.5 rounded-2xl bg-[#f0fdf4] border border-[#86efac] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-2xs">
                   <div className="flex items-center gap-2.5">
                     <div className="p-2 rounded-xl bg-emerald-200/90 text-emerald-950 shrink-0">

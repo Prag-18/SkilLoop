@@ -34,7 +34,8 @@ def _build_exchange_response(ex: Exchange, db: Session, current_user_id: Optiona
     skill = db.query(Skill).filter(Skill.id == ex.skill_id).first() if ex.skill_id else None
 
     contact_phone = None
-    if current_user_id:
+    # Phone number is ONLY visible while exchange is active/scheduled. Once completed, it is hidden for privacy.
+    if current_user_id and ex.status != "completed":
         if current_user_id == ex.teacher_id and learner:
             contact_phone = learner.phone_number
         elif current_user_id == ex.learner_id and teacher:

@@ -172,8 +172,8 @@ export const ExchangeSummary = ({ onExchangeCompleted }) => {
                 </div>
               </div>
 
-              {/* MUTUAL CONTACT DETAILS */}
-              {ex.contact_phone && (
+              {/* MUTUAL CONTACT DETAILS (Only visible while active/scheduled, hidden once completed) */}
+              {ex.status !== 'completed' && ex.contact_phone && (
                 <div className="p-3 rounded-xl bg-[#f0fdf4] border border-[#86efac] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
                   <div className="flex items-center gap-2">
                     <Phone className="w-3.5 h-3.5 text-emerald-700 shrink-0" />

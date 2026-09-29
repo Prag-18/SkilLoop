@@ -18,9 +18,14 @@ def _build_request_response(r: LearningRequest, db: Session, current_user_id: Op
     receiver = db.query(User).filter(User.id == r.receiver_id).first()
     skill = db.query(Skill).filter(Skill.id == r.requested_skill_id).first() if r.requested_skill_id else None
 
-    # Mutual contact reveal ONLY when the learning request is accepted
+    # Mutual contact reveal ONLY when the learning request is accepted AND not yet completed
+    is_exchange_completed = False
+    exchange = db.query(Exchange).filter(Exchange.request_id == r.id).first()
+    if exchange and exchange.status == "completed":
+        is_exchange_completed = True
+
     contact_phone = None
-    if r.status == "accepted" and current_user_id:
+    if r.status == "accepted" and not is_exchange_completed and current_user_id:
         if current_user_id == r.sender_id and receiver:
             contact_phone = receiver.phone_number
         elif current_user_id == r.receiver_id and sender:
@@ -37,8 +42,8 @@ def _build_request_response(r: LearningRequest, db: Session, current_user_id: Op
         receiver_name=receiver.full_name if receiver else "Student",
         skill_name=skill.name if skill else "Skill Exchange",
         contact_phone=contact_phone,
-        sender_phone=sender.phone_number if (r.status == "accepted" and current_user_id in (r.sender_id, r.receiver_id)) else None,
-        receiver_phone=receiver.phone_number if (r.status == "accepted" and current_user_id in (r.sender_id, r.receiver_id)) else None,
+        sender_phone=sender.phone_number if (r.status == "accepted" and not is_exchange_completed and current_user_id in (r.sender_id, r.receiver_id)) else None,
+        receiver_phone=receiver.phone_number if (r.status == "accepted" and not is_exchange_completed and current_user_id in (r.sender_id, r.receiver_id)) else None,
     )
 
 
