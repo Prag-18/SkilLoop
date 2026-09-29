@@ -9,11 +9,11 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-        heading: ['"Bevan"', '"Bree Serif"', 'serif'],
-        lead: ['"Courier Prime"', 'monospace'],
-        mono: ['"Space Mono"', '"Courier Prime"', 'monospace'],
-        body: ['"Space Mono"', '"Plus Jakarta Sans"', 'monospace'],
-        display: ['"Bevan"', '"Bree Serif"', 'serif'],
+        heading: ['"Plus Jakarta Sans"', '"Outfit"', 'sans-serif'],
+        display: ['"Outfit"', '"Plus Jakarta Sans"', 'sans-serif'],
+        lead: ['"Plus Jakarta Sans"', 'sans-serif'],
+        mono: ['"JetBrains Mono"', '"Space Mono"', 'monospace'],
+        body: ['"Plus Jakarta Sans"', 'sans-serif'],
       },
       colors: {
         scrapbook: {

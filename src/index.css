@@ -4,10 +4,10 @@
 
 @layer base {
   body {
-    @apply text-[#1e1b18] antialiased min-h-screen overflow-x-hidden;
-    font-family: 'Space Mono', 'Courier Prime', monospace;
-    font-size: 16px;
-    letter-spacing: 0.015em;
+    @apply text-[#1e1b18] antialiased min-h-screen overflow-x-hidden font-sans;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    letter-spacing: -0.01em;
     background-color: #f1e4d3;
     background-image: 
       url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"),
@@ -15,15 +15,16 @@
   }
 
   h1, h2, h3, h4, .font-heading {
-    font-family: 'Bevan', 'Bree Serif', serif;
-    color: #7b4630;
-    letter-spacing: 0.01em;
+    font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+    color: #451a03;
+    letter-spacing: -0.02em;
+    font-weight: 700;
   }
 
   .font-lead {
-    font-family: 'Courier Prime', monospace;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     color: #4b5560;
-    letter-spacing: 0.06em;
+    letter-spacing: -0.01em;
   }
 }
 

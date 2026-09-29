@@ -84,6 +84,14 @@ export const AuthProvider = ({ children }) => {
     setError(null);
   };
 
+  const updateUser = (updatedData) => {
+    setUser((prev) => {
+      const updated = { ...prev, ...updatedData };
+      localStorage.setItem('skillloop_user', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   const value = {
     user,
     token,
@@ -92,6 +100,7 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    updateUser,
     isAuthenticated: !!token && !!user,
   };
 
