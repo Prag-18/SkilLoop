@@ -448,7 +448,7 @@ export const Dashboard = () => {
                 icon={Plus}
                 onClick={() => navigate('/skills/me')}
               >
-                + Add / Manage Skills
+                Add Skills
               </Button>
             </div>
 
@@ -489,7 +489,7 @@ export const Dashboard = () => {
                 icon={Plus}
                 onClick={() => navigate('/skills/me')}
               >
-                + Add / Manage Skills
+                Manage Skills
               </Button>
             </div>
 
