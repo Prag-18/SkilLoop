@@ -253,7 +253,7 @@ export const Dashboard = () => {
                       </h2>
                     </div>
                     <Button variant="ghost" size="sm" onClick={() => navigate('/skills/me')} className="font-medium text-xs">
-                      Manage at /skills/me <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                      Manage Skills <ArrowRight className="w-3.5 h-3.5 ml-1" />
                     </Button>
                   </div>
 
@@ -313,7 +313,7 @@ export const Dashboard = () => {
 
                   {recommendations.length === 0 ? (
                     <div className="text-center py-10 text-stone-600 text-xs bg-[#fbf8f0] rounded-2xl border-2 border-dashed border-[#dfd7c5] font-medium">
-                      No matches found yet. Add more teach/learn skills at /skills/me to generate peer recommendations.
+                      No matches found yet. Add more teach or learn skills in My Profile & Evidence to generate peer recommendations.
                     </div>
                   ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -448,7 +448,7 @@ export const Dashboard = () => {
                 icon={Plus}
                 onClick={() => navigate('/skills/me')}
               >
-                + Add / Manage at /skills/me
+                + Add / Manage Skills
               </Button>
             </div>
 
@@ -489,7 +489,7 @@ export const Dashboard = () => {
                 icon={Plus}
                 onClick={() => navigate('/skills/me')}
               >
-                + Add / Manage at /skills/me
+                + Add / Manage Skills
               </Button>
             </div>
 
@@ -526,7 +526,7 @@ export const Dashboard = () => {
 
             {recommendations.length === 0 ? (
               <div className="text-center py-16 text-stone-600 text-xs bg-[#fffdfa] border-2 border-dashed border-[#dfd7c5] rounded-3xl font-medium">
-                No recommendations available yet. Try adding more skills at /skills/me.
+                No recommendations available yet. Try adding more skills in My Profile & Evidence.
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
