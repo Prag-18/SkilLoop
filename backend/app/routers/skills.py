@@ -1,6 +1,6 @@
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 from app.db.database import get_db
 from app.db.models.category import SkillCategory
 from app.db.models.skill import Skill
@@ -146,7 +146,14 @@ def get_user_skills(
     """Fetch skills claimed by user (supports 'me' or user ID)."""
     target_user_id = current_user.id if user_id == "me" else int(user_id)
 
-    query = db.query(UserSkill).filter(UserSkill.user_id == target_user_id)
+    query = (
+        db.query(UserSkill)
+        .options(
+            selectinload(UserSkill.skill).selectinload(Skill.category),
+            selectinload(UserSkill.evidence),
+        )
+        .filter(UserSkill.user_id == target_user_id)
+    )
     if direction:
         query = query.filter(UserSkill.direction == direction)
 

@@ -53,9 +53,35 @@ export const Dashboard = () => {
     fetchDashboardData();
   }, []);
 
+  const refreshUserSkills = async () => {
+    try {
+      const res = await api.get('/users/me/skills');
+      setUserSkills(res.data || []);
+    } catch (err) {
+      console.error('Failed to refresh user skills:', err);
+    }
+  };
+
+  const refreshProfile = async () => {
+    try {
+      const res = await api.get('/users/me');
+      if (res.data) setUserProfile(res.data);
+    } catch (err) {
+      console.error('Failed to refresh profile:', err);
+    }
+  };
+
+  const refreshRecommendations = async () => {
+    try {
+      const res = await api.get('/discover');
+      setRecommendations(res.data || []);
+    } catch (err) {
+      console.error('Failed to refresh recommendations:', err);
+    }
+  };
+
   const fetchDashboardData = async () => {
     try {
-      setLoading(true);
       const [skillsRes, discRes, profRes] = await Promise.all([
         api.get('/users/me/skills').catch(() => ({ data: [] })),
         api.get('/discover').catch(() => ({ data: [] })),
@@ -63,7 +89,7 @@ export const Dashboard = () => {
       ]);
       setUserSkills(skillsRes.data || []);
       setRecommendations(discRes.data || []);
-      setUserProfile(profRes.data || user);
+      if (profRes.data) setUserProfile(profRes.data);
     } catch (err) {
       console.error('Failed to load dashboard data:', err);
     } finally {
@@ -74,6 +100,16 @@ export const Dashboard = () => {
   const handleOpenEvidence = (userSkill) => {
     setSelectedSkillForEvidence(userSkill);
     setIsEvidenceOpen(true);
+  };
+
+  const handleEvidenceUpdated = async () => {
+    // Only refresh user skills in background without re-running recommendation scoring
+    await refreshUserSkills();
+  };
+
+  const handleExchangeCompleted = async () => {
+    // Only refresh profile / credit ledger in background without full dashboard reload
+    await refreshProfile();
   };
 
   const handleDeleteSkill = async (userSkillId) => {
@@ -545,7 +581,7 @@ export const Dashboard = () => {
         {/* EXCHANGES TAB (Track B component untouched) */}
         {activeTab === 'exchanges' && (
           <div className="space-y-6">
-            <ExchangeSummary onExchangeCompleted={fetchDashboardData} />
+            <ExchangeSummary onExchangeCompleted={handleExchangeCompleted} />
           </div>
         )}
 
@@ -743,7 +779,7 @@ export const Dashboard = () => {
         isOpen={isEvidenceOpen}
         onClose={() => setIsEvidenceOpen(false)}
         userSkill={selectedSkillForEvidence}
-        onEvidenceUpdated={fetchDashboardData}
+        onEvidenceUpdated={handleEvidenceUpdated}
       />
     </div>
   );

@@ -1,7 +1,9 @@
 from typing import List, Dict, Any
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 from app.db.models.user import User
 from app.db.models.user_skill import UserSkill
+from app.db.models.skill import Skill
+from app.db.models.category import SkillCategory
 
 # Scoring constants (must match walkthrough doc)
 BASE_SCORE = 65.0
@@ -20,9 +22,12 @@ class RecommendationService:
         """
         Stage 1 (Candidate Generation):
         Pull all active users excluding current user as the initial candidate pool.
-        Future slot: replace with vector DB ANN query here.
+        Eager load skills, taxonomy metadata, and evidence to prevent N+1 queries.
         """
-        return db.query(User).filter(
+        return db.query(User).options(
+            selectinload(User.skills).selectinload(UserSkill.skill).selectinload(Skill.category),
+            selectinload(User.skills).selectinload(UserSkill.evidence),
+        ).filter(
             User.id != user_id,
             User.is_active == True,
         ).all()
@@ -46,11 +51,14 @@ class RecommendationService:
           Shared department:                   +5%
           Max capped at 98%, no artificial minimum
         """
-        user = db.query(User).filter(User.id == user_id).first()
+        user = db.query(User).options(
+            selectinload(User.skills).selectinload(UserSkill.skill).selectinload(Skill.category),
+            selectinload(User.skills).selectinload(UserSkill.evidence),
+        ).filter(User.id == user_id).first()
         if not user:
             return []
 
-        user_skills = db.query(UserSkill).filter(UserSkill.user_id == user_id).all()
+        user_skills = user.skills or []
         user_teach_skills = [s for s in user_skills if s.direction == "teach"]
         user_learn_skills = [s for s in user_skills if s.direction == "learn"]
 
@@ -75,7 +83,7 @@ class RecommendationService:
             if not candidate.full_name:
                 continue
 
-            cand_skills = db.query(UserSkill).filter(UserSkill.user_id == candidate.id).all()
+            cand_skills = candidate.skills or []
             cand_teach = [s for s in cand_skills if s.direction == "teach"]
             cand_learn = [s for s in cand_skills if s.direction == "learn"]
 

@@ -1,5 +1,5 @@
 from typing import Optional
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 from fastapi import HTTPException, status
 from app.db.models.user import User
 from app.db.models.skill_credit import SkillCredit
@@ -14,7 +14,7 @@ class AuthService:
 
     @staticmethod
     def get_by_id(db: Session, user_id: int) -> Optional[User]:
-        return db.query(User).filter(User.id == user_id).first()
+        return db.query(User).options(selectinload(User.credit_transactions)).filter(User.id == user_id).first()
 
     @staticmethod
     def register_user(db: Session, user_in: UserCreate) -> User:

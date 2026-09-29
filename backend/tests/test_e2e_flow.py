@@ -186,12 +186,19 @@ def test_full_campus_skill_exchange_flow():
     initial_credits_teacher = me_b["skill_credits"]
     initial_credits_learner = me_a["skill_credits"]
 
+    # Fetch created exchange for this request
+    exchanges_res = client.get("/api/v1/exchanges", headers=headers_b)
+    assert exchanges_res.status_code == 200
+    exchanges = exchanges_res.json()
+    assert len(exchanges) > 0, "Expected scheduled exchange to exist"
+    exchange_id = exchanges[0]["id"]
+
     # Complete 60min exchange with verified mentor
     complete_payload = {
         "duration_minutes": 60,
         "is_verified_mentor": True,
     }
-    complete_res = client.post(f"/api/v1/exchanges/{request_id}/complete", json=complete_payload, headers=headers_b)
+    complete_res = client.post(f"/api/v1/exchanges/{exchange_id}/complete", json=complete_payload, headers=headers_b)
     assert complete_res.status_code == 200, f"Failed to complete exchange: {complete_res.text}"
     exchange_data = complete_res.json()
     assert exchange_data["status"] == "completed"
