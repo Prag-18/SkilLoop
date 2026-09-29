@@ -56,10 +56,10 @@ export const Navbar = () => {
               <Sparkles className="w-5 h-5 text-amber-800" />
             </div>
             <div>
-              <span className="font-heading font-extrabold text-2xl tracking-tight text-stone-900">
-                Syna<span className="text-amber-800 font-extrabold">pse</span>
+              <span className="font-heading font-bold text-2xl tracking-tight text-stone-900">
+                Syna<span className="text-amber-800 font-bold">pse</span>
               </span>
-              <span className="block text-[9px] text-stone-600 font-bold -mt-1 tracking-widest uppercase font-mono">
+              <span className="block text-[9px] text-stone-600 font-semibold -mt-0.5 tracking-widest uppercase font-sans">
                 Campus Skill Exchange
               </span>
             </div>

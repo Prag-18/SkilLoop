@@ -5,7 +5,7 @@
 @layer base {
   body {
     @apply text-[#1e1b18] antialiased min-h-screen overflow-x-hidden font-sans;
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
     font-size: 15px;
     letter-spacing: -0.01em;
     background-color: #f1e4d3;
@@ -15,14 +15,19 @@
   }
 
   h1, h2, h3, h4, .font-heading {
-    font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
-    color: #451a03;
-    letter-spacing: -0.02em;
-    font-weight: 700;
+    font-family: 'Fraunces', 'Outfit', serif;
+    color: #3b1d11;
+    letter-spacing: -0.015em;
+    font-weight: 600;
+  }
+
+  .font-artistic {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
   }
 
   .font-lead {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     color: #4b5560;
     letter-spacing: -0.01em;
   }

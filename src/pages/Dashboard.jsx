@@ -120,7 +120,7 @@ export const Dashboard = () => {
                     <span className="stamp-seal text-xs">★ CAMPUS SKILL LOG ★</span>
                     <span className="text-xs text-stone-500 font-handwriting font-bold text-sm">semester entry · 2026</span>
                   </div>
-                  <h1 className="text-3xl sm:text-4xl font-extrabold text-stone-900 font-heading tracking-tight">
+                  <h1 className="text-3xl sm:text-4xl font-bold text-stone-900 font-heading tracking-tight">
                     Welcome back, <span className="highlighter-yellow">{userProfile?.full_name || user?.full_name || 'Dark sider'}</span>!
                   </h1>
                   <p className="text-sm text-stone-600 font-medium max-w-2xl leading-relaxed font-sans">
@@ -644,9 +644,13 @@ export const Dashboard = () => {
               <div className="flex flex-col md:flex-row items-start md:items-center gap-6 pt-2">
                 {/* Polaroid Avatar Frame */}
                 <div className="polaroid-frame p-4 rounded-2xl shrink-0 -rotate-2 shadow-md">
-                  <div className="w-24 h-24 rounded-xl bg-[#e5dcc7] flex items-center justify-center text-3xl font-extrabold text-stone-800 font-heading border border-[#d6c7b2] shadow-inner">
-                    {(userProfile?.full_name || user?.full_name || 'S').charAt(0).toUpperCase()}
-                  </div>
+                  <Avatar
+                    src={userProfile?.avatar_url || user?.avatar_url}
+                    name={userProfile?.full_name || user?.full_name}
+                    size="2xl"
+                    shape="rounded"
+                    className="w-24 h-24 border border-[#d6c7b2] shadow-inner"
+                  />
                   <div className="mt-2 text-center">
                     <span className="stamp-seal text-[10px] inline-block">★ VERIFIED ★</span>
                   </div>
