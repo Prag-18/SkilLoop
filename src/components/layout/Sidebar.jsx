@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAuth } from '../../context/AuthContext';
 import { 
   LayoutDashboard, 
   BookOpen, 
@@ -12,7 +13,9 @@ import {
   Settings 
 } from 'lucide-react';
 
-export const Sidebar = ({ activeTab = 'overview', setActiveTab }) => {
+export const Sidebar = ({ activeTab = 'overview', setActiveTab, creditBalance }) => {
+  const { user } = useAuth();
+  const balance = creditBalance ?? user?.skill_credits ?? 100;
   const navigationItems = [
     { id: 'overview', label: 'Dashboard Overview', icon: LayoutDashboard },
     { id: 'teaching', label: 'Skills I Teach', icon: GraduationCap, badge: 'Offers' },
@@ -80,7 +83,7 @@ export const Sidebar = ({ activeTab = 'overview', setActiveTab }) => {
           <div className="washi-tape washi-tape-yellow -top-2.5 right-2 w-14 rotate-3" />
           <div className="flex items-center justify-between text-stone-800 mb-1 pt-1">
             <span className="font-semibold font-heading">Credit Balance</span>
-            <span className="font-bold text-amber-900 font-mono text-sm">100 CR</span>
+            <span className="font-bold text-amber-900 font-mono text-sm">{balance} CR</span>
           </div>
           <p className="text-[11px] text-stone-500 font-handwriting text-xs font-semibold">Earn +50 CR for every peer exchange!</p>
         </div>

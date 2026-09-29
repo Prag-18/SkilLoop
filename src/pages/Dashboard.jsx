@@ -101,7 +101,7 @@ export const Dashboard = () => {
   return (
     <div className="flex flex-col md:flex-row min-h-[calc(100vh-4rem)] bg-[#faf6ee] text-stone-800">
       {/* Sidebar Navigation */}
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} creditBalance={creditBalance} />
 
       {/* Main Dashboard Content */}
       <main className="flex-1 p-4 md:p-8 overflow-y-auto journal-grid">
