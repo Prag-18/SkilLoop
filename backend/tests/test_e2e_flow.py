@@ -19,23 +19,28 @@ def setup_database():
     seed_taxonomy()
 
 
+import uuid
+
 def test_full_campus_skill_exchange_flow():
     client = TestClient(app)
+    uid = uuid.uuid4().hex[:6]
 
     # -------------------------------------------------------------
-    # 1. Register User A and User B
+    # 1. Register User A and User B with private phone numbers
     # -------------------------------------------------------------
     user_a_payload = {
-        "email": "alex.flow@campus.edu",
+        "email": f"alex.{uid}@campus.edu",
         "password": "password123",
         "full_name": "Alex Flow",
+        "phone_number": "+1-555-111-2222",
         "department": "Computer Science",
         "year_of_study": "3rd Year",
     }
     user_b_payload = {
-        "email": "sarah.flow@campus.edu",
+        "email": f"sarah.{uid}@campus.edu",
         "password": "password123",
         "full_name": "Sarah Flow",
+        "phone_number": "+1-555-333-4444",
         "department": "Computer Science",
         "year_of_study": "4th Year",
     }
@@ -59,6 +64,11 @@ def test_full_campus_skill_exchange_flow():
     me_b = client.get("/api/v1/users/me", headers=headers_b).json()
     assert me_a["skill_credits"] >= 100, f"Expected User A to have at least 100 signup credits, got {me_a['skill_credits']}"
     assert me_b["skill_credits"] >= 100, f"Expected User B to have at least 100 signup credits, got {me_b['skill_credits']}"
+
+    # Verify phone number is stored on /users/me for self, but hidden on public profile query
+    assert me_a.get("phone_number") == "+1-555-111-2222"
+    public_b = client.get(f"/api/v1/users/{me_b['id']}/public", headers=headers_a).json()
+    assert "phone_number" not in public_b or public_b.get("phone_number") is None, "Phone number must be hidden from public profile!"
 
     # -------------------------------------------------------------
     # 2. Query Taxonomy Skills (Find Python & UI/UX Design)
@@ -145,7 +155,7 @@ def test_full_campus_skill_exchange_flow():
     assert v_b.json()["confidence_score"] >= 35.0
 
     # -------------------------------------------------------------
-    # 6. GET /discover as User A -> Assert User B is top recommendation
+    # 6. GET /discover as User A -> Assert User B is top recommendation with proofs
     # -------------------------------------------------------------
     discover_res = client.get("/api/v1/discover", headers=headers_a)
     assert discover_res.status_code == 200
@@ -156,13 +166,19 @@ def test_full_campus_skill_exchange_flow():
     assert top_match is not None, f"User B (id {me_b['id']}) not found in recommendations: {recommendations}"
     assert top_match["compatibility_percent"] >= 80, f"Expected high compatibility >= 80%, got {top_match['compatibility_percent']}%"
 
+    # Assert attached proofs list is populated for User B
+    assert "proofs" in top_match, "Proofs field must exist in recommendation"
+    assert len(top_match["proofs"]) > 0, f"Expected User B to have proofs, got {top_match['proofs']}"
+    assert top_match["proofs"][0]["url"] == "https://coursera.org/verify/GOOGLE-UX-2026"
+    assert top_match["proofs"][0]["verification_state"] == "verified"
+
     # Assert reciprocity reason mentions both skills
     reason = top_match["reason"].lower()
     assert "python" in reason, f"Reason does not mention Python: {top_match['reason']}"
     assert "ui/ux" in reason or "design" in reason, f"Reason does not mention UI/UX: {top_match['reason']}"
 
     # -------------------------------------------------------------
-    # 7. POST /requests from User A to User B
+    # 7. POST /requests from User A to User B (Phone hidden initially)
     # -------------------------------------------------------------
     req_payload = {
         "receiver_id": me_b["id"],
@@ -172,13 +188,24 @@ def test_full_campus_skill_exchange_flow():
     assert create_req.status_code == 201, f"Failed to create learning request: {create_req.text}"
     req_data = create_req.json()
     request_id = req_data["id"]
+    # Phone must NOT be revealed while pending
+    assert req_data.get("contact_phone") is None, "Phone number must not be revealed on pending requests"
 
     # -------------------------------------------------------------
-    # 8. PATCH /requests/{id}/accept as User B
+    # 8. PATCH /requests/{id}/accept as User B (Mutual Phone Exchanged!)
     # -------------------------------------------------------------
     accept_res = client.patch(f"/api/v1/requests/{request_id}/accept", headers=headers_b)
     assert accept_res.status_code == 200, f"Failed to accept request: {accept_res.text}"
-    assert accept_res.json()["status"] == "accepted"
+    accept_data = accept_res.json()
+    assert accept_data["status"] == "accepted"
+    # Receiver (User B) now sees Sender's (User A) phone number
+    assert accept_data.get("contact_phone") == "+1-555-111-2222", f"User B should see User A's phone, got {accept_data.get('contact_phone')}"
+
+    # Sender (User A) now sees Receiver's (User B) phone number when querying requests
+    sent_requests = client.get("/api/v1/requests?type=sent", headers=headers_a).json()
+    matching_sent = next((r for r in sent_requests if r["id"] == request_id), None)
+    assert matching_sent is not None
+    assert matching_sent.get("contact_phone") == "+1-555-333-4444", f"User A should see User B's phone, got {matching_sent.get('contact_phone')}"
 
     # -------------------------------------------------------------
     # 9. Complete Exchange (POST /exchanges/{id}/complete)

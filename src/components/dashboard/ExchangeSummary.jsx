@@ -3,7 +3,7 @@ import Card, { CardTitle, CardDescription } from '../ui/Card';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
 import { exchangesAPI } from '../../services/api';
-import { Repeat, CheckCircle2, Award, Clock, Star, ExternalLink, AlertCircle } from 'lucide-react';
+import { Repeat, CheckCircle2, Award, Clock, Star, ExternalLink, AlertCircle, Phone, PhoneCall, MessageSquare } from 'lucide-react';
 
 export const ExchangeSummary = ({ onExchangeCompleted }) => {
   const [exchanges, setExchanges] = useState([]);
@@ -135,40 +135,73 @@ export const ExchangeSummary = ({ onExchangeCompleted }) => {
           exchanges.map((ex) => (
             <div
               key={ex.id}
-              className="p-4 rounded-2xl bg-[#faf6ee] border-2 border-[#e5dcc7] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm"
+              className="p-4 rounded-2xl bg-[#faf6ee] border-2 border-[#e5dcc7] flex flex-col gap-3 shadow-sm"
             >
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-stone-900 font-heading">{ex.skill_name}</span>
-                  <Badge variant={ex.status === 'completed' ? 'emerald' : 'amber'} className="font-semibold">
-                    {ex.status.toUpperCase()}
-                  </Badge>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-sm font-bold text-stone-900 font-heading">{ex.skill_name}</span>
+                    <Badge variant={ex.status === 'completed' ? 'emerald' : 'amber'} className="font-semibold">
+                      {ex.status.toUpperCase()}
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-stone-600 mt-1">
+                    Teacher: <strong className="text-amber-900 font-bold">{ex.teacher_name}</strong> • Learner:{' '}
+                    <strong className="text-emerald-800 font-bold">{ex.learner_name}</strong>
+                  </p>
                 </div>
-                <p className="text-xs text-stone-600 mt-1">
-                  Teacher: <strong className="text-amber-900 font-bold">{ex.teacher_name}</strong> • Learner:{' '}
-                  <strong className="text-emerald-800 font-bold">{ex.learner_name}</strong>
-                </p>
+
+                <div className="flex items-center gap-3">
+                  {ex.status === 'completed' ? (
+                    <div className="flex items-center gap-1.5 text-xs text-amber-950 font-bold bg-[#fef3c7] px-3 py-1.5 rounded-xl border border-amber-300 shadow-xs">
+                      <Award className="w-4 h-4 text-amber-800" />
+                      <span>+{ex.credits_awarded || 50} CR Earned</span>
+                    </div>
+                  ) : (
+                    <Button
+                      variant="emerald"
+                      size="sm"
+                      icon={CheckCircle2}
+                      isLoading={completingId === ex.id}
+                      onClick={() => handleComplete(ex.id)}
+                      className="shadow-sm font-semibold"
+                    >
+                      Mark Done (+50 CR)
+                    </Button>
+                  )}
+                </div>
               </div>
 
-              <div className="flex items-center gap-3">
-                {ex.status === 'completed' ? (
-                  <div className="flex items-center gap-1.5 text-xs text-amber-950 font-bold bg-[#fef3c7] px-3 py-1.5 rounded-xl border border-amber-300 shadow-xs">
-                    <Award className="w-4 h-4 text-amber-800" />
-                    <span>+{ex.credits_awarded || 50} CR Earned</span>
+              {/* MUTUAL CONTACT DETAILS */}
+              {ex.contact_phone && (
+                <div className="p-3 rounded-xl bg-[#f0fdf4] border border-[#86efac] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
+                  <div className="flex items-center gap-2">
+                    <Phone className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                    <span className="text-emerald-950 font-medium">
+                      Matched Partner Contact:{' '}
+                      <strong className="font-mono text-emerald-950 font-bold text-sm ml-1">
+                        {ex.contact_phone}
+                      </strong>
+                    </span>
                   </div>
-                ) : (
-                  <Button
-                    variant="emerald"
-                    size="sm"
-                    icon={CheckCircle2}
-                    isLoading={completingId === ex.id}
-                    onClick={() => handleComplete(ex.id)}
-                    className="shadow-sm font-semibold"
-                  >
-                    Mark Done (+50 CR)
-                  </Button>
-                )}
-              </div>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={`tel:${ex.contact_phone}`}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg font-semibold text-[11px] transition-colors"
+                    >
+                      <PhoneCall className="w-3 h-3" /> Call
+                    </a>
+                    <a
+                      href={`https://wa.me/${ex.contact_phone.replace(/[^0-9]/g, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 text-emerald-950 rounded-lg font-semibold text-[11px] transition-colors"
+                    >
+                      <MessageSquare className="w-3 h-3" /> WhatsApp
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
           ))
         )}

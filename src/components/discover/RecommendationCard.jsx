@@ -13,11 +13,20 @@ import {
   Tag,
   ExternalLink,
   Zap,
+  FileCode2,
+  Award,
+  Video,
+  Link2,
+  ChevronDown,
+  ChevronUp,
+  X,
+  FileCheck,
 } from 'lucide-react';
 
 export const RecommendationCard = ({ recommendation, onRequestSend }) => {
   const [requestSent, setRequestSent] = useState(false);
   const [sending, setSending] = useState(false);
+  const [showProofsModal, setShowProofsModal] = useState(false);
 
   const handleSend = async () => {
     setSending(true);
@@ -30,6 +39,22 @@ export const RecommendationCard = ({ recommendation, onRequestSend }) => {
       console.error('Failed to send request:', err);
     } finally {
       setSending(false);
+    }
+  };
+
+  const proofs = recommendation.proofs || [];
+  const hasProofs = proofs.length > 0;
+
+  const getProofIcon = (type) => {
+    switch (type) {
+      case 'credential':
+        return Award;
+      case 'demo':
+        return Video;
+      case 'project':
+        return FileCode2;
+      default:
+        return Link2;
     }
   };
 
@@ -95,7 +120,7 @@ export const RecommendationCard = ({ recommendation, onRequestSend }) => {
         </p>
       )}
 
-      {/* Reciprocity Reason Box styled as a lovely soft note */}
+      {/* Reciprocity Reason Box */}
       {recommendation.reason && (
         <div className="p-3.5 rounded-2xl bg-[#faf5e8] border border-[#e5dcc7] text-xs text-stone-800 leading-relaxed flex items-start gap-2.5 shadow-xs relative">
           <Sparkles className="w-4 h-4 text-amber-800 shrink-0 mt-0.5" />
@@ -129,10 +154,28 @@ export const RecommendationCard = ({ recommendation, onRequestSend }) => {
       <div className="space-y-2.5 text-xs pt-1">
         {/* Offers to Teach */}
         <div className="p-2.5 rounded-2xl bg-[#fdfaf3] border border-[#ebdcc2]">
-          <span className="text-amber-950 font-semibold block mb-1.5 flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
-            <GraduationCap className="w-3.5 h-3.5 text-amber-800" />
-            Offers to Teach:
-          </span>
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-amber-950 font-semibold flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
+              <GraduationCap className="w-3.5 h-3.5 text-amber-800" />
+              Offers to Teach:
+            </span>
+
+            {/* View Proofs Button */}
+            {hasProofs ? (
+              <button
+                onClick={() => setShowProofsModal(true)}
+                className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 text-emerald-950 text-[10px] font-bold transition-all shadow-2xs cursor-pointer"
+                title="Inspect verified evidence and portfolio links"
+              >
+                <ShieldCheck className="w-3 h-3 text-emerald-700" />
+                <span>View Proofs ({proofs.length})</span>
+              </button>
+            ) : (
+              <span className="text-[10px] text-stone-500 font-medium italic">
+                No links attached
+              </span>
+            )}
+          </div>
           <div className="flex flex-wrap gap-1.5">
             {recommendation.teaches &&
               recommendation.teaches.map((skill, idx) => (
@@ -187,6 +230,107 @@ export const RecommendationCard = ({ recommendation, onRequestSend }) => {
           <ExternalLink className="w-4 h-4" />
         </Link>
       </div>
+
+      {/* Proofs Inspection Modal */}
+      {showProofsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-xs animate-fade-in">
+          <div className="bg-[#faf6ee] border-2 border-[#dfd7c5] rounded-3xl w-full max-w-lg shadow-[0_20px_50px_rgba(40,30,20,0.25)] overflow-hidden flex flex-col max-h-[85vh] relative">
+            {/* Washi tape topper */}
+            <div className="washi-tape washi-tape-yellow -top-3 left-10 w-28 -rotate-1" />
+
+            {/* Modal Header */}
+            <div className="p-5 border-b border-[#dfd7c5] flex items-center justify-between bg-[#fffdfa]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-900 font-bold">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-stone-900 font-heading leading-tight">
+                    Attached Skill Proofs
+                  </h3>
+                  <p className="text-xs text-stone-600 font-medium">
+                    Verified evidence submitted by {recommendation.full_name}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowProofsModal(false)}
+                className="p-2 rounded-xl text-stone-500 hover:text-stone-900 hover:bg-[#ebdcc2]/50 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Proofs List */}
+            <div className="p-5 space-y-3.5 overflow-y-auto max-h-[60vh]">
+              {proofs.map((proof) => {
+                const IconComponent = getProofIcon(proof.type);
+                const isVerified = proof.verification_state === 'verified';
+                return (
+                  <div
+                    key={proof.id}
+                    className="p-4 rounded-2xl bg-[#fffdfa] border-2 border-[#e5dcc7] shadow-xs space-y-2 relative"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <div className="p-2 rounded-xl bg-[#f4ecd8] border border-[#dfd7c5] text-amber-900">
+                          <IconComponent className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <span className="font-bold text-stone-900 text-sm block leading-tight">
+                            {proof.skill_name}
+                          </span>
+                          <span className="text-[11px] font-mono text-stone-500 uppercase tracking-wider font-semibold">
+                            {proof.type}
+                          </span>
+                        </div>
+                      </div>
+
+                      {isVerified ? (
+                        <span className="stamp-seal-emerald text-[9px] py-0.5 px-2">
+                          ★ VERIFIED PROOF
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-bold text-stone-600 bg-[#efe7d3] px-2 py-0.5 rounded-md border border-[#dfd7c5]">
+                          {proof.verification_state}
+                        </span>
+                      )}
+                    </div>
+
+                    {proof.description && (
+                      <p className="text-xs text-stone-700 leading-relaxed font-medium bg-[#faf6ee] p-2.5 rounded-xl border border-[#ebdcc2]">
+                        "{proof.description}"
+                      </p>
+                    )}
+
+                    <div className="pt-1 flex items-center justify-end">
+                      <a
+                        href={proof.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-800 hover:bg-amber-900 text-white font-semibold text-xs shadow-xs transition-colors"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" /> Open Proof Link
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t border-[#dfd7c5] bg-[#fffdfa] flex justify-end">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowProofsModal(false)}
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
