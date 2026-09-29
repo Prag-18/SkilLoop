@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Card, { CardTitle, CardDescription } from '../ui/Card';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
 import Avatar from '../common/Avatar';
@@ -33,16 +32,15 @@ export const RecommendationCard = ({ recommendation, onRequestSend }) => {
     }
   };
 
-  const initial = recommendation.full_name
-    ? recommendation.full_name.charAt(0).toUpperCase()
-    : 'S';
-
   return (
-    <Card padding="lg" className="flex flex-col justify-between space-y-4 relative">
+    <div className="bg-[#fffdfa] border-2 border-[#dfd7c5] rounded-3xl p-6 shadow-sm hover:shadow-md transition-all duration-200 relative overflow-hidden flex flex-col justify-between space-y-4">
+      {/* Decorative Washi Tape Accent */}
+      <div className="washi-tape washi-tape-sage -top-2.5 right-6 w-20 rotate-1" />
+
       {/* Top Header */}
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-start justify-between gap-3 pt-1">
         <div className="flex items-center gap-3">
-          {/* Avatar with initials fallback */}
+          {/* Avatar */}
           <Link
             to={`/u/${recommendation.user_id}`}
             title="View student public profile"
@@ -53,60 +51,62 @@ export const RecommendationCard = ({ recommendation, onRequestSend }) => {
               name={recommendation.full_name}
               size="md"
               shape="rounded"
-              className="border border-[#d6c7b2] shadow-sm"
+              className="border-2 border-[#d6c7b2] shadow-sm"
             />
           </Link>
 
           <div>
             <Link
               to={`/u/${recommendation.user_id}`}
-              className="font-bold text-white text-base font-heading hover:text-indigo-300 transition-colors flex items-center gap-1.5"
+              className="font-bold text-stone-900 text-base font-heading hover:text-amber-800 transition-colors flex items-center gap-1.5"
             >
               <span>{recommendation.full_name}</span>
             </Link>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-stone-600 font-medium">
               {recommendation.department} • {recommendation.year_of_study}
             </p>
           </div>
         </div>
 
-        <div className="flex flex-col items-end gap-1 shrink-0">
-          <Badge variant="emerald" size="lg" className="font-bold">
+        <div className="flex flex-col items-end gap-1.5 shrink-0">
+          <span className="bg-emerald-100/90 border border-emerald-300/80 text-emerald-950 font-bold px-2.5 py-1 rounded-xl text-xs font-mono shadow-xs">
             {recommendation.compatibility_percent}% Match
-          </Badge>
+          </span>
           {recommendation.evidence_verified && (
-            <Badge variant="indigo" size="sm" icon={ShieldCheck}>
-              Verified Evidence
-            </Badge>
+            <span className="stamp-seal-emerald text-[9px] py-0.5 px-2">
+              ★ VERIFIED EVIDENCE ★
+            </span>
           )}
         </div>
       </div>
 
       {/* Headline if available */}
       {recommendation.headline && (
-        <p className="text-xs text-indigo-300 font-medium -mt-1">
+        <p className="text-xs text-amber-900 font-semibold -mt-1 px-1">
           {recommendation.headline}
         </p>
       )}
 
       {/* Reciprocity Reason Box */}
-      <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 leading-relaxed flex items-start gap-2.5">
-        <Sparkles className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
-        <p>{recommendation.reason}</p>
-      </div>
+      {recommendation.reason && (
+        <div className="p-3.5 rounded-2xl bg-[#faf5e8] border border-[#e5dcc7] text-xs text-stone-800 leading-relaxed flex items-start gap-2.5 shadow-xs">
+          <Sparkles className="w-4 h-4 text-amber-800 shrink-0 mt-0.5" />
+          <p className="font-medium text-stone-800">{recommendation.reason}</p>
+        </div>
+      )}
 
       {/* Interests badges if present */}
       {Array.isArray(recommendation.interests) && recommendation.interests.length > 0 && (
-        <div className="space-y-1 text-xs">
-          <span className="text-slate-400 font-medium block flex items-center gap-1.5">
-            <Tag className="w-3 h-3 text-slate-400" />
+        <div className="space-y-1.5 text-xs">
+          <span className="text-stone-600 font-semibold flex items-center gap-1.5">
+            <Tag className="w-3 h-3 text-amber-800" />
             Interests:
           </span>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1.5">
             {recommendation.interests.slice(0, 4).map((interest, idx) => (
               <span
                 key={idx}
-                className="px-2 py-0.5 rounded-md bg-slate-800/80 border border-slate-700/60 text-[11px] text-slate-300"
+                className="px-2.5 py-0.5 rounded-lg bg-[#efe7d3] border border-[#dfd7c5] text-[11px] font-medium text-stone-800"
               >
                 {interest}
               </span>
@@ -116,16 +116,16 @@ export const RecommendationCard = ({ recommendation, onRequestSend }) => {
       )}
 
       {/* Skills Teaches vs Wants */}
-      <div className="space-y-2 text-xs">
+      <div className="space-y-2.5 text-xs pt-1">
         <div>
-          <span className="text-slate-400 font-medium block mb-1 flex items-center gap-1.5">
-            <GraduationCap className="w-3.5 h-3.5 text-indigo-400" />
+          <span className="text-stone-700 font-semibold block mb-1.5 flex items-center gap-1.5">
+            <GraduationCap className="w-3.5 h-3.5 text-amber-800" />
             Offers to Teach:
           </span>
           <div className="flex flex-wrap gap-1.5">
             {recommendation.teaches &&
               recommendation.teaches.map((skill, idx) => (
-                <Badge key={idx} variant="indigo" size="sm">
+                <Badge key={idx} variant="amber" size="sm">
                   {skill}
                 </Badge>
               ))}
@@ -133,8 +133,8 @@ export const RecommendationCard = ({ recommendation, onRequestSend }) => {
         </div>
 
         <div>
-          <span className="text-slate-400 font-medium block mb-1 flex items-center gap-1.5">
-            <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
+          <span className="text-stone-700 font-semibold block mb-1.5 flex items-center gap-1.5">
+            <BookOpen className="w-3.5 h-3.5 text-emerald-800" />
             Wants to Learn:
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -153,7 +153,7 @@ export const RecommendationCard = ({ recommendation, onRequestSend }) => {
         <Button
           variant={requestSent ? 'emerald' : 'primary'}
           size="md"
-          className="flex-1"
+          className="flex-1 font-semibold"
           disabled={requestSent || sending}
           isLoading={sending}
           icon={requestSent ? Check : Send}
@@ -163,13 +163,13 @@ export const RecommendationCard = ({ recommendation, onRequestSend }) => {
         </Button>
         <Link
           to={`/u/${recommendation.user_id}`}
-          className="p-2.5 rounded-xl border border-slate-700 hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
+          className="p-2.5 rounded-xl border-2 border-[#dfd7c5] hover:bg-[#ebdcc2]/60 text-stone-700 hover:text-stone-950 transition-colors shadow-xs flex items-center justify-center"
           title="View Public Profile"
         >
           <ExternalLink className="w-4 h-4" />
         </Link>
       </div>
-    </Card>
+    </div>
   );
 };
 

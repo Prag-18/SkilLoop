@@ -34,17 +34,17 @@ export const LinksEditor = ({
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <label className="text-xs font-semibold text-slate-300 tracking-wide flex items-center gap-1.5">
-          <LinkIcon className="w-3.5 h-3.5 text-indigo-400" />
+        <label className="text-xs font-semibold text-stone-700 tracking-wide flex items-center gap-1.5">
+          <LinkIcon className="w-3.5 h-3.5 text-amber-800" />
           Featured Links (Portfolio, GitHub, LinkedIn, etc.)
         </label>
-        <span className="text-[11px] text-slate-500 font-mono">
+        <span className="text-[11px] text-stone-500 font-mono">
           {links.length}/{maxLinks}
         </span>
       </div>
 
       {links.length === 0 && (
-        <p className="text-xs text-slate-500 italic">
+        <p className="text-xs text-stone-500 italic">
           No external links added yet.
         </p>
       )}
@@ -59,7 +59,7 @@ export const LinksEditor = ({
           return (
             <div
               key={idx}
-              className="flex flex-col sm:flex-row items-start sm:items-center gap-2 p-2.5 rounded-xl bg-slate-900/80 border border-slate-800"
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-2 p-3 rounded-2xl bg-[#faf6ee] border-2 border-[#dfd7c5] shadow-xs"
             >
               <div className="w-full sm:w-1/3">
                 <input
@@ -69,7 +69,7 @@ export const LinksEditor = ({
                   onChange={(e) => handleLinkChange(idx, 'label', e.target.value)}
                   maxLength={50}
                   disabled={disabled}
-                  className="w-full rounded-lg bg-slate-950/80 border border-slate-700/60 focus:border-indigo-500 px-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none"
+                  className="w-full rounded-xl bg-[#fffdfa] border-2 border-[#dfd7c5] focus:border-amber-700 px-3 py-1.5 text-xs text-stone-900 placeholder-stone-400 focus:outline-none"
                 />
               </div>
 
@@ -80,14 +80,14 @@ export const LinksEditor = ({
                   value={link.url || ''}
                   onChange={(e) => handleLinkChange(idx, 'url', e.target.value)}
                   disabled={disabled}
-                  className={`w-full rounded-lg bg-slate-950/80 border ${
+                  className={`w-full rounded-xl bg-[#fffdfa] border-2 ${
                     !isUrlValid
                       ? 'border-rose-500 focus:ring-rose-500'
-                      : 'border-slate-700/60 focus:border-indigo-500'
-                  } px-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none`}
+                      : 'border-[#dfd7c5] focus:border-amber-700'
+                  } px-3 py-1.5 text-xs text-stone-900 placeholder-stone-400 focus:outline-none`}
                 />
                 {!isUrlValid && (
-                  <span className="text-[10px] text-rose-400 mt-0.5 block">
+                  <span className="text-[10px] text-rose-600 mt-0.5 block font-medium">
                     Must begin with http:// or https://
                   </span>
                 )}
@@ -97,10 +97,10 @@ export const LinksEditor = ({
                 <button
                   type="button"
                   onClick={() => handleRemoveLink(idx)}
-                  className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800/80 rounded-lg transition-colors shrink-0"
+                  className="p-1.5 text-stone-500 hover:text-rose-700 hover:bg-[#ebdcc2]/60 rounded-lg transition-colors shrink-0"
                   title="Remove link"
                 >
-                  <Trash2 className="w-3.5 h-3.5" />
+                  <Trash2 className="w-4 h-4" />
                 </button>
               )}
             </div>

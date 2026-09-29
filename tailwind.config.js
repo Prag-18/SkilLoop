@@ -8,12 +8,12 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', '"Outfit"', 'sans-serif'],
-        heading: ['"Fraunces"', 'serif'],
-        display: ['"Fraunces"', 'serif'],
-        artistic: ['"Fraunces"', 'serif'],
+        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        heading: ['"Syne"', '"Fraunces"', '"Playfair Display"', 'sans-serif'],
+        display: ['"Syne"', '"Fraunces"', 'sans-serif'],
+        artistic: ['"Fraunces"', '"Playfair Display"', 'serif'],
         handwriting: ['"Kalam"', 'cursive'],
-        lead: ['"Outfit"', 'sans-serif'],
+        lead: ['"Plus Jakarta Sans"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
         body: ['"Plus Jakarta Sans"', 'sans-serif'],
       },

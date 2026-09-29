@@ -124,11 +124,11 @@ export const PublicProfile = () => {
           <div className="flex-1 text-center md:text-left space-y-2">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
               <div>
-                <h1 className="text-2xl md:text-3xl font-extrabold text-white font-heading tracking-tight">
+                <h1 className="text-2xl md:text-3xl font-bold text-stone-900 font-heading tracking-tight">
                   {profile.full_name}
                 </h1>
                 {profile.headline && (
-                  <p className="text-sm font-medium text-indigo-300 mt-0.5">
+                  <p className="text-sm font-semibold text-amber-900 mt-0.5">
                     {profile.headline}
                   </p>
                 )}
@@ -148,20 +148,20 @@ export const PublicProfile = () => {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 text-xs text-slate-400 pt-1">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 text-xs text-stone-600 font-medium pt-1">
               <span className="flex items-center gap-1">
-                <GraduationCap className="w-4 h-4 text-indigo-400" />
+                <GraduationCap className="w-4 h-4 text-amber-800" />
                 {profile.department || 'Computer Science'}
               </span>
               <span>•</span>
               <span className="flex items-center gap-1">
-                <Calendar className="w-4 h-4 text-emerald-400" />
+                <Calendar className="w-4 h-4 text-emerald-800" />
                 {profile.year_of_study || 'Student'}
               </span>
               {profile.availability && (
                 <>
                   <span>•</span>
-                  <span className="flex items-center gap-1 text-amber-300">
+                  <span className="flex items-center gap-1 text-amber-900 font-semibold">
                     <Clock className="w-4 h-4" />
                     {profile.availability}
                   </span>
@@ -173,8 +173,8 @@ export const PublicProfile = () => {
 
         {/* Favorite Quote Scrapbook Sticker */}
         {profile.favorite_quote && (
-          <div className="mt-6 p-4 rounded-2xl bg-gradient-to-r from-indigo-950/60 via-purple-950/40 to-slate-900 border border-indigo-500/20 text-indigo-200 text-xs flex items-center gap-3 shadow-inner">
-            <Quote className="w-5 h-5 text-indigo-400 shrink-0 opacity-80" />
+          <div className="mt-6 p-4 rounded-2xl bg-[#faf5e8] border border-[#e5dcc7] text-stone-800 text-xs flex items-center gap-3 shadow-xs">
+            <Quote className="w-5 h-5 text-amber-800 shrink-0 opacity-80" />
             <p className="italic font-medium">"{profile.favorite_quote}"</p>
           </div>
         )}
@@ -184,8 +184,7 @@ export const PublicProfile = () => {
       {profile.bio && (
         <Card padding="lg">
           <CardTitle className="mb-2">About</CardTitle>
-          {/* Render bio purely as plain text, never HTML */}
-          <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">
+          <p className="text-sm text-stone-700 leading-relaxed whitespace-pre-wrap font-sans">
             {profile.bio}
           </p>
         </Card>
@@ -197,7 +196,7 @@ export const PublicProfile = () => {
           <CardTitle className="mb-3">Interests & Topics</CardTitle>
           <div className="flex flex-wrap gap-2">
             {profile.interests.map((interest, idx) => (
-              <Badge key={idx} variant="indigo" size="md">
+              <Badge key={idx} variant="amber" size="md">
                 {interest}
               </Badge>
             ))}
@@ -216,12 +215,12 @@ export const PublicProfile = () => {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 hover:bg-slate-800/60 transition-all duration-200 flex items-center justify-between group text-xs text-slate-200"
+                className="p-3 rounded-xl bg-[#faf6ee] border-2 border-[#e5dcc7] hover:border-amber-600/50 hover:bg-[#ebdcc2]/50 transition-all duration-200 flex items-center justify-between group text-xs text-stone-800 shadow-xs"
               >
-                <span className="font-semibold text-white group-hover:text-indigo-300 transition-colors">
+                <span className="font-semibold text-stone-900 group-hover:text-amber-900 transition-colors">
                   {link.label || 'Link'}
                 </span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-400 transition-colors" />
+                <ExternalLink className="w-3.5 h-3.5 text-stone-500 group-hover:text-amber-800 transition-colors" />
               </a>
             ))}
           </div>
