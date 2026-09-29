@@ -1,5 +1,16 @@
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
+
+
+class ProofItem(BaseModel):
+    id: int
+    skill_name: str
+    type: str
+    url: str
+    description: Optional[str] = None
+    verification_state: str = "unverified"
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class RecommendationResponse(BaseModel):
@@ -15,3 +26,6 @@ class RecommendationResponse(BaseModel):
     avatar_url: Optional[str] = None
     headline: Optional[str] = None
     interests: Optional[List[str]] = []
+    proofs: List[ProofItem] = []
+
+    model_config = ConfigDict(from_attributes=True)

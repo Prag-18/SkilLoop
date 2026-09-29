@@ -22,6 +22,7 @@ def upgrade_user_columns(engine):
                 ("links", "JSON"),
                 ("availability", "VARCHAR(100)"),
                 ("favorite_quote", "VARCHAR(120)"),
+                ("phone_number", "VARCHAR(20)"),
             ]
             
             with engine.connect() as conn:

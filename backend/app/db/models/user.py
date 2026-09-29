@@ -22,6 +22,7 @@ class User(Base):
     favorite_quote = Column(String(120), nullable=True)
     github_url = Column(String, nullable=True)
     portfolio_url = Column(String, nullable=True)
+    phone_number = Column(String(20), nullable=True)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)

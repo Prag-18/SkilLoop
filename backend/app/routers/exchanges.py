@@ -27,11 +27,19 @@ CREDIT_TABLE = {
 }
 
 
-def _build_exchange_response(ex: Exchange, db: Session) -> ExchangeResponse:
-    """Helper to build a consistent ExchangeResponse."""
+def _build_exchange_response(ex: Exchange, db: Session, current_user_id: Optional[int] = None) -> ExchangeResponse:
+    """Helper to build a consistent ExchangeResponse with mutual peer contact phone."""
     teacher = db.query(User).filter(User.id == ex.teacher_id).first()
     learner = db.query(User).filter(User.id == ex.learner_id).first()
     skill = db.query(Skill).filter(Skill.id == ex.skill_id).first() if ex.skill_id else None
+
+    contact_phone = None
+    if current_user_id:
+        if current_user_id == ex.teacher_id and learner:
+            contact_phone = learner.phone_number
+        elif current_user_id == ex.learner_id and teacher:
+            contact_phone = teacher.phone_number
+
     return ExchangeResponse(
         id=ex.id,
         request_id=ex.request_id,
@@ -46,6 +54,7 @@ def _build_exchange_response(ex: Exchange, db: Session) -> ExchangeResponse:
         teacher_name=teacher.full_name if teacher else "Teacher",
         learner_name=learner.full_name if learner else "Learner",
         skill_name=skill.name if skill else "Peer Mentorship",
+        contact_phone=contact_phone,
     )
 
 
@@ -75,7 +84,7 @@ def get_exchanges(
             (Exchange.teacher_id == current_user.id) | (Exchange.learner_id == current_user.id)
         )
 
-    return [_build_exchange_response(ex, db) for ex in query.order_by(Exchange.created_at.desc()).all()]
+    return [_build_exchange_response(ex, db, current_user.id) for ex in query.order_by(Exchange.created_at.desc()).all()]
 
 
 @router.post("/{request_id}/complete", response_model=ExchangeResponse)
@@ -167,7 +176,7 @@ def complete_exchange(
 
     db.commit()
     db.refresh(exchange)
-    return _build_exchange_response(exchange, db)
+    return _build_exchange_response(exchange, db, current_user.id)
 
 
 @router.post("/{id}/feedback", response_model=FeedbackResponse, status_code=status.HTTP_201_CREATED)

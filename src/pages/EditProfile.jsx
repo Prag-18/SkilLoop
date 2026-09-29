@@ -22,6 +22,7 @@ import {
   AlertCircle,
   ArrowLeft,
   ExternalLink,
+  Phone,
 } from 'lucide-react';
 
 export const EditProfile = () => {
@@ -37,6 +38,7 @@ export const EditProfile = () => {
   const [fullName, setFullName] = useState('');
   const [department, setDepartment] = useState('');
   const [yearOfStudy, setYearOfStudy] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [currentAvatarUrl, setCurrentAvatarUrl] = useState('');
   const [selectedAvatarFile, setSelectedAvatarFile] = useState(null);
   const [headline, setHeadline] = useState('');
@@ -60,6 +62,7 @@ export const EditProfile = () => {
         setFullName(data.full_name || '');
         setDepartment(data.department || 'Computer Science');
         setYearOfStudy(data.year_of_study || '3rd Year');
+        setPhoneNumber(data.phone_number || '');
         setCurrentAvatarUrl(data.avatar_url || '');
         setHeadline(data.headline || '');
         setBio(data.bio || '');
@@ -106,6 +109,7 @@ export const EditProfile = () => {
         full_name: fullName.trim(),
         department: department.trim(),
         year_of_study: yearOfStudy.trim(),
+        phone_number: phoneNumber.trim() || null,
         headline: headline.trim() || null,
         bio: bio.trim() || null,
         interests: interests,
@@ -222,6 +226,17 @@ export const EditProfile = () => {
                 disabled={saving}
               />
             </div>
+
+            <Input
+              label="Mobile Phone Number (Private Contact)"
+              icon={Phone}
+              type="tel"
+              placeholder="+1 (555) 000-0000 or +91 9876543210"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              helperText="🔒 Hidden from public profile. Exchanged ONLY when both sides accept a learning request."
+              disabled={saving}
+            />
           </div>
         </Card>
 

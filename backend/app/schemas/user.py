@@ -42,8 +42,9 @@ class UserBase(BaseModel):
     favorite_quote: Optional[str] = Field(None, max_length=120)
     github_url: Optional[str] = None
     portfolio_url: Optional[str] = None
+    phone_number: Optional[str] = Field(None, max_length=20)
 
-    @field_validator("full_name", "department", "year_of_study", "bio", "headline", "availability", "favorite_quote", "github_url", "portfolio_url", "avatar_url", mode="before")
+    @field_validator("full_name", "department", "year_of_study", "bio", "headline", "availability", "favorite_quote", "github_url", "portfolio_url", "avatar_url", "phone_number", mode="before")
     @classmethod
     def strip_strings(cls, v: Any) -> Any:
         if isinstance(v, str):
@@ -107,8 +108,9 @@ class UserUpdate(BaseModel):
     favorite_quote: Optional[str] = Field(None, max_length=120)
     github_url: Optional[str] = None
     portfolio_url: Optional[str] = None
+    phone_number: Optional[str] = Field(None, max_length=20)
 
-    @field_validator("full_name", "department", "year_of_study", "bio", "headline", "availability", "favorite_quote", "github_url", "portfolio_url", "avatar_url", mode="before")
+    @field_validator("full_name", "department", "year_of_study", "bio", "headline", "availability", "favorite_quote", "github_url", "portfolio_url", "avatar_url", "phone_number", mode="before")
     @classmethod
     def strip_update_strings(cls, v: Any) -> Any:
         if isinstance(v, str):

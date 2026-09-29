@@ -12,11 +12,20 @@ from app.schemas.request import LearningRequestCreate, LearningRequestResponse
 router = APIRouter(prefix="/requests", tags=["Learning Requests"])
 
 
-def _build_request_response(r: LearningRequest, db: Session) -> LearningRequestResponse:
-    """Helper to build a consistent LearningRequestResponse."""
+def _build_request_response(r: LearningRequest, db: Session, current_user_id: Optional[int] = None) -> LearningRequestResponse:
+    """Helper to build a consistent LearningRequestResponse with conditional mutual phone exchange."""
     sender = db.query(User).filter(User.id == r.sender_id).first()
     receiver = db.query(User).filter(User.id == r.receiver_id).first()
     skill = db.query(Skill).filter(Skill.id == r.requested_skill_id).first() if r.requested_skill_id else None
+
+    # Mutual contact reveal ONLY when the learning request is accepted
+    contact_phone = None
+    if r.status == "accepted" and current_user_id:
+        if current_user_id == r.sender_id and receiver:
+            contact_phone = receiver.phone_number
+        elif current_user_id == r.receiver_id and sender:
+            contact_phone = sender.phone_number
+
     return LearningRequestResponse(
         id=r.id,
         sender_id=r.sender_id,
@@ -27,6 +36,9 @@ def _build_request_response(r: LearningRequest, db: Session) -> LearningRequestR
         sender_name=sender.full_name if sender else "Student",
         receiver_name=receiver.full_name if receiver else "Student",
         skill_name=skill.name if skill else "Skill Exchange",
+        contact_phone=contact_phone,
+        sender_phone=sender.phone_number if (r.status == "accepted" and current_user_id in (r.sender_id, r.receiver_id)) else None,
+        receiver_phone=receiver.phone_number if (r.status == "accepted" and current_user_id in (r.sender_id, r.receiver_id)) else None,
     )
 
 
@@ -75,7 +87,7 @@ def create_learning_request(
     db.commit()
     db.refresh(learning_req)
 
-    return _build_request_response(learning_req, db)
+    return _build_request_response(learning_req, db, current_user.id)
 
 
 @router.get("", response_model=List[LearningRequestResponse])
@@ -93,7 +105,7 @@ def get_learning_requests(
     else:
         query = db.query(LearningRequest).filter(LearningRequest.receiver_id == current_user.id)
 
-    return [_build_request_response(r, db) for r in query.order_by(LearningRequest.created_at.desc()).all()]
+    return [_build_request_response(r, db, current_user.id) for r in query.order_by(LearningRequest.created_at.desc()).all()]
 
 
 @router.patch("/{id}/accept", response_model=LearningRequestResponse)
@@ -144,7 +156,7 @@ def accept_learning_request(
     db.commit()
     db.refresh(learning_req)
 
-    return _build_request_response(learning_req, db)
+    return _build_request_response(learning_req, db, current_user.id)
 
 
 @router.patch("/{id}/reject", response_model=LearningRequestResponse)
@@ -180,4 +192,4 @@ def reject_learning_request(
     db.commit()
     db.refresh(learning_req)
 
-    return _build_request_response(learning_req, db)
+    return _build_request_response(learning_req, db, current_user.id)

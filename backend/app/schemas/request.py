@@ -18,5 +18,8 @@ class LearningRequestResponse(BaseModel):
     sender_name: Optional[str] = None
     receiver_name: Optional[str] = None
     skill_name: Optional[str] = None
+    contact_phone: Optional[str] = None  # Populated ONLY when status is 'accepted'
+    sender_phone: Optional[str] = None
+    receiver_phone: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)

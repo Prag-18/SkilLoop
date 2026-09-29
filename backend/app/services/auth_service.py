@@ -44,6 +44,7 @@ class AuthService:
             favorite_quote=user_in.favorite_quote,
             github_url=user_in.github_url,
             portfolio_url=user_in.portfolio_url,
+            phone_number=user_in.phone_number,
             is_active=True,
         )
         db.add(user)

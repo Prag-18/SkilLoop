@@ -22,6 +22,8 @@ import {
   Quote,
   Type,
   AlignLeft,
+  Phone,
+  ShieldCheck,
 } from 'lucide-react';
 
 export const Register = () => {
@@ -38,6 +40,7 @@ export const Register = () => {
   const [step1Data, setStep1Data] = useState({
     full_name: '',
     email: '',
+    phone_number: '',
     department: 'Computer Science',
     year_of_study: '3rd Year',
     password: '',
@@ -76,6 +79,7 @@ export const Register = () => {
       await register({
         full_name: step1Data.full_name,
         email: step1Data.email,
+        phone_number: step1Data.phone_number || undefined,
         department: step1Data.department,
         year_of_study: step1Data.year_of_study,
         password: step1Data.password,
@@ -222,6 +226,17 @@ export const Register = () => {
                 value={step1Data.email}
                 onChange={handleStep1Change}
                 required
+              />
+
+              <Input
+                label="Mobile Number (Private Contact)"
+                name="phone_number"
+                type="tel"
+                placeholder="+1 (555) 000-0000 or +91 9876543210"
+                icon={Phone}
+                value={step1Data.phone_number}
+                onChange={handleStep1Change}
+                helperText="🔒 Hidden from public view. Exchanged ONLY after mutual learning request acceptance."
               />
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

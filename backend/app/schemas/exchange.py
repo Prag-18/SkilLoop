@@ -17,6 +17,7 @@ class ExchangeResponse(BaseModel):
     teacher_name: Optional[str] = None
     learner_name: Optional[str] = None
     skill_name: Optional[str] = None
+    contact_phone: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)
 

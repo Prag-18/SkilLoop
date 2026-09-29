@@ -137,6 +137,20 @@ class RecommendationService:
             teaches_list = [s.skill.name for s in cand_teach if s.skill] or ["Open to Mentoring"]
             wants_list = [s.skill.name for s in cand_learn if s.skill] or ["Skill Growth"]
 
+            # Collect candidate's attached proofs & portfolio evidence
+            cand_proofs = []
+            for s in cand_teach:
+                if s.evidence:
+                    for ev in s.evidence:
+                        cand_proofs.append({
+                            "id": ev.id,
+                            "skill_name": s.skill.name if s.skill else "Offered Skill",
+                            "type": ev.type or "project",
+                            "url": ev.url,
+                            "description": ev.description,
+                            "verification_state": ev.verification_state or "unverified",
+                        })
+
             ranked_results.append({
                 "user_id": candidate.id,
                 "full_name": candidate.full_name,
@@ -150,6 +164,7 @@ class RecommendationService:
                 "avatar_url": candidate.avatar_url,
                 "headline": candidate.headline,
                 "interests": candidate.interests or [],
+                "proofs": cand_proofs,
             })
 
         ranked_results.sort(key=lambda x: x["compatibility_percent"], reverse=True)
