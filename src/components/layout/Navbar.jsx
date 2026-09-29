@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
+import { Avatar } from '../common/Avatar';
 import { healthAPI } from '../../services/api';
 import {
   Sparkles,
@@ -112,18 +113,14 @@ export const Navbar = () => {
                   title="Edit Profile"
                   className="flex items-center gap-2 pl-2 border-l border-[#dfd7c5] hover:opacity-80 transition-opacity"
                 >
-                  <div className="w-8 h-8 rounded-full bg-[#ebdcc2] border-2 border-[#d6c7b2] flex items-center justify-center text-xs font-bold text-stone-900 font-heading shadow-inner overflow-hidden shrink-0">
-                    {user?.avatar_url ? (
-                      <img
-                        src={user.avatar_url}
-                        alt={user.full_name}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <span>{user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}</span>
-                    )}
-                  </div>
-                  <span className="text-xs font-bold text-stone-800 max-w-[100px] truncate font-heading">
+                  <Avatar
+                    src={user?.avatar_url}
+                    name={user?.full_name}
+                    size="sm"
+                    shape="circle"
+                    className="border-2 border-[#d6c7b2] shadow-xs"
+                  />
+                  <span className="text-xs font-semibold text-stone-800 max-w-[110px] truncate">
                     {user?.full_name || 'Student'}
                   </span>
                 </Link>

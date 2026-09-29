@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Card, { CardTitle, CardDescription } from '../ui/Card';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
+import Avatar from '../common/Avatar';
 import {
   Sparkles,
   Send,
@@ -44,20 +45,16 @@ export const RecommendationCard = ({ recommendation, onRequestSend }) => {
           {/* Avatar with initials fallback */}
           <Link
             to={`/u/${recommendation.user_id}`}
-            className="w-12 h-12 rounded-2xl overflow-hidden bg-slate-900 border border-slate-700 flex items-center justify-center font-bold text-white text-lg shadow-lg shadow-indigo-500/20 shrink-0 hover:opacity-90 transition-opacity"
             title="View student public profile"
+            className="shrink-0 hover:opacity-90 transition-opacity"
           >
-            {recommendation.avatar_url ? (
-              <img
-                src={recommendation.avatar_url}
-                alt={recommendation.full_name}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-500 flex items-center justify-center">
-                {initial}
-              </div>
-            )}
+            <Avatar
+              src={recommendation.avatar_url}
+              name={recommendation.full_name}
+              size="md"
+              shape="rounded"
+              className="border border-[#d6c7b2] shadow-sm"
+            />
           </Link>
 
           <div>

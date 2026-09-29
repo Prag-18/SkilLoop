@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, Upload, X, User, AlertCircle } from 'lucide-react';
 import Button from '../ui/Button';
+import { getAvatarUrl } from '../../utils/imageUrl';
 
 export const AvatarUpload = ({
   currentAvatarUrl,
@@ -20,7 +21,7 @@ export const AvatarUpload = ({
       setPreview(objectUrl);
       return () => URL.revokeObjectURL(objectUrl);
     } else if (currentAvatarUrl) {
-      setPreview(currentAvatarUrl);
+      setPreview(getAvatarUrl(currentAvatarUrl));
     } else {
       setPreview(null);
     }
@@ -76,6 +77,7 @@ export const AvatarUpload = ({
             <img
               src={preview}
               alt="Avatar Preview"
+              onError={() => setPreview(null)}
               className="w-full h-full object-cover"
             />
           ) : (

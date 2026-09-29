@@ -10,6 +10,7 @@ import { Badge } from '../components/ui/Badge';
 import SkillCard from '../components/skills/SkillCard';
 import EvidenceUploader from '../components/skills/EvidenceUploader';
 import RecommendationCard from '../components/discover/RecommendationCard';
+import Avatar from '../components/common/Avatar';
 import ExchangeSummary from '../components/dashboard/ExchangeSummary';
 import Requests from './Requests';
 import {
@@ -364,17 +365,13 @@ export const Dashboard = () => {
                   <div className="text-center pb-4 border-b-2 border-dashed border-[#dfd7c5] pt-1">
                     {/* Instant photo frame for avatar */}
                     <div className="w-20 h-24 bg-white border-2 border-[#dfd7c5] rounded-sm p-1.5 pb-4 mx-auto shadow-md rotate-1 mb-3">
-                      {userProfile?.avatar_url || user?.avatar_url ? (
-                        <img
-                          src={userProfile?.avatar_url || user?.avatar_url}
-                          alt={userProfile?.full_name || 'Avatar'}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-[#ebdcc2] border border-[#d6c7b2] flex items-center justify-center text-2xl font-bold text-amber-950 font-heading">
-                          {userProfile?.full_name ? userProfile.full_name.charAt(0).toUpperCase() : 'U'}
-                        </div>
-                      )}
+                      <Avatar
+                        src={userProfile?.avatar_url || user?.avatar_url}
+                        name={userProfile?.full_name || user?.full_name}
+                        size="full"
+                        shape="square"
+                        className="w-full h-full"
+                      />
                     </div>
 
                     <h3 className="text-lg font-bold text-stone-900 font-heading">{userProfile?.full_name || 'Student User'}</h3>

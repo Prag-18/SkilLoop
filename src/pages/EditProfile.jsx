@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 
 export const EditProfile = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -116,16 +116,9 @@ export const EditProfile = () => {
 
       const updatedUser = await usersAPI.updateProfile(updatePayload);
 
-      // Update cached user in localStorage if matching
-      const stored = localStorage.getItem('skillloop_user');
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored);
-          localStorage.setItem(
-            'skillloop_user',
-            JSON.stringify({ ...parsed, ...updatedUser, avatar_url: newAvatarUrl })
-          );
-        } catch (e) {}
+      // Update cached user in AuthContext and localStorage
+      if (updateUser) {
+        updateUser({ ...updatedUser, avatar_url: newAvatarUrl });
       }
 
       setSuccessMsg('Profile personalization saved successfully!');

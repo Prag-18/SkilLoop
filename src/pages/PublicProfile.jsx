@@ -4,6 +4,7 @@ import { usersAPI, requestsAPI } from '../services/api';
 import Card, { CardTitle, CardDescription } from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
+import Avatar from '../components/common/Avatar';
 import {
   GraduationCap,
   Calendar,
@@ -111,19 +112,13 @@ export const PublicProfile = () => {
       <Card padding="lg" className="relative overflow-hidden">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
           {/* Avatar with initials fallback */}
-          <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-3xl overflow-hidden bg-slate-900 border-2 border-slate-700/80 shadow-xl shrink-0 flex items-center justify-center">
-            {profile.avatar_url ? (
-              <img
-                src={profile.avatar_url}
-                alt={profile.full_name}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center text-white font-bold text-3xl shadow-inner">
-                {initial}
-              </div>
-            )}
-          </div>
+          <Avatar
+            src={profile.avatar_url}
+            name={profile.full_name}
+            size="2xl"
+            shape="rounded"
+            className="border-2 border-[#d6c7b2] shadow-xl"
+          />
 
           {/* Profile Identity */}
           <div className="flex-1 text-center md:text-left space-y-2">
